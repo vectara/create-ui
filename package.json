@@ -1,0 +1,30 @@
+{
+  "name": "@vectara/create-ui",
+  "version": "1.0.0",
+  "description": "A tool for creating a Vectara-powered app",
+  "main": "index.js",
+  "bin": {
+    "@vectara/create-ui": "bin/index.mjs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install-dependencies": "node steps/installDeps.js",
+    "plop": "plop",
+    "release": "release-it --access public"
+  },
+  "author": "Deryk DeGuzman",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "async": "^3.2.5",
+    "minimist": "^1.2.8",
+    "plop": "^4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vectara/create-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vectara/create-ui/issues"
+  },
+  "homepage": "https://github.com/vectara/create-ui#readme"
+}
