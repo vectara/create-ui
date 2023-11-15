@@ -1,6 +1,6 @@
 {
   "name": "@vectara/create-ui",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A tool for creating a Vectara-powered app",
   "main": "index.js",
   "bin": {
