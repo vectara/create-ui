@@ -35,7 +35,7 @@ module.exports = {
     const appTypeAns = await inquirer.prompt({
       type: "list",
       name: "appType",
-      message: "Which application would you like to create?",
+      message: "What type of application would you like to create?",
       choices: [
         { name: "Custom Application", value: "custom" },
         { name: "Sample Application", value: "preset" },
