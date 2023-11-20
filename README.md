@@ -20,7 +20,15 @@
 
 Create-UI is an tool for creating user interfaces, powered by the [Vectara Platform](https://vectara.com/).
 
-For an example of what you'll be building, check out [Ask News](https://asknews.demo.vectara.com) or [LegalAid](https://legalaid.demo.vectara.com).
+For examples of what you'll be building, check out the following sites:
+
+### [Ask News](https://asknews.demo.vectara.com)
+
+![Ask News Screenshot](img/appScreenshots/ask_news.png)
+
+### [LegalAid](https://legalaid.demo.vectara.com)
+
+![LegalAid Screenshot](img/appScreenshots/legal_aid.png)
 
 ## Prerequisites
 
@@ -30,7 +38,9 @@ To get started, the minimum requirement is to install [npm and node](https://nod
 
 Create-UI comes packaged with preset configurations that allow you spin up a sample application using Vectara's public datastores. To quickly get started, run the following command:
 
-`npx @vectara/create-ui`
+```
+npx @vectara/create-ui
+```
 
 When prompted for which application to create, simply select from one of three default apps:
 
@@ -66,7 +76,11 @@ If you choose `Custom Application` from the application type prompt, you will be
 
 ![Custom Setup: Step 1](img/setup/custom-step-1.gif)
 
-Once provided, the values above will go into your own customized `.env` configuration, and your site will be ready to go via `npm run start`.
+Once provided, the values above will go into your own customized `.env` configuration, and your site will be ready to go by running:
+
+```
+npm run start
+```
 
 ## Make It Your Own!
 
@@ -111,3 +125,7 @@ Give a ⭐️ if this project helped you!
 ## 📝 License
 
 Copyright © 2023 [Vectara](https://github.com/vectara).<br />
+
+```
+
+```
