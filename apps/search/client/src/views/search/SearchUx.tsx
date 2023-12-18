@@ -1,22 +1,11 @@
-import {
-  VuiFlexContainer,
-  VuiFlexItem,
-  VuiTitle,
-  VuiSpinner,
-  VuiSpacer,
-} from "../../ui";
+import { VuiFlexContainer, VuiFlexItem, VuiTitle, VuiSpinner, VuiSpacer } from "../../contexts/ui";
 import { useSearchContext } from "../../contexts/SearchContext";
 import { SearchResultList } from "./results/SearchResultList";
 import { SearchErrorCallout } from "./results/SearchErrorCallout";
 
 export const SearchUx = () => {
-  const {
-    isSearching,
-    searchError,
-    searchResults,
-    searchResultsRef,
-    selectedSearchResultPosition,
-  } = useSearchContext();
+  const { isSearching, searchError, searchResults, searchResultsRef, selectedSearchResultPosition } =
+    useSearchContext();
 
   let content;
 
@@ -41,9 +30,7 @@ export const SearchUx = () => {
       <SearchResultList
         results={searchResults ?? []}
         selectedSearchResultPosition={selectedSearchResultPosition}
-        setSearchResultRef={(el: HTMLDivElement | null, index: number) =>
-          (searchResultsRef.current[index] = el)
-        }
+        setSearchResultRef={(el: HTMLDivElement | null, index: number) => (searchResultsRef.current[index] = el)}
       />
     );
   }

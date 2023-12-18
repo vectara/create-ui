@@ -10,12 +10,14 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "install-dependencies": "node steps/installDeps.js",
     "plop": "plop",
-    "release": "release-it --access public"
+    "release": "release-it --access public",
+    "dev": "node scripts/dev.js"
   },
   "author": "Deryk DeGuzman",
   "license": "UNLICENSED",
   "dependencies": {
     "async": "^3.2.5",
+    "chokidar": "^3.5.3",
     "minimist": "^1.2.8",
     "plop": "^4.0.0"
   },

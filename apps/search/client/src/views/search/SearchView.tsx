@@ -1,4 +1,4 @@
-import { VuiFlexContainer, VuiFlexItem, VuiSpacer, VuiSpinner, VuiTitle } from "../../ui";
+import { VuiFlexContainer, VuiFlexItem, VuiSpacer, VuiSpinner, VuiTitle } from "../../contexts/ui";
 import { SearchControls } from "./controls/SearchControls";
 import { ExampleQuestions } from "./controls/ExampleQuestions";
 import { useSearchContext } from "../../contexts/SearchContext";
@@ -49,6 +49,7 @@ export const SearchView = () => {
         )}
 
         <VuiFlexItem grow={1} className="searchContent">
+          <h2>Test!</h2>
           {content}
         </VuiFlexItem>
       </VuiFlexContainer>

@@ -10,8 +10,8 @@ import {
   VuiMenuItem,
   VuiText,
   VuiTextColor,
-  VuiTitle,
-} from "../../../ui";
+  VuiTitle
+} from "../../../contexts/ui";
 import { humanizeLanguage } from "../types";
 
 type Props = {
@@ -27,11 +27,7 @@ export const HistoryDrawer = ({ isOpen, onClose }: Props) => {
       isOpen={isOpen}
       onClose={onClose}
       title={
-        <VuiFlexContainer
-          justifyContent="spaceBetween"
-          alignItems="center"
-          spacing="xs"
-        >
+        <VuiFlexContainer justifyContent="spaceBetween" alignItems="center" spacing="xs">
           <VuiFlexItem>
             <VuiIcon size="s">
               <BiTimeFive />

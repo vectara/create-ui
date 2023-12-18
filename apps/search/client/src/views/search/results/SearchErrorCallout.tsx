@@ -1,4 +1,4 @@
-import { VuiCallout, VuiText, VuiTextColor } from "../../../ui";
+import { VuiCallout, VuiText, VuiTextColor } from "../../../contexts/ui";
 
 type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -10,11 +10,7 @@ export const SearchErrorCallout = ({ searchError }: Props) => {
   console.error("searchError", searchError);
 
   return (
-    <VuiCallout
-      title="There was an error while searching"
-      color="danger"
-      headingElement="h2"
-    >
+    <VuiCallout title="There was an error while searching" color="danger" headingElement="h2">
       {searchError.message && (
         <VuiText>
           <p>
@@ -26,9 +22,7 @@ export const SearchErrorCallout = ({ searchError }: Props) => {
       {searchError.response?.data?.message && (
         <VuiText>
           <p>
-            <VuiTextColor color="danger">
-              {searchError.response.data.message}
-            </VuiTextColor>
+            <VuiTextColor color="danger">{searchError.response.data.message}</VuiTextColor>
           </p>
         </VuiText>
       )}

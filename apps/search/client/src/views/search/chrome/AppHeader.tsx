@@ -8,8 +8,8 @@ import {
   VuiTextColor,
   VuiButtonTertiary,
   VuiText,
-  VuiButtonPrimary,
-} from "../../../ui";
+  VuiButtonPrimary
+} from "../../../contexts/ui";
 import "./appHeader.scss";
 
 export const AppHeader = () => {
@@ -27,11 +27,7 @@ export const AppHeader = () => {
           this would add the rel="noopener noreferrer" attribute to the
           link. */}
               {/* eslint-disable-next-line react/jsx-no-target-blank */}
-              <a
-                href={appHeader.logo.link ?? "https://vectara.com/"}
-                target="_blank"
-                className="appHeaderLogo"
-              >
+              <a href={appHeader.logo.link ?? "https://vectara.com/"} target="_blank" className="appHeaderLogo">
                 <img
                   src={appHeader.logo.src ?? "images/vectara_logo.png"}
                   alt={appHeader.logo.alt ?? "Vectara logo"}
@@ -79,7 +75,7 @@ export const AppHeader = () => {
                     ReactGA.event({
                       category: "Outbound link",
                       action: "click",
-                      label: "Learn more",
+                      label: "Learn more"
                     });
                   }}
                 >
@@ -98,7 +94,7 @@ export const AppHeader = () => {
                   ReactGA.event({
                     category: "Outbound link",
                     action: "click",
-                    label: "Try Vectara",
+                    label: "Try Vectara"
                   });
                 }}
               >
