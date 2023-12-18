@@ -125,7 +125,3 @@ Give a ⭐️ if this project helped you!
 ## 📝 License
 
 Copyright © 2023 [Vectara](https://github.com/vectara).<br />
-
-```
-
-```
