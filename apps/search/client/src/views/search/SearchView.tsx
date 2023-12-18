@@ -49,7 +49,6 @@ export const SearchView = () => {
         )}
 
         <VuiFlexItem grow={1} className="searchContent">
-          <h2>Test!</h2>
           {content}
         </VuiFlexItem>
       </VuiFlexContainer>

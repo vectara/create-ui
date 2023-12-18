@@ -17,6 +17,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "async": "^3.2.5",
+    "chalk": "^4.1.2",
     "chokidar": "^3.5.3",
     "minimist": "^1.2.8",
     "plop": "^4.0.0"

@@ -1,6 +1,7 @@
 const fs = require("fs");
-const { execSync } = require("child_process");
-var chokidar = require("chokidar");
+const { spawn } = require("child_process");
+const chokidar = require("chokidar");
+const chalk = require("chalk");
 
 const devDir = "dev";
 const folderName = "dev/search";
@@ -26,7 +27,8 @@ try {
   });
 
   // Copy client code
-  fs.cpSync(`${templateRoot}/client/src`, `./${folderName}/src`, {
+  const clientSrcDir = `${templateRoot}/client/src`;
+  fs.cpSync(clientSrcDir, `./${folderName}/src`, {
     recursive: true
   });
 
@@ -44,29 +46,34 @@ try {
   // Copy .env
   fs.cpSync(`.env`, `./${folderName}/.env`);
 
-  // Copy src when the files change.
-  var watcher = chokidar.watch("apps/search", { ignored: /^\./, persistent: true });
-
-  function updateSrc() {
-    fs.rmSync(`${folderName}/src`, { recursive: true, force: true });
-    fs.mkdirSync(`${folderName}/src`);
-    fs.cpSync(`${templateRoot}/client/src`, `./${folderName}/src`, {
-      recursive: true
-    });
-  }
+  // Keep dev src files in sync with template src.
+  var watcher = chokidar.watch(clientSrcDir, { persistent: true, ignoreInitial: true });
 
   watcher
-    .on("add", updateSrc)
-    .on("change", updateSrc)
-    .on("unlink", updateSrc)
+    .on("add", function (path) {
+      const devPath = path.replace(clientSrcDir, `${folderName}/src`);
+      console.log(chalk.magenta(`Add ${devPath}`));
+      fs.cpSync(path, devPath);
+    })
+    .on("change", function (path) {
+      const devPath = path.replace(clientSrcDir, `${folderName}/src`);
+      console.log(chalk.magenta(`Update ${devPath}`));
+      fs.copyFileSync(path, devPath);
+    })
+    .on("unlink", function (path) {
+      const devPath = path.replace(clientSrcDir, `${folderName}/src`);
+      console.log(chalk.magenta(`Remove ${devPath}`));
+      fs.rmSync(devPath);
+    })
     .on("error", function (error) {
-      console.error("Error happened", error);
+      console.error("Sync error", error);
     });
 
   // Bootstrap
-  process.chdir("./dev/search");
-  execSync("npm install");
-  execSync("npm run start");
+  const child = spawn("cd ./dev/search && npm install && npm run start", {
+    shell: true,
+    stdio: "inherit"
+  });
 } catch (err) {
   console.error(err);
 }
