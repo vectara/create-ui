@@ -2,9 +2,13 @@ const fs = require("fs");
 const { spawn } = require("child_process");
 const chokidar = require("chokidar");
 const chalk = require("chalk");
+const minimist = require("minimist");
 
+const args = minimist(process.argv.slice(2));
+
+const templateDir = args.template;
 const devDir = "dev";
-const folderName = "dev/search";
+const folderName = `${devDir}/${templateDir}`;
 
 try {
   // Delete and recreate directory.
@@ -18,7 +22,6 @@ try {
     fs.mkdirSync(folderName);
   }
 
-  const templateDir = "search";
   const templateRoot = `apps/${templateDir}`;
 
   // Copy public www/ files
@@ -70,7 +73,7 @@ try {
     });
 
   // Bootstrap
-  const child = spawn("cd ./dev/search && npm install && npm run start", {
+  spawn(`cd ./${folderName} && npm install && npm run start`, {
     shell: true,
     stdio: "inherit"
   });

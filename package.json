@@ -11,7 +11,7 @@
     "install-dependencies": "node steps/installDeps.js",
     "plop": "plop",
     "release": "release-it --access public",
-    "dev": "node scripts/dev.js"
+    "dev:search": "node scripts/dev.js --template=search"
   },
   "author": "Deryk DeGuzman",
   "license": "UNLICENSED",
