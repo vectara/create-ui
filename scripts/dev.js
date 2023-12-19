@@ -26,7 +26,11 @@ try {
 
   // Copy code
   fs.cpSync(templatePath, devPath, {
-    recursive: true
+    recursive: true,
+    filter: (src) => {
+      // Don't copy node_modules.
+      return src !== `${templatePath}/node_modules`;
+    }
   });
 
   // Copy .env

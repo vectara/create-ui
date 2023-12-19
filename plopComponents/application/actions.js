@@ -23,11 +23,15 @@ module.exports = {
       appName = answers.appName;
 
       const templateDir = appTypeToTemplateDir[answers.appType];
-      const templateRoot = `${dir}/apps/${templateDir}`;
+      const templatePath = `${dir}/apps/${templateDir}`;
 
       // Copy code
-      fs.cpSync(templateRoot, answers.appDirName, {
-        recursive: true
+      fs.cpSync(templatePath, answers.appDirName, {
+        recursive: true,
+        filter: (src) => {
+          // Don't copy node_modules.
+          return src !== `${templatePath}/node_modules`;
+        }
       });
     });
   },
