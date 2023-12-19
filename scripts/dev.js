@@ -8,72 +8,55 @@ const args = minimist(process.argv.slice(2));
 
 const templateDir = args.template;
 const devDir = "dev";
-const folderName = `${devDir}/${templateDir}`;
+const devPath = `${devDir}/${templateDir}`;
 
 try {
   // Delete and recreate directory.
-  fs.rmSync(folderName, { recursive: true, force: true });
+  fs.rmSync(devPath, { recursive: true, force: true });
 
   if (!fs.existsSync(devDir)) {
     fs.mkdirSync(devDir);
   }
 
-  if (!fs.existsSync(folderName)) {
-    fs.mkdirSync(folderName);
+  if (!fs.existsSync(devPath)) {
+    fs.mkdirSync(devPath);
   }
 
-  const templateRoot = `apps/${templateDir}`;
+  const templatePath = `apps/${templateDir}`;
 
-  // Copy public www/ files
-  fs.cpSync(`${templateRoot}/public`, `./${folderName}/public`, {
+  // Copy code
+  fs.cpSync(templatePath, devPath, {
     recursive: true
-  });
-
-  // Copy src code
-  const srcDir = `${templateRoot}/src`;
-  fs.cpSync(srcDir, `./${folderName}/src`, {
-    recursive: true
-  });
-
-  // Copy server code
-  fs.cpSync(`${templateRoot}/server`, `./${folderName}/server`, {
-    recursive: true
-  });
-
-  // Copy build configs
-  const configFiles = ["build.js", "global.d.ts", "tsconfig.json", "package.json", ".eslintignore", ".eslintrc.js"];
-  configFiles.forEach((filename) => {
-    fs.cpSync(`${templateRoot}/${filename}`, `./${folderName}/${filename}`);
   });
 
   // Copy .env
-  fs.cpSync(`.env`, `./${folderName}/.env`);
+  fs.cpSync(`.env`, `./${devPath}/.env`);
 
   // Keep dev src files in sync with template src.
-  var watcher = chokidar.watch(srcDir, { persistent: true, ignoreInitial: true });
+  var watcher = chokidar.watch(templatePath, { persistent: true, ignoreInitial: true });
 
   watcher
     .on("add", function (path) {
-      const devPath = path.replace(srcDir, `${folderName}/src`);
-      console.log(chalk.magenta(`Add ${devPath}`));
-      fs.cpSync(path, devPath);
+      const filePath = path.replace(templatePath, devPath);
+      console.log(chalk.magenta(`Add ${filePath}`));
+      fs.cpSync(path, filePath);
     })
     .on("change", function (path) {
-      const devPath = path.replace(srcDir, `${folderName}/src`);
-      console.log(chalk.magenta(`Update ${devPath}`));
-      fs.copyFileSync(path, devPath);
+      const filePath = path.replace(templatePath, devPath);
+      console.log(chalk.magenta(`Update ${filePath}`));
+      fs.copyFileSync(path, filePath);
     })
     .on("unlink", function (path) {
-      const devPath = path.replace(srcDir, `${folderName}/src`);
-      console.log(chalk.magenta(`Remove ${devPath}`));
-      fs.rmSync(devPath);
+      const filePath = path.replace(templatePath, devPath);
+      console.log(chalk.magenta(`Remove ${filePath}`));
+      fs.rmSync(filePath);
     })
     .on("error", function (error) {
       console.error("Sync error", error);
     });
 
   // Bootstrap
-  spawn(`cd ./${folderName} && npm install && npm run start`, {
+  spawn(`cd ./${devPath} && npm install && npm run start`, {
     shell: true,
     stdio: "inherit"
   });

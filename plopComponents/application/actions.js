@@ -25,24 +25,9 @@ module.exports = {
       const templateDir = appTypeToTemplateDir[answers.appType];
       const templateRoot = `${dir}/apps/${templateDir}`;
 
-      // Copy public www/ files
-      fs.cpSync(`${templateRoot}/public`, `./${answers.appDirName}/public`, {
+      // Copy code
+      fs.cpSync(templateRoot, answers.appDirName, {
         recursive: true
-      });
-
-      // Copy src code
-      fs.cpSync(`${templateRoot}/src`, `./${answers.appDirName}/src`, {
-        recursive: true
-      });
-
-      // Copy server code
-      fs.cpSync(`${templateRoot}/server`, `./${answers.appDirName}/server`, {
-        recursive: true
-      });
-
-      // Copy build configs
-      configFiles.forEach((filename) => {
-        fs.cpSync(`${templateRoot}/${filename}`, `./${answers.appDirName}/${filename}`);
       });
     });
   },
