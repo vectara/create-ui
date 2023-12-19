@@ -30,8 +30,8 @@ module.exports = {
         recursive: true
       });
 
-      // Copy client code
-      fs.cpSync(`${templateRoot}/client/src`, `./${answers.appDirName}/src`, {
+      // Copy src code
+      fs.cpSync(`${templateRoot}/src`, `./${answers.appDirName}/src`, {
         recursive: true
       });
 
@@ -42,7 +42,7 @@ module.exports = {
 
       // Copy build configs
       configFiles.forEach((filename) => {
-        fs.cpSync(`${templateRoot}/buildConfigs/${filename}`, `./${answers.appDirName}/${filename}`);
+        fs.cpSync(`${templateRoot}/${filename}`, `./${answers.appDirName}/${filename}`);
       });
     });
   },

@@ -16,6 +16,8 @@
   "author": "Deryk DeGuzman",
   "license": "UNLICENSED",
   "dependencies": {
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
     "async": "^3.2.5",
     "chalk": "^4.1.2",
     "chokidar": "^3.5.3",
