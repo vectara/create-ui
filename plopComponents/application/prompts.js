@@ -36,15 +36,15 @@ module.exports = {
       message: "What type of UI would you like to create?",
       choices: [
         { name: "Search", value: "search" },
-        { name: "Custom", value: "custom" },
-        { name: "Choose one of our pre-built sample UIs", value: "preset" }
+        { name: "Question and answer", value: "questionAndAnswer" },
+        { name: "Preconfigured demo", value: "preset" }
       ]
     });
 
-    const isSampleUi = appTypeAns.appType === "preset";
+    const isDemoUi = appTypeAns.appType === "preset";
 
     const presetAppDirNameAns = await inquirer.prompt({
-      when: () => isSampleUi,
+      when: () => isDemoUi,
       type: "list",
       name: "presetAppDirName",
       message: "Choose a pre-built sample UI.",
@@ -65,35 +65,35 @@ module.exports = {
     });
 
     const customAppDirNameAns = await inquirer.prompt({
-      when: () => !isSampleUi,
+      when: () => !isDemoUi,
       type: "input",
       name: "customAppDirName",
       message: "What directory name would you like to use?"
     });
 
     const appNameAns = await inquirer.prompt({
-      when: () => !isSampleUi,
+      when: () => !isDemoUi,
       type: "input",
       name: "appName",
       message: "What would you like to name your application?"
     });
 
     const customerIdAns = await inquirer.prompt({
-      when: () => !isSampleUi,
+      when: () => !isDemoUi,
       type: "input",
       name: "customerId",
       message: "What's your Vectara Customer ID?"
     });
 
     const corpusIdAns = await inquirer.prompt({
-      when: () => !isSampleUi,
+      when: () => !isDemoUi,
       type: "input",
       name: "corpusId",
       message: "What Vectara Corpus ID is associated with your data?"
     });
 
     const apiKeyAns = await inquirer.prompt({
-      when: () => !isSampleUi,
+      when: () => !isDemoUi,
       type: "input",
       name: "apiKey",
       message: "What is your Vectara QueryService API Key (This can be safely shared)?"
@@ -101,7 +101,7 @@ module.exports = {
 
     const questions = [];
     const haveQuestionsAns = await inquirer.prompt({
-      when: () => !isSampleUi,
+      when: () => !isDemoUi,
       type: "confirm",
       name: "value",
       message: "Would you like to add sample questions for your users?"

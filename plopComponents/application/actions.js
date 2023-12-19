@@ -5,7 +5,7 @@ const configFiles = ["build.js", "global.d.ts", "tsconfig.json", "package.json",
 
 const appTypeToTemplateDir = {
   search: "search",
-  custom: "qa",
+  questionAndAnswer: "qa",
   preset: "qa"
 };
 
