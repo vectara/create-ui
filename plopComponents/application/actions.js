@@ -37,13 +37,15 @@ module.exports = {
   },
 
   getActions: (data, dir) => {
+    const configFile = ["preset", "questionAndAnswer"].includes(data.appType) ? "/src/configuration.ts" : ".env";
+    const configTemplate = ["preset", "questionAndAnswer"].includes(data.appType) ? "configuration.hbs" : "env.hbs";
     return [
       { type: "Create app folder" },
       { type: "Copy files" },
       {
         type: "add",
-        path: `${process.cwd()}/{{appDirName}}/.env`,
-        templateFile: `${dir}/plopTemplates/env.hbs`,
+        path: `${process.cwd()}/{{appDirName}}/${configFile}`,
+        templateFile: `${dir}/plopTemplates/${configTemplate}`,
         force: true
       },
       () =>

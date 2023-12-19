@@ -7,12 +7,10 @@ const __dirname = path.dirname(__filename);
 
 const {
   setActions: setApplicationActions,
-  getActions: getApplicationActions,
+  getActions: getApplicationActions
 } = require(`${__dirname}/plopComponents/application/actions`);
 
-const {
-  renderPrompts: renderApplicationPrompts,
-} = require(`${__dirname}/plopComponents/application/prompts`);
+const { renderPrompts: renderApplicationPrompts } = require(`${__dirname}/plopComponents/application/prompts`);
 
 export default function (plop) {
   setApplicationActions(plop, __dirname);
@@ -23,14 +21,14 @@ export default function (plop) {
       await inquirer.prompt({
         type: "input",
         name: "acknowledgePrimer",
-        message: "Welcome to Vectara's UI Creator!\nPress Enter to continue.",
+        message: "Welcome to Vectara's UI Creator!\nPress Enter to continue."
       });
 
       const answers = await renderApplicationPrompts(inquirer);
 
       return {
         category: "application",
-        ...answers,
+        ...answers
       };
     },
     actions: function (data) {
@@ -38,6 +36,6 @@ export default function (plop) {
         default:
           return getApplicationActions(data, __dirname);
       }
-    },
+    }
   });
 }
