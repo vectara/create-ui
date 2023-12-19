@@ -1,14 +1,13 @@
 const fs = require("fs");
 const { exec } = require("child_process");
 
-const configFiles = [
-  "build.js",
-  "global.d.ts",
-  "tsconfig.json",
-  "package.json",
-  ".eslintignore",
-  ".eslintrc.js",
-];
+const configFiles = ["build.js", "global.d.ts", "tsconfig.json", "package.json", ".eslintignore", ".eslintrc.js"];
+
+const appTypeToTemplateDir = {
+  search: "search",
+  questionAndAnswer: "qa",
+  preset: "qa"
+};
 
 let appName;
 
@@ -23,27 +22,16 @@ module.exports = {
       // Cache app name for confirmation message.
       appName = answers.appName;
 
-      // Copy public www/ files
-      fs.cpSync(`${dir}/apps/qa/public`, `./${answers.appDirName}/public`, {
-        recursive: true,
-      });
+      const templateDir = appTypeToTemplateDir[answers.appType];
+      const templatePath = `${dir}/apps/${templateDir}`;
 
-      // Copy client code
-      fs.cpSync(`${dir}/apps/qa/client/src`, `./${answers.appDirName}/src`, {
+      // Copy code
+      fs.cpSync(templatePath, answers.appDirName, {
         recursive: true,
-      });
-
-      // Copy server code
-      fs.cpSync(`${dir}/apps/qa/server`, `./${answers.appDirName}/server`, {
-        recursive: true,
-      });
-
-      // Copy build configs
-      configFiles.forEach((filename) => {
-        fs.cpSync(
-          `${dir}/apps/qa/buildConfigs/${filename}`,
-          `./${answers.appDirName}/${filename}`
-        );
+        filter: (src) => {
+          // Don't copy node_modules.
+          return src !== `${templatePath}/node_modules`;
+        }
       });
     });
   },
@@ -56,10 +44,10 @@ module.exports = {
         type: "add",
         path: `${process.cwd()}/{{appDirName}}/.env`,
         templateFile: `${dir}/plopTemplates/env.hbs`,
-        force: true,
+        force: true
       },
       () =>
-        `App created in ./${data.appDirName}!\nTo run your app, run "cd ${data.appDirName} && npm install && npm run start"`,
+        `App created in ./${data.appDirName}!\nTo run your app, run "cd ${data.appDirName} && npm install && npm run start"`
     ];
-  },
+  }
 };

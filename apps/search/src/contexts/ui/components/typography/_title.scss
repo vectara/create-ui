@@ -1,0 +1,59 @@
+@use "sass:map";
+
+.vuiTitle {
+  color: $colorText;
+}
+
+$size: (
+  xxs: (
+    size: $fontSizeSmall,
+    weight: $fontWeightNormal,
+    color: $colorText
+  ),
+  xs: (
+    size: $labelFontSize,
+    weight: $labelFontWeight,
+    color: $labelColor
+  ),
+  s: (
+    size: $fontSizeLarge,
+    weight: $fontWeightBold,
+    color: $colorSubdued
+  ),
+  m: (
+    size: $fontSizeXLarge,
+    weight: $fontWeightBold,
+    color: $colorText
+  ),
+  l: (
+    size: $fontSizeXxLarge,
+    weight: $fontWeightNormal,
+    color: $colorText
+  ),
+  xl: (
+    size: $fontSizeXxxLarge,
+    weight: $fontWeightNormal,
+    color: $colorText
+  ),
+  xxl: (
+    size: $fontSizeXxxLarge,
+    weight: $fontWeightBold,
+    color: $colorText
+  )
+);
+
+@each $sizeName, $sizeValue in $size {
+  .vuiTitle--#{$sizeName} {
+    font-size: #{map.get($sizeValue, "size")};
+    font-weight: #{map.get($sizeValue, "weight")};
+    color: #{map.get($sizeValue, "color")};
+  }
+}
+
+$align: left, center, right;
+
+@each $alignValue in $align {
+  .vuiTitle--#{$alignValue} {
+    text-align: #{$alignValue};
+  }
+}
