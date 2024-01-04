@@ -1,10 +1,4 @@
-import {
-  VuiFlexContainer,
-  VuiFlexItem,
-  VuiSpacer,
-  VuiSpinner,
-  VuiTitle,
-} from "../../ui";
+import { VuiFlexContainer, VuiFlexItem } from "../../ui";
 import { SearchControls } from "./controls/SearchControls";
 import { ExampleQuestions } from "./controls/ExampleQuestions";
 import { useSearchContext } from "../../contexts/SearchContext";
@@ -21,7 +15,7 @@ const uxModeToComponentMap = {
 } as const;
 
 export const SearchView = () => {
-  const { isConfigLoaded, app, uxMode } = useConfigContext();
+  const { uxMode } = useConfigContext();
 
   const {
     isSearching,
@@ -34,22 +28,7 @@ export const SearchView = () => {
 
   let content;
 
-  if (!isConfigLoaded) {
-    content = (
-      <VuiFlexContainer
-        className="appSpinner"
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <VuiSpinner size="l" />
-        <VuiSpacer size="l" />
-        <VuiTitle size="xs">
-          <h2>Loading</h2>
-        </VuiTitle>
-      </VuiFlexContainer>
-    );
-  } else if (
+  if (
     !isSearching &&
     !searchError &&
     !searchResults &&
@@ -64,24 +43,22 @@ export const SearchView = () => {
 
   return (
     <>
-      {app.isHeaderEnabled && <AppHeader />}
+      <AppHeader />
       <VuiFlexContainer
         className="searchView"
         direction="column"
         alignItems="center"
         spacing="none"
       >
-        {isConfigLoaded && (
-          <VuiFlexItem className="searchControlsContainer">
-            <SearchControls hasQuery={Boolean(isSearching || searchResults)} />
-          </VuiFlexItem>
-        )}
+        <VuiFlexItem className="searchControlsContainer">
+          <SearchControls hasQuery={Boolean(isSearching || searchResults)} />
+        </VuiFlexItem>
 
-        <VuiFlexItem grow={1} className="searchContent">
+        <VuiFlexItem grow={1} className="searchContent" alignItems="start">
           {content}
         </VuiFlexItem>
 
-        {app.isFooterEnabled && <AppFooter />}
+        <AppFooter />
       </VuiFlexContainer>
     </>
   );

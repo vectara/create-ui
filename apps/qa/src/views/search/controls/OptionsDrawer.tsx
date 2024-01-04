@@ -8,11 +8,9 @@ import {
   VuiDrawer,
   VuiFlexContainer,
   VuiFlexItem,
-  VuiFormGroup,
   VuiHorizontalRule,
   VuiIcon,
   VuiLabel,
-  VuiRadioButton,
   VuiSearchSelect,
   VuiSpacer,
   VuiText,
@@ -20,7 +18,6 @@ import {
   VuiTitle,
 } from "../../../ui";
 import { SUMMARY_LANGUAGES, SummaryLanguage, humanizeLanguage } from "../types";
-import { useConfigContext } from "../../../contexts/ConfigurationContext";
 
 const languageOptions = SUMMARY_LANGUAGES.map((code) => ({
   value: code,
@@ -33,10 +30,8 @@ type Props = {
 };
 
 export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
-  const { uxMode, setUxMode } = useConfigContext();
   const { language, onSearch } = useSearchContext();
 
-  const [newUxMode, setNewUxMode] = useState(uxMode);
   const [isLanguageMenuOpen, seIisLanguageMenuOpen] = useState(false);
   const [newLanguage, setNewLanguage] = useState<SummaryLanguage>(language);
 
@@ -91,30 +86,6 @@ export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
         </VuiButtonSecondary>
       </VuiSearchSelect>
 
-      <VuiSpacer size="m" />
-
-      <VuiFormGroup
-        label="UX mode"
-        labelFor="uxModeSelect"
-        helpText="Focus the user experience on the search results or the summary."
-      >
-        <>
-          <VuiRadioButton
-            label="Summary"
-            onChange={() => setNewUxMode("summary")}
-            checked={newUxMode === "summary"}
-          />
-
-          <VuiSpacer size="xs" />
-
-          <VuiRadioButton
-            label="Search"
-            onChange={() => setNewUxMode("search")}
-            checked={newUxMode === "search"}
-          />
-        </>
-      </VuiFormGroup>
-
       <VuiSpacer size="l" />
 
       <VuiHorizontalRule />
@@ -138,7 +109,6 @@ export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
                 });
               }
 
-              setUxMode(newUxMode);
               onClose();
             }}
           >

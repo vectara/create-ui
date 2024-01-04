@@ -53,6 +53,8 @@ interface SearchContextType {
   summaryNumResults: number;
   summaryNumSentences: number;
   summaryPromptName: string;
+  summaryEnableHem: boolean;
+  hfToken: string;
   history: HistoryItem[];
   clearHistory: () => void;
   searchResultsRef: React.MutableRefObject<HTMLElement[] | null[]>;
@@ -75,8 +77,7 @@ type Props = {
 let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
-  const { isConfigLoaded, search, summary, rerank, hybrid, uxMode } =
-    useConfigContext();
+  const { search, summary, rerank, hybrid, uxMode } = useConfigContext();
   const isSummaryEnabled = uxMode === "summary";
 
   const [searchValue, setSearchValue] = useState<string>("");
@@ -120,7 +121,7 @@ export const SearchContextProvider = ({ children }: Props) => {
     // Search params are updated as part of calling onSearch, so we don't
     // want to trigger another search when the search params change if that
     // search is already in progress.
-    if (!isConfigLoaded || isSearching) return;
+    if (isSearching) return;
 
     const urlParams = new URLSearchParams(searchParams);
 
@@ -134,7 +135,7 @@ export const SearchContextProvider = ({ children }: Props) => {
       isPersistable: false,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isConfigLoaded, searchParams]); // TODO: Add onSearch and fix infinite render loop
+  }, [searchParams]); // TODO: Add onSearch and fix infinite render loop
 
   const searchResults = deserializeSearchResponse(searchResponse);
 
@@ -342,6 +343,8 @@ export const SearchContextProvider = ({ children }: Props) => {
         summaryNumResults: summary.summaryNumResults,
         summaryNumSentences: summary.summaryNumSentences,
         summaryPromptName: summary.summaryPromptName,
+        summaryEnableHem: summary.summaryEnableHem,
+        hfToken: summary.hfToken,
         history,
         clearHistory,
         searchResultsRef,
