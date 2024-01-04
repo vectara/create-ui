@@ -91,7 +91,7 @@ export const SUMMARY_LANGUAGES = [
   "swe",
   "ben",
   "msa",
-  "ron",
+  "ron"
 ] as const;
 
 export type SummaryLanguage = (typeof SUMMARY_LANGUAGES)[number];
@@ -125,14 +125,12 @@ const codeToLanguageMap: Record<SummaryLanguage, string> = {
   swe: "Swedish",
   ben: "Bengali",
   msa: "Malay",
-  ron: "Romanian",
+  ron: "Romanian"
 } as const;
 
 export const humanizeLanguage = (language: SummaryLanguage): string => {
   return codeToLanguageMap[language];
 };
 
-export const normal_reranker_id = 272725717
-export const mmr_reranker_id = 272725718
-
-export type UxMode = "search" | "summary";
+export const standardRerankerId = 272725717;
+export const mmrRerankerId = 272725718;

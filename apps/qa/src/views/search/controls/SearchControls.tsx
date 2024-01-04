@@ -12,20 +12,19 @@ import {
   VuiBadge,
   VuiIcon,
   VuiButtonSecondary,
-  VuiLink,
+  VuiLink
 } from "../../../ui";
 import { useSearchContext } from "../../../contexts/SearchContext";
-import "./searchControls.scss";
 import { HistoryDrawer } from "./HistoryDrawer";
 import { OptionsDrawer } from "./OptionsDrawer";
+import "./searchControls.scss";
 
 type Props = {
   hasQuery: boolean;
 };
 
 export const SearchControls = ({ hasQuery }: Props) => {
-  const { filterValue, setFilterValue, searchValue, setSearchValue, onSearch, reset } =
-    useSearchContext();
+  const { filterValue, setFilterValue, searchValue, setSearchValue, onSearch, reset } = useSearchContext();
   const { searchHeader, filters } = useConfigContext();
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
@@ -45,14 +44,14 @@ export const SearchControls = ({ hasQuery }: Props) => {
     if (filters.allSources) {
       filterOptions.push({
         text: "All sources",
-        value: "",
+        value: ""
       });
     }
 
     // if allSources is false, then we set the filterValue is set to the first source
     // In this case the "All sources" button is not there, and the first source is selected by default
     if (!filters.allSources && filterValue === "") {
-      setFilterValue(filters.sources[0].value)
+      setFilterValue(filters.sources[0].value);
     }
 
     filters.sources.forEach(({ value, label }) => {
@@ -70,16 +69,10 @@ export const SearchControls = ({ hasQuery }: Props) => {
                 <VuiFlexItem>
                   <a
                     href={searchHeader.logo.link ?? "/"}
-                    target={
-                      searchHeader.logo.link !== undefined ? "_blank" : "_self"
-                    }
+                    target={searchHeader.logo.link !== undefined ? "_blank" : "_self"}
                     rel="noreferrer"
                   >
-                    <img
-                      src={searchHeader.logo.src}
-                      alt={searchHeader.logo.alt}
-                      height={searchHeader.logo.height}
-                    />
+                    <img src={searchHeader.logo.src} alt={searchHeader.logo.alt} height={searchHeader.logo.height} />
                   </a>
                 </VuiFlexItem>
               )}
@@ -104,9 +97,7 @@ export const SearchControls = ({ hasQuery }: Props) => {
                 <VuiFlexItem grow={false}>
                   <VuiTitle size="xxs" align="right">
                     <VuiTextColor color="subdued">
-                      <h2 style={{ whiteSpace: "pre-line" }}>
-                        {searchHeader.description.replaceAll("\\n", "\n")}
-                      </h2>
+                      <h2 style={{ whiteSpace: "pre-line" }}>{searchHeader.description.replaceAll("\\n", "\n")}</h2>
                     </VuiTextColor>
                   </VuiTitle>
                 </VuiFlexItem>
@@ -164,12 +155,7 @@ export const SearchControls = ({ hasQuery }: Props) => {
           {filters.isEnabled && (
             <VuiFlexItem grow={false}>
               <fieldset>
-                <VuiFlexContainer
-                  alignItems="center"
-                  wrap={true}
-                  spacing="xs"
-                  className="filtersBar"
-                >
+                <VuiFlexContainer alignItems="center" wrap={true} spacing="xs" className="filtersBar">
                   <VuiFlexItem grow={false}>
                     <legend>
                       <VuiText>
@@ -181,11 +167,7 @@ export const SearchControls = ({ hasQuery }: Props) => {
                   </VuiFlexItem>
 
                   <VuiFlexItem grow={1}>
-                    <VuiFlexContainer
-                      alignItems="center"
-                      wrap={true}
-                      spacing="xxs"
-                    >
+                    <VuiFlexContainer alignItems="center" wrap={true} spacing="xxs">
                       {filterOptions.map((option) => {
                         const isSelected = option.value === filterValue;
                         return (
@@ -194,7 +176,7 @@ export const SearchControls = ({ hasQuery }: Props) => {
                               color={isSelected ? "primary" : "neutral"}
                               onClick={() =>
                                 onSearch({
-                                  filter: isSelected ? "" : option.value,
+                                  filter: isSelected ? "" : option.value
                                 })
                               }
                             >
@@ -212,11 +194,7 @@ export const SearchControls = ({ hasQuery }: Props) => {
 
           {hasQuery && (
             <VuiFlexItem grow={false}>
-              <VuiButtonSecondary
-                color="neutral"
-                size="s"
-                onClick={() => reset()}
-              >
+              <VuiButtonSecondary color="neutral" size="s" onClick={() => reset()}>
                 Start over
               </VuiButtonSecondary>
             </VuiFlexItem>
@@ -224,15 +202,9 @@ export const SearchControls = ({ hasQuery }: Props) => {
         </VuiFlexContainer>
       </div>
 
-      <HistoryDrawer
-        isOpen={isHistoryOpen}
-        onClose={() => setIsHistoryOpen(false)}
-      />
+      <HistoryDrawer isOpen={isHistoryOpen} onClose={() => setIsHistoryOpen(false)} />
 
-      <OptionsDrawer
-        isOpen={isOptionsOpen}
-        onClose={() => setIsOptionsOpen(false)}
-      />
+      <OptionsDrawer isOpen={isOptionsOpen} onClose={() => setIsOptionsOpen(false)} />
     </>
   );
 };

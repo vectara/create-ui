@@ -33,11 +33,7 @@ try {
   });
 
   // Copy configuration
-  if (args.template === "qa") {
-    fs.cpSync(`./sampleConfigurations/${args.template}/configuration.ts`, `./${devPath}/src/configuration.ts`);
-  } else {
-    fs.cpSync(`./sampleConfigurations/${args.template}/.env`, `./${devPath}/.env`);
-  }
+  fs.cpSync(`./sampleConfigurations/${args.template}-configuration.ts`, `./${devPath}/src/configuration.ts`);
 
   // Keep dev src files in sync with template src.
   var watcher = chokidar.watch(templatePath, { persistent: true, ignoreInitial: true });

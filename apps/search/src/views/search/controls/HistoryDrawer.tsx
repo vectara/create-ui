@@ -12,7 +12,6 @@ import {
   VuiTextColor,
   VuiTitle
 } from "../../../contexts/ui";
-import { humanizeLanguage } from "../types";
 
 type Props = {
   isOpen: boolean;
@@ -56,11 +55,8 @@ export const HistoryDrawer = ({ isOpen, onClose }: Props) => {
         </VuiText>
       ) : (
         <VuiMenu>
-          {history.map(({ query, filter, language, date }) => {
-            let subTitle = date;
-            if (language) {
-              subTitle += ` • ${humanizeLanguage(language)}`;
-            }
+          {history.map(({ query, filter, date }) => {
+            const subTitle = date;
 
             return (
               <VuiMenuItem
@@ -68,7 +64,7 @@ export const HistoryDrawer = ({ isOpen, onClose }: Props) => {
                 title={query}
                 text={subTitle}
                 onClick={() => {
-                  onSearch({ value: query, filter, language });
+                  onSearch({ value: query, filter });
                   onClose();
                 }}
               />

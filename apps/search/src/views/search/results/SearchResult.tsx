@@ -9,12 +9,11 @@ import "./SearchResult.scss";
 type Props = {
   result: DeserializedSearchResult;
   position: number;
-  isSelected: boolean;
 };
 
 const CONTEXT_MAX_LENGTH = 200;
 
-export const SearchResult = forwardRef<HTMLDivElement | null, Props>(({ result, position, isSelected }: Props, ref) => {
+export const SearchResult = forwardRef<HTMLDivElement | null, Props>(({ result, position }: Props, ref) => {
   const { filters } = useConfigContext();
   const { onSearch } = useSearchContext();
 
@@ -28,7 +27,6 @@ export const SearchResult = forwardRef<HTMLDivElement | null, Props>(({ result, 
   return (
     <VuiSearchResult
       ref={ref}
-      isSelected={isSelected}
       result={{
         title,
         url,

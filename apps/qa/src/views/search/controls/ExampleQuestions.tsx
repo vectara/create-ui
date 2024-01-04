@@ -1,14 +1,8 @@
 import { useConfigContext } from "../../../contexts/ConfigurationContext";
-import {
-  VuiFlexContainer,
-  VuiFlexItem,
-  VuiSpacer,
-  VuiTextColor,
-  VuiText,
-} from "../../../ui";
+import { VuiFlexContainer, VuiFlexItem, VuiSpacer, VuiTextColor, VuiText } from "../../../ui";
 import { useSearchContext } from "../../../contexts/SearchContext";
-import "./exampleQuestions.scss";
 import { ExampleQuestion } from "./ExampleQuestion";
+import "./exampleQuestions.scss";
 
 export const ExampleQuestions = () => {
   const { exampleQuestions } = useConfigContext();
@@ -23,9 +17,7 @@ export const ExampleQuestions = () => {
 
       <VuiText size="s">
         <p>
-          <VuiTextColor color="accent">
-            Describe your interest above or try one of these topics.
-          </VuiTextColor>
+          <VuiTextColor color="accent">Describe your interest above or try one of these topics.</VuiTextColor>
         </p>
       </VuiText>
 

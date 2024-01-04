@@ -1,27 +1,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import {
-  createContext,
-  useContext,
-  ReactNode,
-  useState,
-  useEffect,
-  useRef,
-} from "react";
+import { createContext, useContext, ReactNode, useState, useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
-import {
-  DeserializedSearchResult,
-  SearchResponse,
-  SummaryLanguage,
-  SearchError,
-} from "../views/search/types";
+import { DeserializedSearchResult, SearchResponse, SummaryLanguage, SearchError } from "../views/search/types";
 import { useConfigContext } from "./ConfigurationContext";
 import { sendSearchRequest } from "./sendSearchRequest";
-import {
-  HistoryItem,
-  addHistoryItem,
-  deleteHistory,
-  retrieveHistory,
-} from "./history";
+import { HistoryItem, addHistoryItem, deleteHistory, retrieveHistory } from "./history";
 import { deserializeSearchResponse } from "../utils/deserializeSearchResponse";
 
 interface SearchContextType {
@@ -33,7 +16,7 @@ interface SearchContextType {
     value,
     filter,
     language,
-    isPersistable,
+    isPersistable
   }: {
     value?: string;
     filter?: string;
@@ -77,8 +60,7 @@ type Props = {
 let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
-  const { search, summary, rerank, hybrid, uxMode } = useConfigContext();
-  const isSummaryEnabled = uxMode === "summary";
+  const { search, summary, rerank, hybrid } = useConfigContext();
 
   const [searchValue, setSearchValue] = useState<string>("");
   const [filterValue, setFilterValue] = useState("");
@@ -99,17 +81,13 @@ export const SearchContextProvider = ({ children }: Props) => {
 
   // Summarization
   const [isSummarizing, setIsSummarizing] = useState(false);
-  const [summarizationError, setSummarizationError] = useState<
-    SearchError | undefined
-  >();
-  const [summarizationResponse, setSummarizationResponse] =
-    useState<SearchResponse>();
+  const [summarizationError, setSummarizationError] = useState<SearchError | undefined>();
+  const [summarizationResponse, setSummarizationResponse] = useState<SearchResponse>();
   const [summaryTime, setSummaryTime] = useState<number>(0);
 
   // Citation selection
   const searchResultsRef = useRef<HTMLElement[] | null[]>([]);
-  const [selectedSearchResultPosition, setSelectedSearchResultPosition] =
-    useState<number>();
+  const [selectedSearchResultPosition, setSelectedSearchResultPosition] = useState<number>();
 
   useEffect(() => {
     setHistory(retrieveHistory());
@@ -129,10 +107,8 @@ export const SearchContextProvider = ({ children }: Props) => {
       // Set to an empty string to wipe out any existing search value.
       value: getQueryParam(urlParams, "query") ?? "",
       filter: getQueryParam(urlParams, "filter"),
-      language: getQueryParam(urlParams, "language") as
-        | SummaryLanguage
-        | undefined,
-      isPersistable: false,
+      language: getQueryParam(urlParams, "language") as SummaryLanguage | undefined,
+      isPersistable: false
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]); // TODO: Add onSearch and fix infinite render loop
@@ -141,10 +117,7 @@ export const SearchContextProvider = ({ children }: Props) => {
 
   useEffect(() => {
     if (searchResults) {
-      searchResultsRef.current = searchResultsRef.current.slice(
-        0,
-        searchResults.length
-      );
+      searchResultsRef.current = searchResultsRef.current.slice(0, searchResults.length);
     } else {
       searchResultsRef.current = [];
     }
@@ -156,10 +129,7 @@ export const SearchContextProvider = ({ children }: Props) => {
   };
 
   const selectSearchResultAt = (position: number) => {
-    if (
-      !searchResultsRef.current[position] ||
-      selectedSearchResultPosition === position
-    ) {
+    if (!searchResultsRef.current[position] || selectedSearchResultPosition === position) {
       // Reset selected position.
       setSelectedSearchResultPosition(undefined);
     } else {
@@ -167,19 +137,18 @@ export const SearchContextProvider = ({ children }: Props) => {
       // Scroll to the selected search result.
       window.scrollTo({
         top: searchResultsRef.current[position]!.offsetTop - 78,
-        behavior: "smooth",
+        behavior: "smooth"
       });
     }
   };
 
-  const getLanguage = (): SummaryLanguage =>
-    (languageValue ?? summary.defaultLanguage) as SummaryLanguage;
+  const getLanguage = (): SummaryLanguage => (languageValue ?? summary.defaultLanguage) as SummaryLanguage;
 
   const onSearch = async ({
     value = searchValue,
     filter = filterValue,
     language = getLanguage(),
-    isPersistable = true,
+    isPersistable = true
   }: {
     value?: string;
     filter?: string;
@@ -201,9 +170,9 @@ export const SearchContextProvider = ({ children }: Props) => {
       if (isPersistable) {
         setSearchParams(
           new URLSearchParams(
-            `?query=${encodeURIComponent(value)}&filter=${encodeURIComponent(
-              filter
-            )}&language=${encodeURIComponent(language)}`
+            `?query=${encodeURIComponent(value)}&filter=${encodeURIComponent(filter)}&language=${encodeURIComponent(
+              language
+            )}`
           )
         );
       }
@@ -219,7 +188,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         const startTime = Date.now();
         initialSearchResponse = await sendSearchRequest({
           filter,
-          query_str: value,
+          queryValue: value,
           rerank: rerank.isEnabled,
           rerankNumResults: rerank.numResults,
           rerankerId: rerank.id,
@@ -230,7 +199,7 @@ export const SearchContextProvider = ({ children }: Props) => {
           customerId: search.customerId!,
           corpusId: search.corpusId!,
           endpoint: search.endpoint!,
-          apiKey: search.apiKey!,
+          apiKey: search.apiKey!
         });
         const totalTime = Date.now() - startTime;
 
@@ -245,7 +214,7 @@ export const SearchContextProvider = ({ children }: Props) => {
             setSearchError(undefined);
           } else {
             setSearchError({
-              message: "There weren't any results for your search.",
+              message: "There weren't any results for your search."
             });
           }
         }
@@ -257,53 +226,51 @@ export const SearchContextProvider = ({ children }: Props) => {
       }
 
       // Second call - search and summarize (if summary is enabled); this may take a while to return results
-      if (isSummaryEnabled) {
-        if (initialSearchResponse.response.length > 0) {
-          const startTime = Date.now();
-          try {
-            const response = await sendSearchRequest({
-              filter,
-              query_str: value,
-              summaryMode: true,
-              rerank: rerank.isEnabled,
-              rerankNumResults: rerank.numResults,
-              rerankerId: rerank.id,
-              rerankDiversityBias: rerank.diversityBias,
-              summaryNumResults: summary.summaryNumResults,
-              summaryNumSentences: summary.summaryNumSentences,
-              summaryPromptName: summary.summaryPromptName,
-              hybridNumWords: hybrid.numWords,
-              hybridLambdaLong: hybrid.lambdaLong,
-              hybridLambdaShort: hybrid.lambdaShort,
-              language,
-              customerId: search.customerId!,
-              corpusId: search.corpusId!,
-              endpoint: search.endpoint!,
-              apiKey: search.apiKey!,
-            });
-            const totalTime = Date.now() - startTime;
-
-            // If we send multiple requests in rapid succession, we only want to
-            // display the results of the most recent request.
-            if (searchId === searchCount) {
-              setIsSummarizing(false);
-              setSummarizationError(undefined);
-              setSummarizationResponse(response);
-              setSummaryTime(totalTime);
-            }
-          } catch (error) {
-            console.log("Summary error", error);
-            setIsSummarizing(false);
-            setSummarizationError(error as SearchError);
-            setSummarizationResponse(undefined);
-          }
-        } else {
-          setIsSummarizing(false);
-          setSummarizationError({
-            message: "No search results to summarize",
+      if (initialSearchResponse.response.length > 0) {
+        const startTime = Date.now();
+        try {
+          const response = await sendSearchRequest({
+            filter,
+            queryValue: value,
+            summaryMode: true,
+            rerank: rerank.isEnabled,
+            rerankNumResults: rerank.numResults,
+            rerankerId: rerank.id,
+            rerankDiversityBias: rerank.diversityBias,
+            summaryNumResults: summary.summaryNumResults,
+            summaryNumSentences: summary.summaryNumSentences,
+            summaryPromptName: summary.summaryPromptName,
+            hybridNumWords: hybrid.numWords,
+            hybridLambdaLong: hybrid.lambdaLong,
+            hybridLambdaShort: hybrid.lambdaShort,
+            language,
+            customerId: search.customerId!,
+            corpusId: search.corpusId!,
+            endpoint: search.endpoint!,
+            apiKey: search.apiKey!
           });
+          const totalTime = Date.now() - startTime;
+
+          // If we send multiple requests in rapid succession, we only want to
+          // display the results of the most recent request.
+          if (searchId === searchCount) {
+            setIsSummarizing(false);
+            setSummarizationError(undefined);
+            setSummarizationResponse(response);
+            setSummaryTime(totalTime);
+          }
+        } catch (error) {
+          console.log("Summary error", error);
+          setIsSummarizing(false);
+          setSummarizationError(error as SearchError);
           setSummarizationResponse(undefined);
         }
+      } else {
+        setIsSummarizing(false);
+        setSummarizationError({
+          message: "No search results to summarize"
+        });
+        setSummarizationResponse(undefined);
       }
     } else {
       // Persist to URL.
@@ -349,7 +316,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         clearHistory,
         searchResultsRef,
         selectedSearchResultPosition,
-        selectSearchResultAt,
+        selectSearchResultAt
       }}
     >
       {children}
@@ -360,9 +327,7 @@ export const SearchContextProvider = ({ children }: Props) => {
 export const useSearchContext = () => {
   const context = useContext(SearchContext);
   if (context === undefined) {
-    throw new Error(
-      "useSearchContext must be used within a SearchContextProvider"
-    );
+    throw new Error("useSearchContext must be used within a SearchContextProvider");
   }
   return context;
 };

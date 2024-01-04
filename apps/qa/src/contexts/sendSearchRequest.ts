@@ -1,10 +1,10 @@
 import axios from "axios";
 import { START_TAG, END_TAG } from "../utils/parseSnippet";
-import { SummaryLanguage, mmr_reranker_id } from "../views/search/types";
+import { SummaryLanguage, mmrRerankerId } from "../views/search/types";
 
 type Config = {
   filter: string;
-  query_str?: string;
+  queryValue?: string;
   language?: SummaryLanguage;
   summaryMode?: boolean;
   rerank?: boolean;
@@ -25,7 +25,7 @@ type Config = {
 
 export const sendSearchRequest = async ({
   filter,
-  query_str,
+  queryValue,
   language,
   summaryMode,
   rerank,
@@ -41,10 +41,10 @@ export const sendSearchRequest = async ({
   customerId,
   corpusId,
   endpoint,
-  apiKey,
+  apiKey
 }: Config) => {
   const lambda =
-    typeof query_str === "undefined" || query_str.trim().split(" ").length > hybridNumWords
+    typeof queryValue === "undefined" || queryValue.trim().split(" ").length > hybridNumWords
       ? hybridLambdaLong
       : hybridLambdaShort;
   const corpusKeyList = corpusId.split(",").map((id) => {
@@ -52,16 +52,16 @@ export const sendSearchRequest = async ({
       customerId,
       corpusId: id,
       lexicalInterpolationConfig: {
-        lambda: lambda,
+        lambda: lambda
       },
-      metadataFilter: filter ? `doc.source = '${filter}'` : undefined,
+      metadataFilter: filter ? `doc.source = '${filter}'` : undefined
     };
   });
 
   const body = {
     query: [
       {
-        query: query_str,
+        query: queryValue,
         start: 0,
         numResults: rerank ? rerankNumResults : 10,
         corpusKey: corpusKeyList,
@@ -69,7 +69,7 @@ export const sendSearchRequest = async ({
           sentencesBefore: summaryMode ? summaryNumSentences : 2,
           sentencesAfter: summaryMode ? summaryNumSentences : 2,
           startTag: START_TAG,
-          endTag: END_TAG,
+          endTag: END_TAG
         },
         ...(summaryMode
           ? {
@@ -77,26 +77,27 @@ export const sendSearchRequest = async ({
                 {
                   responseLang: language,
                   maxSummarizedResults: summaryNumResults,
-                  summarizerPromptName: summaryPromptName,
-                },
-              ],
+                  summarizerPromptName: summaryPromptName
+                }
+              ]
             }
           : {}),
         ...(rerank
           ? {
               rerankingConfig: {
                 rerankerId: rerankerId,
-                ...(rerankerId === mmr_reranker_id ? {
+                ...(rerankerId === mmrRerankerId
+                  ? {
                       mmrConfig: {
-                        diversityBias: rerankDiversityBias,
+                        diversityBias: rerankDiversityBias
                       }
-                    } : {}
-                ),
-              },
+                    }
+                  : {})
+              }
             }
-          : {}),
-      },
-    ],
+          : {})
+      }
+    ]
   };
 
   let headers = {};
@@ -107,8 +108,8 @@ export const sendSearchRequest = async ({
     headers = {
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
-      },
+        Accept: "application/json"
+      }
     };
   } else {
     // Call directly if in development
@@ -119,8 +120,8 @@ export const sendSearchRequest = async ({
         Accept: "application/json",
         "customer-id": customerId,
         "x-api-key": apiKey,
-        "grpc-timeout": "60S",
-      },
+        "grpc-timeout": "60S"
+      }
     };
   }
   const result = await axios.post(url, body, headers);
@@ -131,13 +132,11 @@ export const sendSearchRequest = async ({
   }
 
   if (summaryMode) {
-    const summaryStatus =
-      result["data"]["responseSet"][0]["summary"][0]["status"];
-    if (
-      summaryStatus.length > 0 &&
-      summaryStatus[0]["code"] === "BAD_REQUEST"
-    ) {
-      throw new Error(`BAD REQUEST: Too much text for the summarizer to summarize. Please try reducing the number of search results to summarize, or the context of each result by adjusting the 'summary_num_sentences', and 'summary_num_results' parameters respectively.`);
+    const summaryStatus = result["data"]["responseSet"][0]["summary"][0]["status"];
+    if (summaryStatus.length > 0 && summaryStatus[0]["code"] === "BAD_REQUEST") {
+      throw new Error(
+        `BAD REQUEST: Too much text for the summarizer to summarize. Please try reducing the number of search results to summarize, or the context of each result by adjusting the 'summary_num_sentences', and 'summary_num_results' parameters respectively.`
+      );
     }
     if (
       summaryStatus.length > 0 &&
