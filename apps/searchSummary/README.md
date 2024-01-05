@@ -1,4 +1,14 @@
-# Local UI development
+# Vectara sample code for a Search Summary UI
+
+This app provides working sample code for implementing a Search Summary UI that's powered by [Vectara](https://vectara.com/). It was generated using the [Create UI code-generator](https://github.com/vectara/create-ui).
+
+The Search Summary UI is characterized by:
+
+- A search box for entering a natural-language query. This can take the form of a question or just search terms.
+- A \*\*list of search results.
+- A summary of search results that are most relevant to the query, with citations.
+
+A user will typically scan the summary for points of interest, which is faster than reviewing the list of search results. If an aspect of the summary catches their eye, they'll dig deeper into the cited search result. They'll repeat this pattern until they've reviewed all of the interesting information that was relevant to their query.
 
 ## Dependencies
 
@@ -12,9 +22,9 @@ npm install
 
 ## Configuration
 
-The app requires you to configure a `configuration.ts` file in the `/src` directory, with these properties, at minimum:
+The app expects to find a `configuration.ts` file in the `/src` directory with this minimal configuration:
 
-```
+```ts
 import { Config } from "./contexts/ConfigurationContext";
 
 export const configuration: Config = {
@@ -27,15 +37,15 @@ export const configuration: Config = {
 
 You can configure sample questions like this:
 
-```
+```ts
 export const configuration: Config = {
   // ... other configs here
   questions: [
     "How do I enable hybrid search?",
     "How is data encrypted?",
     "What is a textless corpus?",
-    "How do I configure OAuth?",
-  ],
+    "How do I configure OAuth?"
+  ]
 };
 ```
 
@@ -57,9 +67,8 @@ NOTE: The UI assumes there is a metadata field called `url` for each document in
 
 ## Configuration Reference
 
-```
+```ts
 type Configuration = {
-
   // The ID of your Vectara data store
   corpusId: string;
 
@@ -140,6 +149,5 @@ type Configuration = {
   mmrDiversityBias?: number;
 
   hfToken?: string;
-}
-
+};
 ```
