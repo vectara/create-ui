@@ -1,5 +1,5 @@
 import { parseSnippet } from "./parseSnippet";
-import { DocMetadata, SearchResponse, DeserializedSearchResult } from "../views/search/types";
+import { DocMetadata, SearchResponse, DeserializedSearchResult } from "../views/types";
 
 const convertMetadataToObject = (metadata: DocMetadata[]) => {
   const obj: Record<string, string> = {};

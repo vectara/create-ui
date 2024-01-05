@@ -1,4 +1,4 @@
-import { SummaryLanguage } from "../views/search/types";
+import { SummaryLanguage } from "../views/types";
 
 export type HistoryItem = {
   query: string;
@@ -11,22 +11,15 @@ export type HistoryItem = {
 const HISTORY_KEY = `${location.hostname}:searchHistory`;
 
 export const addHistoryItem = (
-  {
-    query,
-    filter,
-    language,
-  }: { query: string; filter: string; language: SummaryLanguage },
+  { query, filter, language }: { query: string; filter: string; language: SummaryLanguage },
   history: HistoryItem[]
 ) => {
   const date = new Intl.DateTimeFormat("en", {
     dateStyle: "medium",
-    timeStyle: "medium",
+    timeStyle: "medium"
   }).format(new Date());
   const newHistoryItem = { query, filter, language, date };
-  const newHistory = [
-    newHistoryItem,
-    ...history.filter((item) => item.query !== query),
-  ];
+  const newHistory = [newHistoryItem, ...history.filter((item) => item.query !== query)];
   persistHistory(newHistory);
   return newHistory;
 };

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { START_TAG, END_TAG } from "../utils/parseSnippet";
-import { SummaryLanguage, mmrRerankerId } from "../views/search/types";
+import { SummaryLanguage, mmrRerankerId } from "../views/types";
 
 type Config = {
   filter: string;

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { createContext, useContext, ReactNode, useState, useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
-import { DeserializedSearchResult, SearchResponse, SummaryLanguage, SearchError } from "../views/search/types";
+import { DeserializedSearchResult, SearchResponse, SummaryLanguage, SearchError } from "../views/types";
 import { useConfigContext } from "./ConfigurationContext";
 import { sendSearchRequest } from "./sendSearchRequest";
 import { HistoryItem, addHistoryItem, deleteHistory, retrieveHistory } from "./history";

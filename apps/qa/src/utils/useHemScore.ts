@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { HfInference, HfInferenceEndpoint } from "@huggingface/inference";
-import { DeserializedSearchResult } from "../views/search/types";
+import { DeserializedSearchResult } from "../views/types";
 
-const API_URL =
-  "https://api-inference.huggingface.co/models/vectara/hallucination_evaluation_model";
+const API_URL = "https://api-inference.huggingface.co/models/vectara/hallucination_evaluation_model";
 
 async function getMaxScore(
   hem: HfInferenceEndpoint,
@@ -18,7 +17,7 @@ async function getMaxScore(
 
   const scorePromises = summarySearchResults.map((result) => {
     const {
-      snippet: { pre, post, text },
+      snippet: { pre, post, text }
     } = result;
     const query = [pre, text, post, "[SEP]", summaryWithoutCitations].join(" ");
     const score = getHemScore(query);
@@ -62,9 +61,7 @@ export const useHemScore = (
 
   const summaryWithoutCitations = rawSummary?.replace(/\[[0-9]+\]/g, "");
 
-  const inference = new HfInference(
-    hfToken && hfToken.length > 0 ? hfToken : undefined
-  );
+  const inference = new HfInference(hfToken && hfToken.length > 0 ? hfToken : undefined);
 
   const hem = inference.endpoint(API_URL);
 
@@ -89,6 +86,6 @@ export const useHemScore = (
   return {
     isFetchingHemScore,
     hemScore,
-    confidenceLevel: getConfidenceLevel(hemScore),
+    confidenceLevel: getConfidenceLevel(hemScore)
   };
 };

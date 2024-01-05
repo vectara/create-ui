@@ -1,6 +1,6 @@
 import { createContext, useContext, ReactNode } from "react";
 
-import { standardRerankerId, mmrRerankerId } from "../views/search/types";
+import { standardRerankerId, mmrRerankerId } from "../view/types";
 
 import { configuration } from "../configuration";
 
