@@ -36,7 +36,7 @@ module.exports = {
       message: "What type of UI would you like to create?",
       choices: [
         { name: "Search", value: "search" },
-        { name: "Question and answer", value: "questionAndAnswer" },
+        { name: "Search Summary", value: "searchSummary" },
         { name: "Preconfigured demo", value: "preset" }
       ]
     });
