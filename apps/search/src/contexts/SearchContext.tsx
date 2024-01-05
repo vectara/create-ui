@@ -1,27 +1,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import {
-  createContext,
-  useContext,
-  ReactNode,
-  useState,
-  useEffect,
-  useRef,
-} from "react";
+import { createContext, useContext, ReactNode, useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import {
-  DeserializedSearchResult,
-  SearchResponse,
-  SummaryLanguage,
-  SearchError,
-} from "../views/search/types";
+import { DeserializedSearchResult, SearchResponse, SearchError } from "../views/search/types";
 import { useConfigContext } from "./ConfigurationContext";
 import { sendSearchRequest } from "./sendSearchRequest";
-import {
-  HistoryItem,
-  addHistoryItem,
-  deleteHistory,
-  retrieveHistory,
-} from "./history";
+import { HistoryItem, addHistoryItem, deleteHistory, retrieveHistory } from "./history";
 import { deserializeSearchResponse } from "../utils/deserializeSearchResponse";
 
 interface SearchContextType {
@@ -29,35 +12,14 @@ interface SearchContextType {
   setFilterValue: (source: string) => void;
   searchValue: string;
   setSearchValue: (value: string) => void;
-  onSearch: ({
-    value,
-    filter,
-    language,
-    isPersistable,
-  }: {
-    value?: string;
-    filter?: string;
-    language?: SummaryLanguage;
-    isPersistable?: boolean;
-  }) => void;
+  onSearch: ({ value, filter, isPersistable }: { value?: string; filter?: string; isPersistable?: boolean }) => void;
   reset: () => void;
   isSearching: boolean;
   searchError: SearchError | undefined;
   searchResults: DeserializedSearchResult[] | undefined;
   searchTime: number;
-  isSummarizing: boolean;
-  summarizationError: SearchError | undefined;
-  summarizationResponse: SearchResponse | undefined;
-  summaryTime: number;
-  language: SummaryLanguage;
-  summaryNumResults: number;
-  summaryNumSentences: number;
-  summaryPromptName: string;
   history: HistoryItem[];
   clearHistory: () => void;
-  searchResultsRef: React.MutableRefObject<HTMLElement[] | null[]>;
-  selectedSearchResultPosition: number | undefined;
-  selectSearchResultAt: (position: number) => void;
 }
 
 const SearchContext = createContext<SearchContextType | undefined>(undefined);
@@ -75,17 +37,12 @@ type Props = {
 let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
-  const { isConfigLoaded, search, summary, rerank, hybrid, uxMode } =
-    useConfigContext();
-  const isSummaryEnabled = uxMode === "summary";
+  const { search, rerank, hybrid } = useConfigContext();
 
   const [searchValue, setSearchValue] = useState<string>("");
   const [filterValue, setFilterValue] = useState("");
 
   const [searchParams, setSearchParams] = useSearchParams();
-
-  // Language
-  const [languageValue, setLanguageValue] = useState<SummaryLanguage>();
 
   // History
   const [history, setHistory] = useState<HistoryItem[]>([]);
@@ -95,20 +52,6 @@ export const SearchContextProvider = ({ children }: Props) => {
   const [searchError, setSearchError] = useState<SearchError | undefined>();
   const [searchResponse, setSearchResponse] = useState<SearchResponse>();
   const [searchTime, setSearchTime] = useState<number>(0);
-
-  // Summarization
-  const [isSummarizing, setIsSummarizing] = useState(false);
-  const [summarizationError, setSummarizationError] = useState<
-    SearchError | undefined
-  >();
-  const [summarizationResponse, setSummarizationResponse] =
-    useState<SearchResponse>();
-  const [summaryTime, setSummaryTime] = useState<number>(0);
-
-  // Citation selection
-  const searchResultsRef = useRef<HTMLElement[] | null[]>([]);
-  const [selectedSearchResultPosition, setSelectedSearchResultPosition] =
-    useState<number>();
 
   useEffect(() => {
     setHistory(retrieveHistory());
@@ -120,7 +63,7 @@ export const SearchContextProvider = ({ children }: Props) => {
     // Search params are updated as part of calling onSearch, so we don't
     // want to trigger another search when the search params change if that
     // search is already in progress.
-    if (!isConfigLoaded || isSearching) return;
+    if (isSearching) return;
 
     const urlParams = new URLSearchParams(searchParams);
 
@@ -128,89 +71,45 @@ export const SearchContextProvider = ({ children }: Props) => {
       // Set to an empty string to wipe out any existing search value.
       value: getQueryParam(urlParams, "query") ?? "",
       filter: getQueryParam(urlParams, "filter"),
-      language: getQueryParam(urlParams, "language") as
-        | SummaryLanguage
-        | undefined,
-      isPersistable: false,
+      isPersistable: false
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isConfigLoaded, searchParams]); // TODO: Add onSearch and fix infinite render loop
+  }, [searchParams]); // TODO: Add onSearch and fix infinite render loop
 
   const searchResults = deserializeSearchResponse(searchResponse);
-
-  useEffect(() => {
-    if (searchResults) {
-      searchResultsRef.current = searchResultsRef.current.slice(
-        0,
-        searchResults.length
-      );
-    } else {
-      searchResultsRef.current = [];
-    }
-  }, [searchResults]);
 
   const clearHistory = () => {
     setHistory([]);
     deleteHistory();
   };
 
-  const selectSearchResultAt = (position: number) => {
-    if (
-      !searchResultsRef.current[position] ||
-      selectedSearchResultPosition === position
-    ) {
-      // Reset selected position.
-      setSelectedSearchResultPosition(undefined);
-    } else {
-      setSelectedSearchResultPosition(position);
-      // Scroll to the selected search result.
-      window.scrollTo({
-        top: searchResultsRef.current[position]!.offsetTop - 78,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  const getLanguage = (): SummaryLanguage =>
-    (languageValue ?? summary.defaultLanguage) as SummaryLanguage;
-
   const onSearch = async ({
     value = searchValue,
     filter = filterValue,
-    language = getLanguage(),
-    isPersistable = true,
+    isPersistable = true
   }: {
     value?: string;
     filter?: string;
-    language?: SummaryLanguage;
     isPersistable?: boolean;
   }) => {
     const searchId = ++searchCount;
 
     setSearchValue(value);
     setFilterValue(filter);
-    setLanguageValue(language);
 
     if (value?.trim()) {
       // Save to history.
-      setHistory(addHistoryItem({ query: value, filter, language }, history));
+      setHistory(addHistoryItem({ query: value, filter }, history));
 
       // Persist to URL, only if the search executes. This way the prior
       // search that was persisted remains in the URL if the search doesn't execute.
       if (isPersistable) {
         setSearchParams(
-          new URLSearchParams(
-            `?query=${encodeURIComponent(value)}&filter=${encodeURIComponent(
-              filter
-            )}&language=${encodeURIComponent(language)}`
-          )
+          new URLSearchParams(`?query=${encodeURIComponent(value)}&filter=${encodeURIComponent(filter)}`)
         );
       }
 
-      // First call - only search results - should come back quicky while we wait for summarization
       setIsSearching(true);
-      setIsSummarizing(true);
-      setSelectedSearchResultPosition(undefined);
 
       let initialSearchResponse;
 
@@ -218,7 +117,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         const startTime = Date.now();
         initialSearchResponse = await sendSearchRequest({
           filter,
-          query_str: value,
+          queryValue: value,
           rerank: rerank.isEnabled,
           rerankNumResults: rerank.numResults,
           rerankerId: rerank.id,
@@ -229,7 +128,7 @@ export const SearchContextProvider = ({ children }: Props) => {
           customerId: search.customerId!,
           corpusId: search.corpusId!,
           endpoint: search.endpoint!,
-          apiKey: search.apiKey!,
+          apiKey: search.apiKey!
         });
         const totalTime = Date.now() - startTime;
 
@@ -244,7 +143,7 @@ export const SearchContextProvider = ({ children }: Props) => {
             setSearchError(undefined);
           } else {
             setSearchError({
-              message: "There weren't any results for your search.",
+              message: "There weren't any results for your search."
             });
           }
         }
@@ -254,64 +153,12 @@ export const SearchContextProvider = ({ children }: Props) => {
         setSearchError(error as SearchError);
         setSearchResponse(undefined);
       }
-
-      // Second call - search and summarize (if summary is enabled); this may take a while to return results
-      if (isSummaryEnabled) {
-        if (initialSearchResponse.response.length > 0) {
-          const startTime = Date.now();
-          try {
-            const response = await sendSearchRequest({
-              filter,
-              query_str: value,
-              summaryMode: true,
-              rerank: rerank.isEnabled,
-              rerankNumResults: rerank.numResults,
-              rerankerId: rerank.id,
-              rerankDiversityBias: rerank.diversityBias,
-              summaryNumResults: summary.summaryNumResults,
-              summaryNumSentences: summary.summaryNumSentences,
-              summaryPromptName: summary.summaryPromptName,
-              hybridNumWords: hybrid.numWords,
-              hybridLambdaLong: hybrid.lambdaLong,
-              hybridLambdaShort: hybrid.lambdaShort,
-              language,
-              customerId: search.customerId!,
-              corpusId: search.corpusId!,
-              endpoint: search.endpoint!,
-              apiKey: search.apiKey!,
-            });
-            const totalTime = Date.now() - startTime;
-
-            // If we send multiple requests in rapid succession, we only want to
-            // display the results of the most recent request.
-            if (searchId === searchCount) {
-              setIsSummarizing(false);
-              setSummarizationError(undefined);
-              setSummarizationResponse(response);
-              setSummaryTime(totalTime);
-            }
-          } catch (error) {
-            console.log("Summary error", error);
-            setIsSummarizing(false);
-            setSummarizationError(error as SearchError);
-            setSummarizationResponse(undefined);
-          }
-        } else {
-          setIsSummarizing(false);
-          setSummarizationError({
-            message: "No search results to summarize",
-          });
-          setSummarizationResponse(undefined);
-        }
-      }
     } else {
       // Persist to URL.
       if (isPersistable) setSearchParams(new URLSearchParams(""));
 
       setSearchResponse(undefined);
-      setSummarizationResponse(undefined);
       setIsSearching(false);
-      setIsSummarizing(false);
     }
   };
 
@@ -334,19 +181,8 @@ export const SearchContextProvider = ({ children }: Props) => {
         searchError,
         searchResults,
         searchTime,
-        isSummarizing,
-        summarizationError,
-        summarizationResponse,
-        summaryTime,
-        language: getLanguage(),
-        summaryNumResults: summary.summaryNumResults,
-        summaryNumSentences: summary.summaryNumSentences,
-        summaryPromptName: summary.summaryPromptName,
         history,
-        clearHistory,
-        searchResultsRef,
-        selectedSearchResultPosition,
-        selectSearchResultAt,
+        clearHistory
       }}
     >
       {children}
@@ -357,9 +193,7 @@ export const SearchContextProvider = ({ children }: Props) => {
 export const useSearchContext = () => {
   const context = useContext(SearchContext);
   if (context === undefined) {
-    throw new Error(
-      "useSearchContext must be used within a SearchContextProvider"
-    );
+    throw new Error("useSearchContext must be used within a SearchContextProvider");
   }
   return context;
 };

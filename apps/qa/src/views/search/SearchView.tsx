@@ -3,28 +3,12 @@ import { SearchControls } from "./controls/SearchControls";
 import { ExampleQuestions } from "./controls/ExampleQuestions";
 import { useSearchContext } from "../../contexts/SearchContext";
 import { AppHeader } from "./chrome/AppHeader";
-import { AppFooter } from "./chrome/AppFooter";
-import { useConfigContext } from "../../contexts/ConfigurationContext";
-import { SearchUx } from "./SearchUx";
 import { SummaryUx } from "./SummaryUx";
 import "./searchView.scss";
 
-const uxModeToComponentMap = {
-  search: <SearchUx />,
-  summary: <SummaryUx />,
-} as const;
-
 export const SearchView = () => {
-  const { uxMode } = useConfigContext();
-
-  const {
-    isSearching,
-    searchError,
-    searchResults,
-    isSummarizing,
-    summarizationError,
-    summarizationResponse,
-  } = useSearchContext();
+  const { isSearching, searchError, searchResults, isSummarizing, summarizationError, summarizationResponse } =
+    useSearchContext();
 
   let content;
 
@@ -38,18 +22,13 @@ export const SearchView = () => {
   ) {
     content = <ExampleQuestions />;
   } else {
-    content = uxModeToComponentMap[uxMode];
+    content = <SummaryUx />;
   }
 
   return (
     <>
       <AppHeader />
-      <VuiFlexContainer
-        className="searchView"
-        direction="column"
-        alignItems="center"
-        spacing="none"
-      >
+      <VuiFlexContainer className="searchView" direction="column" alignItems="center" spacing="none">
         <VuiFlexItem className="searchControlsContainer">
           <SearchControls hasQuery={Boolean(isSearching || searchResults)} />
         </VuiFlexItem>
@@ -57,8 +36,6 @@ export const SearchView = () => {
         <VuiFlexItem grow={1} className="searchContent" alignItems="start">
           {content}
         </VuiFlexItem>
-
-        <AppFooter />
       </VuiFlexContainer>
     </>
   );

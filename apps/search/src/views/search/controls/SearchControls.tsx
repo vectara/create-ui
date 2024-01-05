@@ -13,7 +13,7 @@ import {
   VuiIcon,
   VuiButtonSecondary,
   VuiLink
-} from "../../../contexts/ui";
+} from "../../../ui";
 import { useSearchContext } from "../../../contexts/SearchContext";
 import { HistoryDrawer } from "./HistoryDrawer";
 import "./searchControls.scss";

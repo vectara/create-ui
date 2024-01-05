@@ -1,6 +1,7 @@
 import { useConfigContext } from "../../../contexts/ConfigurationContext";
-import { VuiFlexContainer, VuiFlexItem, VuiPrompt, VuiSpacer, VuiTextColor, VuiText } from "../../../contexts/ui";
+import { VuiFlexContainer, VuiFlexItem, VuiSpacer, VuiTextColor, VuiText } from "../../../ui";
 import { useSearchContext } from "../../../contexts/SearchContext";
+import { ExampleQuestion } from "./ExampleQuestion";
 import "./exampleQuestions.scss";
 
 export const ExampleQuestions = () => {
@@ -25,15 +26,14 @@ export const ExampleQuestions = () => {
       <VuiFlexContainer spacing="m" wrap className="promptList">
         {exampleQuestions.map((exampleQuestion) => (
           <VuiFlexItem grow={1} key={exampleQuestion}>
-            <VuiPrompt
+            <ExampleQuestion
               key={exampleQuestion}
               className="prompt"
               onClick={() => {
                 onSearch({ value: exampleQuestion });
               }}
-            >
-              {exampleQuestion}
-            </VuiPrompt>
+              title={exampleQuestion}
+            />
           </VuiFlexItem>
         ))}
       </VuiFlexContainer>

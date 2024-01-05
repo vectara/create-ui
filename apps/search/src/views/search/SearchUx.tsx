@@ -4,8 +4,7 @@ import { SearchResultList } from "./results/SearchResultList";
 import { SearchErrorCallout } from "./results/SearchErrorCallout";
 
 export const SearchUx = () => {
-  const { isSearching, searchError, searchResults, searchResultsRef, selectedSearchResultPosition } =
-    useSearchContext();
+  const { isSearching, searchError, searchResults } = useSearchContext();
 
   let content;
 
@@ -26,13 +25,7 @@ export const SearchUx = () => {
   } else if (searchError) {
     content = <SearchErrorCallout searchError={searchError} />;
   } else {
-    content = (
-      <SearchResultList
-        results={searchResults ?? []}
-        selectedSearchResultPosition={selectedSearchResultPosition}
-        setSearchResultRef={(el: HTMLDivElement | null, index: number) => (searchResultsRef.current[index] = el)}
-      />
-    );
+    content = <SearchResultList results={searchResults ?? []} />;
   }
 
   return (

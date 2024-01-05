@@ -15,13 +15,13 @@ import {
   VuiSpacer,
   VuiText,
   VuiTextColor,
-  VuiTitle,
+  VuiTitle
 } from "../../../ui";
 import { SUMMARY_LANGUAGES, SummaryLanguage, humanizeLanguage } from "../types";
 
 const languageOptions = SUMMARY_LANGUAGES.map((code) => ({
   value: code,
-  label: humanizeLanguage(code),
+  label: humanizeLanguage(code)
 }));
 
 type Props = {
@@ -40,11 +40,7 @@ export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
       isOpen={isOpen}
       onClose={onClose}
       title={
-        <VuiFlexContainer
-          justifyContent="spaceBetween"
-          alignItems="center"
-          spacing="xs"
-        >
+        <VuiFlexContainer justifyContent="spaceBetween" alignItems="center" spacing="xs">
           <VuiFlexItem>
             <VuiIcon size="s">
               <BiSlider />
@@ -105,7 +101,7 @@ export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
             onClick={() => {
               if (newLanguage !== language) {
                 onSearch({
-                  language: newLanguage as SummaryLanguage,
+                  language: newLanguage as SummaryLanguage
                 });
               }
 

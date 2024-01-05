@@ -1,12 +1,5 @@
 import { useConfigContext } from "../../../contexts/ConfigurationContext";
-import {
-  VuiFlexContainer,
-  VuiFlexItem,
-  VuiTitle,
-  VuiTextColor,
-  VuiButtonTertiary,
-  VuiButtonPrimary,
-} from "../../../ui";
+import { VuiFlexContainer, VuiFlexItem, VuiTitle, VuiTextColor } from "../../../ui";
 import "./appHeader.scss";
 
 export const AppHeader = () => {
@@ -22,11 +15,7 @@ export const AppHeader = () => {
           this would add the rel="noopener noreferrer" attribute to the
           link. */}
               {/* eslint-disable-next-line react/jsx-no-target-blank */}
-              <a
-                href={appHeader.logo.link ?? "https://vectara.com/"}
-                target="_blank"
-                className="appHeaderLogo"
-              >
+              <a href={appHeader.logo.link ?? "https://vectara.com/"} target="_blank" className="appHeaderLogo">
                 <img
                   src={appHeader.logo.src ?? "images/vectara_logo.png"}
                   alt={appHeader.logo.alt ?? "Vectara logo"}
@@ -42,34 +31,6 @@ export const AppHeader = () => {
                   <h1>{app.title ?? "Sample app"}</h1>
                 </VuiTextColor>
               </VuiTitle>
-            </VuiFlexItem>
-          </VuiFlexContainer>
-        </VuiFlexItem>
-
-        <VuiFlexItem grow={false}>
-          <VuiFlexContainer justifyContent="spaceBetween" alignItems="center">
-            {appHeader.learnMore.link && (
-              <VuiFlexItem>
-                <VuiButtonTertiary
-                  color="primary"
-                  size="m"
-                  href={appHeader.learnMore.link}
-                  target="_blank"
-                >
-                  {appHeader.learnMore.text ?? "About"}
-                </VuiButtonTertiary>
-              </VuiFlexItem>
-            )}
-
-            <VuiFlexItem>
-              <VuiButtonPrimary
-                color="primary"
-                size="m"
-                href="https://console.vectara.com/"
-                target="_blank"
-              >
-                Try Vectara now
-              </VuiButtonPrimary>
             </VuiFlexItem>
           </VuiFlexContainer>
         </VuiFlexItem>

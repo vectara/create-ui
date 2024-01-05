@@ -1,12 +1,6 @@
 import { createContext, useContext, ReactNode } from "react";
 
-import {
-  SummaryLanguage,
-  SUMMARY_LANGUAGES,
-  UxMode,
-  normal_reranker_id,
-  mmr_reranker_id,
-} from "../views/search/types";
+import { SummaryLanguage, SUMMARY_LANGUAGES, standardRerankerId, mmrRerankerId } from "../views/search/types";
 
 import { configuration } from "../configuration";
 
@@ -132,7 +126,6 @@ type Rerank = {
 type Hybrid = { numWords: number; lambdaLong: number; lambdaShort: number };
 
 interface ConfigContextType {
-  uxMode: UxMode;
   search: Search;
   app: App;
   appHeader: AppHeader;
@@ -150,10 +143,7 @@ type Props = {
   children: ReactNode;
 };
 
-const validateLanguage = (
-  lang: string,
-  defaultLanguage: SummaryLanguage
-): SummaryLanguage => {
+const validateLanguage = (lang: string, defaultLanguage: SummaryLanguage): SummaryLanguage => {
   if ((SUMMARY_LANGUAGES as readonly string[]).includes(lang)) {
     return lang as SummaryLanguage;
   }
@@ -199,18 +189,18 @@ const {
   summaryNumResults = 7,
   summaryNumSentences = 3,
   summaryPromptName = "vectara-summary-ext-v1.2.0",
-  summaryEnableHem = false,
+  summaryEnableHem = false
 } = configuration;
 
 const SEARCH_CONFIGS = {
   endpoint: configuration.endpoint,
   corpusId: configuration.corpusId,
   customerId: configuration.customerId,
-  apiKey: configuration.apiKey,
+  apiKey: configuration.apiKey
 };
 
 const APP_CONFIGS = {
-  title: configuration.appTitle ?? "",
+  title: configuration.appTitle ?? ""
 };
 
 const APP_HEADER_CONFIGS = {
@@ -218,41 +208,37 @@ const APP_HEADER_CONFIGS = {
     link: configuration.appHeaderLogoLink,
     src: configuration.appHeaderLogoSrc,
     alt: configuration.appHeaderLogoAlt,
-    height: configuration.appHeaderLogoHeight,
+    height: configuration.appHeaderLogoHeight
   },
   learnMore: {
     link: configuration.appHeaderLearnMoreLink,
-    text: configuration.appHeaderLearnMoreText,
-  },
+    text: configuration.appHeaderLearnMoreText
+  }
 };
 
 export const ConfigContextProvider = ({ children }: Props) => {
-  const uxMode = "summary";
   const exampleQuestions = configuration.questions ?? [];
   const rerankConfig = {
     isEnabled: mmr || rerank,
     numResults: mmr ? mmrNumResults : rerankNumResults ?? 50,
-    id: mmr ? mmr_reranker_id : normal_reranker_id,
-    diversityBias: mmrDiversityBias ?? 0.3,
+    id: mmr ? mmrRerankerId : standardRerankerId,
+    diversityBias: mmrDiversityBias ?? 0.3
   };
 
   const summary = {
-    defaultLanguage: validateLanguage(
-      summaryDefaultLanguage as SummaryLanguage,
-      "auto"
-    ),
+    defaultLanguage: validateLanguage(summaryDefaultLanguage as SummaryLanguage, "auto"),
     summaryNumResults,
     summaryNumSentences,
     summaryPromptName,
     hfToken,
-    summaryEnableHem: summaryEnableHem,
+    summaryEnableHem: summaryEnableHem
   };
 
   const isFilteringEnabled = enableSourceFilters;
   const normalizedSources =
     sources.map((source) => ({
       value: source.toLowerCase(),
-      label: source,
+      label: source
     })) ?? [];
 
   const sourceValueToLabelMap = normalizedSources.length
@@ -272,7 +258,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
     isEnabled: isFilteringEnabled,
     allSources,
     sources: normalizedSources,
-    sourceValueToLabelMap: sourceValueToLabelMap,
+    sourceValueToLabelMap: sourceValueToLabelMap
   };
 
   const searchHeader = {
@@ -280,23 +266,22 @@ export const ConfigContextProvider = ({ children }: Props) => {
       link: searchLogoLink,
       src: searchLogoSrc,
       alt: searchLogoAlt,
-      height: searchLogoHeight,
+      height: searchLogoHeight
     },
     title: searchTitle,
     description: searchDescription,
-    placeholder: searchPlaceholder,
+    placeholder: searchPlaceholder
   };
 
   const hybrid = {
     numWords: hybridSearchNumWords ?? 1,
     lambdaLong: hybridSearchLambdaLong,
-    lambdaShort: hybridSearchLambdaShort,
+    lambdaShort: hybridSearchLambdaShort
   };
 
   return (
     <ConfigContext.Provider
       value={{
-        uxMode,
         search: SEARCH_CONFIGS,
         app: APP_CONFIGS,
         appHeader: APP_HEADER_CONFIGS,
@@ -305,7 +290,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         rerank: rerankConfig,
         hybrid,
         searchHeader,
-        exampleQuestions,
+        exampleQuestions
       }}
     >
       {children}
@@ -316,9 +301,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
 export const useConfigContext = () => {
   const context = useContext(ConfigContext);
   if (context === undefined) {
-    throw new Error(
-      "useConfigContext must be used within a ConfigContextProvider"
-    );
+    throw new Error("useConfigContext must be used within a ConfigContextProvider");
   }
   return context;
 };

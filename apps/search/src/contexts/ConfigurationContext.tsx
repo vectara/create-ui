@@ -1,90 +1,60 @@
-import {
-  createContext,
-  useEffect,
-  useContext,
-  ReactNode,
-  useState,
-} from "react";
-import axios from "axios";
+import { createContext, useContext, ReactNode } from "react";
 
-import {
-  SummaryLanguage,
-  SUMMARY_LANGUAGES,
-  UxMode,
-  normal_reranker_id,
-  mmr_reranker_id,
-} from "../views/search/types";
+import { standardRerankerId, mmrRerankerId } from "../views/search/types";
 
-interface Config {
+import { configuration } from "../configuration";
+
+export interface Config {
   // Search
-  config_endpoint?: string;
-  config_corpus_id?: string;
-  config_customer_id?: string;
-  config_api_key?: string;
+  endpoint: string;
+  corpusId: string;
+  customerId: string;
+  apiKey: string;
+
+  hfToken?: string;
 
   // App
-  config_ux?: UxMode;
-  config_app_title?: string;
-  config_enable_app_header?: string;
-  config_enable_app_footer?: string;
+  appTitle?: string;
 
   // App header
-  config_app_header_logo_link?: string;
-  config_app_header_logo_src?: string;
-  config_app_header_logo_alt?: string;
-  config_app_header_logo_height?: string;
-  config_app_header_learn_more_link?: string;
-  config_app_header_learn_more_text?: string;
+  appHeaderLogoLink?: string;
+  appHeaderLogoSrc?: string;
+  appHeaderLogoAlt?: string;
+  appHeaderLogoHeight?: string;
+  appHeaderLearnMoreLink?: string;
+  appHeaderLearnMoreText?: string;
 
   // Filters
-  config_enable_source_filters?: string;
-  config_all_sources?: string;
-  config_sources?: string;
+  enableSourceFilters?: boolean;
+  allSources?: boolean;
+  sources?: string[];
 
   // Search header
-  config_search_logo_link?: string;
-  config_search_logo_src?: string;
-  config_search_logo_alt?: string;
-  config_search_logo_height?: string;
-  config_search_title?: string;
-  config_search_description?: string;
-  config_search_placeholder?: string;
-
-  // Auth
-  config_authenticate?: string;
-  config_google_client_id?: string;
-
-  // Analytics
-  config_google_analytics_tracking_code?: string;
-  config_full_story_org_id?: string;
-
-  // Summary
-  config_summary_default_language?: string;
-  config_summary_num_results?: number;
-  config_summary_num_sentences?: number;
-  config_summary_prompt_name?: string;
+  searchTitle?: string;
+  searchLogoLink?: string;
+  searchLogoSrc?: string;
+  searchLogoAlt?: string;
+  searchLogoHeight?: string;
+  searchDescription?: string;
+  searchPlaceholder?: string;
 
   // hybrid search
-  config_hybrid_search_num_words?: number;
-  config_hybrid_search_lambda_long?: number;
-  config_hybrid_search_lambda_short?: number;
+  hybridSearchNumWords?: number;
+  hybridSearchLambdaLong?: number;
+  hybridSearchLambdaShort?: number;
 
   // rerank
-  config_rerank?: string;
-  config_rerank_num_results?: number;
+  rerank?: boolean;
+  rerankNumResults?: number;
 
   // MMR
-  config_mmr?: string;
-  config_mmr_num_results?: number;
-  config_mmr_diversity_bias?: number;
+  mmr?: boolean;
+  mmrNumResults?: number;
+  mmrDiversityBias?: number;
 
   // questions
-  config_questions?: string;
+  questions?: string[];
 }
-
-type ConfigProp = keyof Config;
-
-const requiredConfigVars = ["corpus_id", "customer_id", "api_key", "endpoint"];
 
 type Search = {
   endpoint?: string;
@@ -94,8 +64,6 @@ type Search = {
 };
 
 type App = {
-  isHeaderEnabled: boolean;
-  isFooterEnabled: boolean;
   title: string;
 };
 
@@ -120,13 +88,6 @@ type Filters = {
   sourceValueToLabelMap?: Record<string, string>;
 };
 
-type Summary = {
-  defaultLanguage: string;
-  summaryNumResults: number;
-  summaryNumSentences: number;
-  summaryPromptName: string;
-};
-
 type SearchHeader = {
   logo: {
     link?: string;
@@ -140,11 +101,6 @@ type SearchHeader = {
 };
 
 type ExampleQuestions = string[];
-type Auth = { isEnabled: boolean; googleClientId?: string };
-type Analytics = {
-  googleAnalyticsTrackingCode?: string;
-  fullStoryOrgId?: string;
-};
 type Rerank = {
   isEnabled: boolean;
   numResults?: number;
@@ -154,21 +110,14 @@ type Rerank = {
 type Hybrid = { numWords: number; lambdaLong: number; lambdaShort: number };
 
 interface ConfigContextType {
-  isConfigLoaded: boolean;
-  missingConfigProps: string[];
-  uxMode: UxMode;
-  setUxMode: (uxMode: UxMode) => void;
   search: Search;
   app: App;
   appHeader: AppHeader;
   filters: Filters;
-  summary: Summary;
   rerank: Rerank;
   hybrid: Hybrid;
   searchHeader: SearchHeader;
   exampleQuestions: ExampleQuestions;
-  auth: Auth;
-  analytics: Analytics;
 }
 
 const ConfigContext = createContext<ConfigContextType | undefined>(undefined);
@@ -177,316 +126,127 @@ type Props = {
   children: ReactNode;
 };
 
-const isProduction = process.env.NODE_ENV === "production";
+const {
+  searchTitle,
 
-const fetchConfig = async () => {
-  const headers = {
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-  };
-  const result = await axios.post("/config", undefined, headers);
-  return result;
+  // Filters
+  enableSourceFilters = false,
+  allSources = true,
+  sources = [],
+
+  // Search header
+  searchLogoLink,
+  searchLogoSrc,
+  searchLogoAlt,
+  searchLogoHeight,
+
+  searchDescription,
+  searchPlaceholder,
+
+  // rerank
+  rerank = false,
+  rerankNumResults,
+
+  // MMR
+  mmr = false,
+  mmrDiversityBias,
+  mmrNumResults,
+
+  // hybrid search
+  hybridSearchNumWords = 2,
+  hybridSearchLambdaLong = 0.0,
+  hybridSearchLambdaShort = 0.1
+} = configuration;
+
+const SEARCH_CONFIGS = {
+  endpoint: configuration.endpoint,
+  corpusId: configuration.corpusId,
+  customerId: configuration.customerId,
+  apiKey: configuration.apiKey
 };
 
-const isTrue = (value: string | undefined) => value === "True";
-
-// Prefix config vars to avoid collision with other variables.
-const prefixConfig = (
-  config: Record<string, string | undefined>,
-  existingPrefix = ""
-) => {
-  const prefixedConfig = Object.keys(config).reduce((accum, key) => {
-    if (key.startsWith(existingPrefix)) {
-      const unprefixedKey = key.replace(existingPrefix, "config_");
-      accum[unprefixedKey] = config[key];
-    } else {
-      const unprefixedKey = `config_${key}`;
-      accum[unprefixedKey] = config[key];
-    }
-    return accum;
-  }, {} as Record<string, string | undefined>);
-  return prefixedConfig;
+const APP_CONFIGS = {
+  title: configuration.appTitle ?? ""
 };
 
-const validateLanguage = (
-  lang: string,
-  defaultLanguage: SummaryLanguage
-): SummaryLanguage => {
-  if ((SUMMARY_LANGUAGES as readonly string[]).includes(lang)) {
-    return lang as SummaryLanguage;
+const APP_HEADER_CONFIGS = {
+  logo: {
+    link: configuration.appHeaderLogoLink,
+    src: configuration.appHeaderLogoSrc,
+    alt: configuration.appHeaderLogoAlt,
+    height: configuration.appHeaderLogoHeight
+  },
+  learnMore: {
+    link: configuration.appHeaderLearnMoreLink,
+    text: configuration.appHeaderLearnMoreText
   }
-  return defaultLanguage;
 };
 
 export const ConfigContextProvider = ({ children }: Props) => {
-  const [isConfigLoaded, setIsConfigLoaded] = useState(false);
-  const [missingConfigProps, setMissingConfigProps] = useState<string[]>([]);
-  const [uxMode, setUxMode] = useState<UxMode>("summary");
-  const [search, setSearch] = useState<Search>({});
-  const [app, setApp] = useState<App>({
-    isHeaderEnabled: false,
-    isFooterEnabled: false,
-    title: "",
-  });
-  const [appHeader, setAppHeader] = useState<AppHeader>({
-    logo: {},
-    learnMore: {},
-  });
-  const [filters, setFilters] = useState<Filters>({
-    isEnabled: false,
-    sources: [],
-    allSources: true,
-    sourceValueToLabelMap: {},
-  });
-  const [searchHeader, setSearchHeader] = useState<SearchHeader>({ logo: {} });
-  const [exampleQuestions, setExampleQuestions] = useState<ExampleQuestions>(
-    []
-  );
-  const [auth, setAuth] = useState<Auth>({ isEnabled: false });
-  const [analytics, setAnalytics] = useState<Analytics>({});
-  const [rerank, setRerank] = useState<Rerank>({
-    isEnabled: false,
-    numResults: 50,
-    id: 272725718,
-    diversityBias: 0.3,
-  });
-  const [hybrid, setHybrid] = useState<Hybrid>({
-    numWords: 2,
-    lambdaLong: 0.0,
-    lambdaShort: 0.1,
-  });
+  const exampleQuestions = configuration.questions ?? [];
+  const rerankConfig = {
+    isEnabled: mmr || rerank,
+    numResults: mmr ? mmrNumResults : rerankNumResults ?? 50,
+    id: mmr ? mmrRerankerId : standardRerankerId,
+    diversityBias: mmrDiversityBias ?? 0.3
+  };
 
-  const [summary, setSummary] = useState<Summary>({
-    defaultLanguage: "auto",
-    summaryNumResults: 7,
-    summaryNumSentences: 3,
-    summaryPromptName: "vectara-summary-ext-v1.2.0",
-  });
+  const isFilteringEnabled = enableSourceFilters;
+  const normalizedSources =
+    sources.map((source) => ({
+      value: source.toLowerCase(),
+      label: source
+    })) ?? [];
 
-  useEffect(() => {
-    const loadConfig = async () => {
-      let config: Config;
-      if (isProduction) {
-        const result = await fetchConfig();
-        config = prefixConfig(result.data);
+  const sourceValueToLabelMap = normalizedSources.length
+    ? normalizedSources.reduce((accum, { label, value }) => {
+        accum[value] = label;
+        return accum;
+      }, {} as Record<string, string>)
+    : undefined;
 
-        if (config.config_questions) {
-          setExampleQuestions(JSON.parse(config.config_questions));
-        }
-      } else {
-        config = prefixConfig(process.env, "REACT_APP_");
-        const questions = process.env.REACT_APP_questions;
-        if (questions) {
-          setExampleQuestions(JSON.parse(questions));
-        }
-      }
+  if (isFilteringEnabled && sources.length === 0) {
+    console.error(
+      'enableSourceFilters is set to true but sources is empty. Define some sources for filtering or set enable_source_filters to "False"'
+    );
+  }
 
-      setIsConfigLoaded(true);
+  const filters = {
+    isEnabled: isFilteringEnabled,
+    allSources,
+    sources: normalizedSources,
+    sourceValueToLabelMap: sourceValueToLabelMap
+  };
 
-      const missingConfigProps = requiredConfigVars.reduce(
-        (accum, configVarName) => {
-          if (config[`config_${configVarName}` as ConfigProp] === undefined)
-            accum.push(configVarName);
-          return accum;
-        },
-        [] as string[]
-      );
-      setMissingConfigProps(missingConfigProps);
+  const searchHeader = {
+    logo: {
+      link: searchLogoLink,
+      src: searchLogoSrc,
+      alt: searchLogoAlt,
+      height: searchLogoHeight
+    },
+    title: searchTitle,
+    description: searchDescription,
+    placeholder: searchPlaceholder
+  };
 
-      const {
-        // Search
-        config_endpoint,
-        config_corpus_id,
-        config_customer_id,
-        config_api_key,
-
-        // App
-        config_ux,
-        config_app_title,
-        config_enable_app_header,
-        config_enable_app_footer,
-
-        // Filters
-        config_enable_source_filters,
-        config_all_sources,
-        config_sources,
-
-        // App header
-        config_app_header_logo_link,
-        config_app_header_logo_src,
-        config_app_header_logo_alt,
-        config_app_header_logo_height,
-        config_app_header_learn_more_link,
-        config_app_header_learn_more_text,
-
-        // Search header
-        config_search_logo_link,
-        config_search_logo_src,
-        config_search_logo_alt,
-        config_search_logo_height,
-        config_search_title,
-        config_search_description,
-        config_search_placeholder,
-
-        // Auth
-        config_authenticate,
-        config_google_client_id,
-
-        // Analytics
-        config_google_analytics_tracking_code,
-        config_full_story_org_id,
-
-        // rerank
-        config_rerank,
-        config_rerank_num_results,
-
-        // MMR
-        config_mmr,
-        config_mmr_diversity_bias,
-        config_mmr_num_results,
-
-        // hybrid search
-        config_hybrid_search_num_words,
-        config_hybrid_search_lambda_long,
-        config_hybrid_search_lambda_short,
-
-        // Summary
-        config_summary_default_language,
-        config_summary_num_results,
-        config_summary_num_sentences,
-        config_summary_prompt_name,
-      } = config;
-
-      setUxMode(config_ux ?? "summary");
-
-      setSearch({
-        endpoint: config_endpoint,
-        corpusId: config_corpus_id,
-        customerId: config_customer_id,
-        apiKey: config_api_key,
-      });
-
-      setApp({
-        title: config_app_title ?? "",
-        isHeaderEnabled: isTrue(config_enable_app_header ?? "True"),
-        isFooterEnabled: isTrue(config_enable_app_footer ?? "True"),
-      });
-
-      setAppHeader({
-        logo: {
-          link: config_app_header_logo_link,
-          src: config_app_header_logo_src,
-          alt: config_app_header_logo_alt,
-          height: config_app_header_logo_height,
-        },
-        learnMore: {
-          link: config_app_header_learn_more_link,
-          text: config_app_header_learn_more_text,
-        },
-      });
-
-      const isFilteringEnabled = isTrue(config_enable_source_filters);
-      const allSources =
-        config_all_sources === undefined ? true : isTrue(config_all_sources);
-
-      const sources =
-        config_sources?.split(",").map((source) => ({
-          value: source.toLowerCase(),
-          label: source,
-        })) ?? [];
-
-      const sourceValueToLabelMap = sources.length
-        ? sources.reduce((accum, { label, value }) => {
-            accum[value] = label;
-            return accum;
-          }, {} as Record<string, string>)
-        : undefined;
-
-      if (isFilteringEnabled && sources.length === 0) {
-        console.error(
-          'enable_source_filters is set to "True" but sources is empty. Define some sources for filtering or set enable_source_filters to "False"'
-        );
-      }
-
-      setFilters({
-        isEnabled: isFilteringEnabled,
-        allSources: allSources,
-        sources,
-        sourceValueToLabelMap,
-      });
-
-      setSummary({
-        defaultLanguage: validateLanguage(
-          config_summary_default_language as SummaryLanguage,
-          "auto"
-        ),
-        summaryNumResults: config_summary_num_results ?? 7,
-        summaryNumSentences: config_summary_num_sentences ?? 3,
-        summaryPromptName:
-          config_summary_prompt_name ?? "vectara-summary-ext-v1.2.0",
-      });
-
-      setSearchHeader({
-        logo: {
-          link: config_search_logo_link,
-          src: config_search_logo_src,
-          alt: config_search_logo_alt,
-          height: config_search_logo_height,
-        },
-        title: config_search_title,
-        description: config_search_description,
-        placeholder: config_search_placeholder,
-      });
-
-      setAuth({
-        isEnabled: isTrue(config_authenticate),
-        googleClientId: config_google_client_id,
-      });
-
-      setAnalytics({
-        googleAnalyticsTrackingCode: config_google_analytics_tracking_code,
-        fullStoryOrgId: config_full_story_org_id,
-      });
-
-      setRerank({
-        isEnabled: isTrue(config_mmr) || isTrue(config_rerank),
-        numResults: isTrue(config_mmr)
-          ? config_mmr_num_results
-          : config_rerank_num_results ?? rerank.numResults,
-        id: isTrue(config_mmr) ? mmr_reranker_id : normal_reranker_id,
-        diversityBias: config_mmr_diversity_bias ?? rerank.diversityBias,
-      });
-
-      setHybrid({
-        numWords: config_hybrid_search_num_words ?? hybrid.numWords,
-        lambdaLong: config_hybrid_search_lambda_long ?? hybrid.lambdaLong,
-        lambdaShort: config_hybrid_search_lambda_short ?? hybrid.lambdaShort,
-      });
-    };
-    loadConfig();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const hybrid = {
+    numWords: hybridSearchNumWords ?? 1,
+    lambdaLong: hybridSearchLambdaLong,
+    lambdaShort: hybridSearchLambdaShort
+  };
 
   return (
     <ConfigContext.Provider
       value={{
-        isConfigLoaded,
-        missingConfigProps,
-        uxMode,
-        setUxMode,
-        search,
-        app,
-        appHeader,
+        search: SEARCH_CONFIGS,
+        app: APP_CONFIGS,
+        appHeader: APP_HEADER_CONFIGS,
         filters,
-        summary,
-        rerank,
+        rerank: rerankConfig,
         hybrid,
         searchHeader,
-        exampleQuestions,
-        auth,
-        analytics,
+        exampleQuestions
       }}
     >
       {children}
@@ -497,9 +257,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
 export const useConfigContext = () => {
   const context = useContext(ConfigContext);
   if (context === undefined) {
-    throw new Error(
-      "useConfigContext must be used within a ConfigContextProvider"
-    );
+    throw new Error("useConfigContext must be used within a ConfigContextProvider");
   }
   return context;
 };
