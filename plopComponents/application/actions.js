@@ -5,8 +5,8 @@ const configFiles = ["build.js", "global.d.ts", "tsconfig.json", "package.json",
 
 const appTypeToTemplateDir = {
   search: "search",
-  questionAndAnswer: "qa",
-  preset: "qa"
+  searchSummary: "searchSummary",
+  preset: "searchSummary"
 };
 
 let appName;
@@ -37,8 +37,8 @@ module.exports = {
   },
 
   getActions: (data, dir) => {
-    const configFile = ["preset", "questionAndAnswer"].includes(data.appType) ? "/src/configuration.ts" : ".env";
-    const configTemplate = ["preset", "questionAndAnswer"].includes(data.appType) ? "configuration.hbs" : "env.hbs";
+    const configFile = ["preset", "searchSummary"].includes(data.appType) ? "/src/configuration.ts" : ".env";
+    const configTemplate = ["preset", "searchSummary"].includes(data.appType) ? "configuration.hbs" : "env.hbs";
     return [
       { type: "Create app folder" },
       { type: "Copy files" },

@@ -1,13 +1,14 @@
-# Vectara sample code for a Search UI
+# Vectara sample code for a Search Summary UI
 
-This app provides working sample code for implementing a Search UI that's powered by [Vectara](https://vectara.com/). It was generated using the [Create UI code-generator](https://github.com/vectara/create-ui).
+This app provides working sample code for implementing a Search Summary UI that's powered by [Vectara](https://vectara.com/). It was generated using the [Create UI code-generator](https://github.com/vectara/create-ui).
 
-The Search UI is characterized by:
+The Search Summary UI is characterized by:
 
 - A search box for entering a natural-language query. This can take the form of a question or just search terms.
-- A list of search results.
+- A \*\*list of search results.
+- A summary of search results that are most relevant to the query, with citations.
 
-A user will typically scan the list for relevant results and dig deeper into any results that look interesting. They'll try variations on the same basic query to make sure they find as many potentially useful results as possible.
+A user will typically scan the summary for points of interest, which is faster than reviewing the list of search results. If an aspect of the summary catches their eye, they'll dig deeper into the cited search result. They'll repeat this pattern until they've reviewed all of the interesting information that was relevant to their query.
 
 ## Dependencies
 

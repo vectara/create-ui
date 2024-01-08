@@ -1,12 +1,13 @@
 import { BrowserRouter as Router } from "react-router-dom";
-import { SearchView } from "./view/SearchView";
+import { SearchView } from "./views/SearchView";
+import { useConfigContext } from "./contexts/ConfigurationContext";
 import { SearchContextProvider } from "./contexts/SearchContext";
-import { useConfigContext, ConfigContextProvider } from "./contexts/ConfigurationContext";
+import { ConfigContextProvider } from "./contexts/ConfigurationContext";
 import "./App.scss";
 
 const AppRoutes = () => {
   const { app } = useConfigContext();
-  document.title = app.title ?? "Vectara Search";
+  document.title = app.title ?? "Vectara Q&A";
 
   return (
     <Router>

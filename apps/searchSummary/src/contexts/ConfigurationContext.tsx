@@ -1,6 +1,6 @@
 import { createContext, useContext, ReactNode } from "react";
 
-import { standardRerankerId, mmrRerankerId } from "../view/types";
+import { SummaryLanguage, SUMMARY_LANGUAGES, standardRerankerId, mmrRerankerId } from "../views/types";
 
 import { configuration } from "../configuration";
 
@@ -37,6 +37,13 @@ export interface Config {
   searchLogoHeight?: string;
   searchDescription?: string;
   searchPlaceholder?: string;
+
+  // Summary
+  summaryDefaultLanguage?: string;
+  summaryNumResults?: number;
+  summaryNumSentences?: number;
+  summaryPromptName?: string;
+  summaryEnableHem?: boolean;
 
   // hybrid search
   hybridSearchNumWords?: number;
@@ -88,6 +95,15 @@ type Filters = {
   sourceValueToLabelMap?: Record<string, string>;
 };
 
+type Summary = {
+  defaultLanguage: string;
+  summaryNumResults: number;
+  summaryNumSentences: number;
+  summaryPromptName: string;
+  hfToken: string;
+  summaryEnableHem: boolean;
+};
+
 type SearchHeader = {
   logo: {
     link?: string;
@@ -114,6 +130,7 @@ interface ConfigContextType {
   app: App;
   appHeader: AppHeader;
   filters: Filters;
+  summary: Summary;
   rerank: Rerank;
   hybrid: Hybrid;
   searchHeader: SearchHeader;
@@ -126,8 +143,18 @@ type Props = {
   children: ReactNode;
 };
 
+const validateLanguage = (lang: string, defaultLanguage: SummaryLanguage): SummaryLanguage => {
+  if ((SUMMARY_LANGUAGES as readonly string[]).includes(lang)) {
+    return lang as SummaryLanguage;
+  }
+  return defaultLanguage;
+};
+
 const {
   searchTitle,
+
+  // Search
+  hfToken = "",
 
   // Filters
   enableSourceFilters = false,
@@ -155,7 +182,14 @@ const {
   // hybrid search
   hybridSearchNumWords = 2,
   hybridSearchLambdaLong = 0.0,
-  hybridSearchLambdaShort = 0.1
+  hybridSearchLambdaShort = 0.1,
+
+  // Summary
+  summaryDefaultLanguage,
+  summaryNumResults = 7,
+  summaryNumSentences = 3,
+  summaryPromptName = "vectara-summary-ext-v1.2.0",
+  summaryEnableHem = false
 } = configuration;
 
 const SEARCH_CONFIGS = {
@@ -189,6 +223,15 @@ export const ConfigContextProvider = ({ children }: Props) => {
     numResults: mmr ? mmrNumResults : rerankNumResults ?? 50,
     id: mmr ? mmrRerankerId : standardRerankerId,
     diversityBias: mmrDiversityBias ?? 0.3
+  };
+
+  const summary = {
+    defaultLanguage: validateLanguage(summaryDefaultLanguage as SummaryLanguage, "auto"),
+    summaryNumResults,
+    summaryNumSentences,
+    summaryPromptName,
+    hfToken,
+    summaryEnableHem: summaryEnableHem
   };
 
   const isFilteringEnabled = enableSourceFilters;
@@ -243,6 +286,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         app: APP_CONFIGS,
         appHeader: APP_HEADER_CONFIGS,
         filters,
+        summary,
         rerank: rerankConfig,
         hybrid,
         searchHeader,
