@@ -2,3 +2,7 @@ node_modules/
 dev/
 .env
 .DS_Store
+
+apps/**/configuration.ts
+apps/**/node_modules/
+apps/**/package-lock.json

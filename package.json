@@ -11,8 +11,8 @@
     "install-dependencies": "node steps/installDeps.js",
     "plop": "plop",
     "release": "release-it --access public",
-    "dev:search": "node scripts/dev.js --template=search",
-    "dev:searchSummary": "node scripts/dev.js --template=searchSummary"
+    "dev:search": "cd apps/search && cp ../../sampleConfigurations/search-configuration.ts ./src/configuration.ts && npm install && npm run start",
+    "dev:searchSummary": "cd apps/searchSummary && cp ../../sampleConfigurations/searchSummary-configuration.ts ./src/configuration.ts && npm install && npm run start"
   },
   "author": "Deryk DeGuzman",
   "license": "UNLICENSED",
@@ -20,8 +20,6 @@
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "async": "^3.2.5",
-    "chalk": "^4.1.2",
-    "chokidar": "^3.5.3",
     "minimist": "^1.2.8",
     "plop": "^4.0.0"
   },
