@@ -1,5 +1,5 @@
 import { BrowserRouter as Router } from "react-router-dom";
-import { SearchView } from "./views/SearchView";
+import { SearchView } from "./view/SearchView";
 import { useConfigContext } from "./contexts/ConfigurationContext";
 import { SearchContextProvider } from "./contexts/SearchContext";
 import { ConfigContextProvider } from "./contexts/ConfigurationContext";

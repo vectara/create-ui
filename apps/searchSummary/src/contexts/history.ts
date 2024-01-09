@@ -1,4 +1,4 @@
-import { SummaryLanguage } from "../views/types";
+import { SummaryLanguage } from "../view/types";
 
 export type HistoryItem = {
   query: string;

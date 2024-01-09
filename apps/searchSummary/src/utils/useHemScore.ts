@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { HfInference, HfInferenceEndpoint } from "@huggingface/inference";
-import { DeserializedSearchResult } from "../views/types";
+import { DeserializedSearchResult } from "../view/types";
 
 const API_URL = "https://api-inference.huggingface.co/models/vectara/hallucination_evaluation_model";
 
