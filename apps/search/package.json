@@ -56,9 +56,7 @@
     "eject": "react-scripts eject",
     "serve": "node server/index.js",
     "lint": "eslint .",
-    "format": "prettier --write .",
-    "configure": "plop",
-    "bootstrap": "npm install && npm run configure && npm run start"
+    "format": "prettier --write ."
   },
   "browserslist": {
     "production": [
