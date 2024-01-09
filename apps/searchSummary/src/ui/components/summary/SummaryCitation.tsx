@@ -1,23 +1,19 @@
 import classNames from "classnames";
-import { VuiButtonSecondary } from "../button/ButtonSecondary";
 
 type Props = {
   reference: string;
   isSelected?: boolean;
   onClick?: () => void;
+  className?: string;
 };
 
-export const VuiSummaryCitation = ({
-  reference,
-  isSelected,
-  onClick,
-}: Props) => {
-  const classes = classNames("vuiSummaryCitation", {
-    "vuiSummaryCitation-isSelected": isSelected,
+export const VuiSummaryCitation = ({ reference, isSelected, onClick, className, ...rest }: Props) => {
+  const classes = classNames("vuiSummaryCitation", className, {
+    "vuiSummaryCitation-isSelected": isSelected
   });
 
   return (
-    <button className={classes} onClick={onClick}>
+    <button className={classes} onClick={onClick} {...rest}>
       {reference}
     </button>
   );

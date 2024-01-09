@@ -37,6 +37,7 @@ module.exports = {
       choices: [
         { name: "Search", value: "search" },
         { name: "Search Summary", value: "searchSummary" },
+        { name: "Question and Answer", value: "questionAndAnswer" },
         { name: "Preconfigured demo", value: "preset" }
       ]
     });

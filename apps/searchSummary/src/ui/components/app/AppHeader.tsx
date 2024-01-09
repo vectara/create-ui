@@ -11,7 +11,7 @@ export const VuiAppHeader = ({ left, right, ...rest }: Props) => {
     <div className="vuiAppHeader" {...rest}>
       <VuiFlexContainer className="vuiAppHeader__inner" justifyContent="spaceBetween" alignItems="center">
         {Boolean(left) && (
-          <VuiFlexItem grow={1} shrink={false}>
+          <VuiFlexItem grow={false} shrink={false}>
             {left}
           </VuiFlexItem>
         )}
