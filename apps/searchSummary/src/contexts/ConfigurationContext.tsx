@@ -1,6 +1,6 @@
 import { createContext, useContext, ReactNode } from "react";
 
-import { SummaryLanguage, SUMMARY_LANGUAGES, standardRerankerId, mmrRerankerId } from "../views/types";
+import { SummaryLanguage, SUMMARY_LANGUAGES, standardRerankerId, mmrRerankerId } from "../view/types";
 
 import { configuration } from "../configuration";
 
