@@ -5,7 +5,9 @@ const appTypeToTemplateDir = {
   search: "search",
   searchSummary: "searchSummary",
   questionAndAnswer: "questionAndAnswer",
-  preset: "searchSummary"
+  demoDocs: "searchSummary",
+  demoFeynman: "searchSummary",
+  demoDotcom: "searchSummary"
 };
 
 let appName;
@@ -36,8 +38,6 @@ module.exports = {
   },
 
   getActions: (data, dir) => {
-    // const configFile = ["preset", "searchSummary"].includes(data.appType) ? "/src/configuration.ts" : ".env";
-    // const configTemplate = ["preset", "searchSummary"].includes(data.appType) ? "configuration.hbs" : "env.hbs";
     return [
       { type: "Create app folder" },
       { type: "Copy files" },

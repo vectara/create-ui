@@ -1,30 +1,36 @@
-const vectaraWebsiteQuestions = require(`${__dirname}/../../sampleData/vectara-website/queries.json`);
-const vectaraDocsQuestions = require(`${__dirname}/../../sampleData/vectara-docs/queries.json`);
-const askFeynmanQuestions = require(`${__dirname}/../../sampleData/ask-feynman/queries.json`);
-
 const DEFAULT_CONFIGS = {
-  "vectara-docs": {
+  demoDocs: {
     customerId: "1366999410",
     corpusId: "1",
     apiKey: "zqt_UXrBcnI2UXINZkrv4g1tQPhzj02vfdtqYJIDiA",
     appName: "Vectara Docs",
-    questions: JSON.stringify(vectaraDocsQuestions.questions)
+    questions: [
+      "How do I enable hybrid search?",
+      "How is data encrypted?",
+      "What is a textless corpus?",
+      "How do I configure OAuth?"
+    ]
   },
 
-  "vectara-website": {
+  demoDotcom: {
     customerId: "1366999410",
     corpusId: "2",
     apiKey: "zqt_UXrBcnnt4156FZqMtzK8OEoZqcR0OrecS5Bb6Q",
     appName: "Vectara.com Q&A",
-    questions: JSON.stringify(vectaraWebsiteQuestions.questions)
+    questions: ["What is grounded generation?", "How do I index a document?", "What does Vectara do?", "Who is Amr?"]
   },
 
-  "ask-feynman": {
+  demoFeynman: {
     customerId: "1366999410",
     corpusId: "3",
     apiKey: "zqt_UXrBclYURJiAW9MiKT1L60EJC6iaIoWYj_bSJg",
     appName: "Ask Feynman",
-    questions: JSON.stringify(askFeynmanQuestions.questions)
+    questions: [
+      "Who figured out the motion of the planets?",
+      "Is light a particle or a wave?",
+      "What is a Pauli Spin matrix?",
+      "What's the importance of the two slit experiment?"
+    ]
   }
 };
 
@@ -33,37 +39,41 @@ module.exports = {
     const appTypeAns = await inquirer.prompt({
       type: "list",
       name: "appType",
-      message: "What type of UI would you like to create?",
-      choices: [
-        { name: "Search", value: "search" },
-        { name: "Search Summary", value: "searchSummary" },
-        { name: "Question and Answer", value: "questionAndAnswer" },
-        { name: "Preconfigured demo", value: "preset" }
-      ]
-    });
+      message: `
+╭―――――――――――――――――――――――――――╮
+│                           │
+│     Vectara Sample UI     │
+│                           │
+╰―――――――――――――――――――――――――――╯
 
-    const isDemoUi = appTypeAns.appType === "preset";
-
-    const presetAppDirNameAns = await inquirer.prompt({
-      when: () => isDemoUi,
-      type: "list",
-      name: "presetAppDirName",
-      message: "Choose a pre-built sample UI.",
+Create a sample UI codebase powered by the Vectara Platform.
+Which type of codebase would you like to create?\n`,
       choices: [
+        { name: "Search              | A typical semantic search UI. Connect it to your own corpus.", value: "search" },
         {
-          name: "Vectara Docs - Answer questions about Vectara's platform documentation",
-          value: "vectara-docs"
+          name: "Search Summary      | Like search, but preceded by a summary of the most relevant results.",
+          value: "searchSummary"
         },
         {
-          name: "Vectara.com Q&A - Answer questions about Vectara's company website",
-          value: "vectara-website"
+          name: "Question and Answer | Expects the user to ask a question instead of entering search terms.",
+          value: "questionAndAnswer"
         },
         {
-          name: "Ask Feynman - Answer questions about Richard Feynman's lectures",
-          value: "ask-feynman"
+          name: "Demo: Docs          | A preconfigured demo for asking questions about Vectara's docs.",
+          value: "demoDocs"
+        },
+        {
+          name: "Demo: Science       | Another preconfigured demo, but with Richard Feynman's lectures.",
+          value: "demoFeynman"
+        },
+        {
+          name: "Demo: Vectara.com   | Another preconfigured demo, but with content from our website.",
+          value: "demoDotcom"
         }
       ]
     });
+
+    const isDemoUi = ["demoDocs", "demoFeynman", "demoDotcom"].includes(appTypeAns.appType);
 
     const customAppDirNameAns = await inquirer.prompt({
       when: () => !isDemoUi,
@@ -130,7 +140,7 @@ module.exports = {
       } while (moreQuestionsAns.value);
     }
 
-    const appDirName = presetAppDirNameAns.presetAppDirName ?? customAppDirNameAns.customAppDirName;
+    const appDirName = isDemoUi ? appTypeAns.appType : customAppDirNameAns.customAppDirName;
 
     const promptAnswers = {
       ...appTypeAns,
@@ -139,7 +149,7 @@ module.exports = {
       ...apiKeyAns,
       ...appNameAns,
       appDirName,
-      questions: JSON.stringify(questions)
+      questions
     };
 
     // Overlay default answers if app is a preset app.
@@ -147,6 +157,8 @@ module.exports = {
       ...promptAnswers,
       ...(DEFAULT_CONFIGS[appDirName] ?? {})
     };
+
+    ans.questions = JSON.stringify(ans.questions);
 
     return ans;
   }
