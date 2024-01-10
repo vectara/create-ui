@@ -5,14 +5,14 @@ const searchResult1 = {
   snippet: {
     pre: "pre",
     text: "text",
-    post: "post",
+    post: "post"
   },
   source: "source1",
   url: "url1",
   title: "title1",
   metadata: {
-    key: "value",
-  },
+    key: "value"
+  }
 };
 
 const searchResult2 = {
@@ -20,14 +20,14 @@ const searchResult2 = {
   snippet: {
     pre: "pre",
     text: "text",
-    post: "post",
+    post: "post"
   },
   source: "source2",
   url: "url2",
   title: "title2",
   metadata: {
-    key: "value",
-  },
+    key: "value"
+  }
 };
 
 const searchResult3 = {
@@ -35,14 +35,14 @@ const searchResult3 = {
   snippet: {
     pre: "pre",
     text: "text",
-    post: "post",
+    post: "post"
   },
   source: "source3",
   url: "url3",
   title: "title3",
   metadata: {
-    key: "value",
-  },
+    key: "value"
+  }
 };
 
 const searchResult4 = {
@@ -50,14 +50,14 @@ const searchResult4 = {
   snippet: {
     pre: "pre",
     text: "text",
-    post: "post",
+    post: "post"
   },
   source: "source4",
   url: "url4",
   title: "title4",
   metadata: {
-    key: "value",
-  },
+    key: "value"
+  }
 };
 
 describe("applyCitationOrder", () => {
@@ -68,5 +68,14 @@ describe("applyCitationOrder", () => {
         "summary [4] some words [1][3] and stuff at the end"
       )
     ).toEqual([searchResult4, searchResult1, searchResult3]);
+  });
+
+  test("ignores citations that are out of range of search results", () => {
+    expect(
+      applyCitationOrder(
+        [searchResult1, searchResult2, searchResult3, searchResult4],
+        "summary [5] some words [1][3] and stuff at the end"
+      )
+    ).toEqual([searchResult1, searchResult3]);
   });
 });

@@ -21,16 +21,6 @@ const markDownCitations = (summary: string) => {
           }
 
           accum.push(`<SummaryCitation reference={${reference}} />`);
-
-          const followingCitation = citations[index + 1];
-
-          const marginAfter = ![",", ".", "!", "?", ":", ";"].includes(
-            followingCitation?.text?.[0]
-          );
-
-          if (marginAfter) {
-            accum.push(" ");
-          }
         });
       } else {
         accum.push(text);
@@ -38,7 +28,7 @@ const markDownCitations = (summary: string) => {
 
       return accum;
     }, [] as string[])
-    .join(" ");
+    .join("");
 };
 
 type Props = {
@@ -62,9 +52,9 @@ export const VuiSummary = ({ summary, className, SummaryCitation }: Props) => {
             forceBlock: true,
             overrides: {
               SummaryCitation: {
-                component: SummaryCitation,
-              },
-            },
+                component: SummaryCitation
+              }
+            }
           }}
         />
       </VuiText>

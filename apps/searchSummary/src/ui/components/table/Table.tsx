@@ -36,6 +36,7 @@ type Props<T> = {
   columns: Column<T>[];
   rows: T[];
   actions?: TableRowActionsProps<T>["actions"];
+  actionsTestIdProvider?: (row: T) => string;
   pagination?: Pagination | Pager;
   selection?: Selection<T>;
   search?: Search;
@@ -75,6 +76,7 @@ export const VuiTable = <T extends Row>({
   columns,
   rows,
   actions,
+  actionsTestIdProvider,
   pagination,
   selection,
   search,
@@ -161,7 +163,10 @@ export const VuiTable = <T extends Row>({
                       selectedIds[rowId] = true;
                     }
 
-                    onSelectRow(Object.keys(selectedIds).map((id) => rows.find((row) => rowId === id) as T));
+                    const selectedRowIds = Object.keys(selectedIds);
+                    // Map selected row IDs to selected rows.
+                    const selectedRows = selectedRowIds.map((id) => rows.find((row) => row.id === id) as T);
+                    onSelectRow(selectedRows);
                   }}
                 />
               </VuiTableCell>
@@ -192,6 +197,7 @@ export const VuiTable = <T extends Row>({
                     setRowBeingActedUpon(undefined);
                   }
                 }}
+                testId={actionsTestIdProvider?.(row) ?? undefined}
               />
             </td>
           )}

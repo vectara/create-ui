@@ -1,11 +1,10 @@
 const fs = require("fs");
 const { exec } = require("child_process");
 
-const configFiles = ["build.js", "global.d.ts", "tsconfig.json", "package.json", ".eslintignore", ".eslintrc.js"];
-
 const appTypeToTemplateDir = {
   search: "search",
   searchSummary: "searchSummary",
+  questionAndAnswer: "questionAndAnswer",
   preset: "searchSummary"
 };
 
@@ -37,15 +36,15 @@ module.exports = {
   },
 
   getActions: (data, dir) => {
-    const configFile = ["preset", "searchSummary"].includes(data.appType) ? "/src/configuration.ts" : ".env";
-    const configTemplate = ["preset", "searchSummary"].includes(data.appType) ? "configuration.hbs" : "env.hbs";
+    // const configFile = ["preset", "searchSummary"].includes(data.appType) ? "/src/configuration.ts" : ".env";
+    // const configTemplate = ["preset", "searchSummary"].includes(data.appType) ? "configuration.hbs" : "env.hbs";
     return [
       { type: "Create app folder" },
       { type: "Copy files" },
       {
         type: "add",
-        path: `${process.cwd()}/{{appDirName}}/${configFile}`,
-        templateFile: `${dir}/plopTemplates/${configTemplate}`,
+        path: `${process.cwd()}/{{appDirName}}/src/configuration.ts`,
+        templateFile: `${dir}/plopTemplates/configuration.hbs`,
         force: true
       },
       () =>
