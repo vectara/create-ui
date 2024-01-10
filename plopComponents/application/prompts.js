@@ -63,7 +63,8 @@ Which type of codebase would you like to create?\n`,
     const haveQuestionsAns = await inquirer.prompt({
       type: "confirm",
       name: "value",
-      message: "Do you want to suggest questions for your users to try? If not, we'll provide default questions."
+      message: "Do you want to suggest questions for your users to try? If not, we'll provide default questions.",
+      default: false
     });
 
     if (haveQuestionsAns.value) {
