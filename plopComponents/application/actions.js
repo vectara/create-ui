@@ -4,10 +4,7 @@ const { exec } = require("child_process");
 const appTypeToTemplateDir = {
   search: "search",
   searchSummary: "searchSummary",
-  questionAndAnswer: "questionAndAnswer",
-  demoDocs: "searchSummary",
-  demoFeynman: "searchSummary",
-  demoDotcom: "searchSummary"
+  questionAndAnswer: "questionAndAnswer"
 };
 
 let appName;
