@@ -25,16 +25,10 @@ Which type of codebase would you like to create?\n`,
       ]
     });
 
-    const customAppDirNameAns = await inquirer.prompt({
-      type: "input",
-      name: "customAppDirName",
-      message: "What directory name would you like to use?"
-    });
-
     const appNameAns = await inquirer.prompt({
       type: "input",
       name: "appName",
-      message: "What do you want to name your application?",
+      message: "What do you want to name your application? Just accept all defaults to generate a working example.",
       default: "Vectara Docs Example"
     });
 
@@ -63,7 +57,7 @@ Which type of codebase would you like to create?\n`,
     const haveQuestionsAns = await inquirer.prompt({
       type: "confirm",
       name: "value",
-      message: "Do you want to suggest questions for your users to try? If not, we'll provide default questions.",
+      message: "Do you want to suggest questions for your users to try?",
       default: false
     });
 
@@ -95,7 +89,8 @@ Which type of codebase would you like to create?\n`,
       ...corpusIdAns,
       ...apiKeyAns,
       ...appNameAns,
-      appDirName: customAppDirNameAns.customAppDirName,
+      // Convert app name to kebab case.
+      appDirName: appNameAns.appName.toLowerCase().replace(/[\s_]+/g, "-"),
       questions
     };
 
