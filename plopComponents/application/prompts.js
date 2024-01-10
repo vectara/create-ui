@@ -13,13 +13,13 @@ module.exports = {
 Create a sample UI codebase powered by the Vectara Platform.
 Which type of codebase would you like to create?\n`,
       choices: [
-        { name: "Search              | A typical semantic search UI. Connect it to your own corpus.", value: "search" },
+        { name: "Search              | A typical semantic search UI.", value: "search" },
         {
-          name: "Search Summary      | Like search, but preceded by a summary of the most relevant results.",
+          name: "Search Summary      | A semantic search UI preceded by a summary of the most relevant results.",
           value: "searchSummary"
         },
         {
-          name: "Question and Answer | Expects the user to ask a question instead of entering search terms.",
+          name: "Question and Answer | Expects the user to ask a question and provides them a concise answer.",
           value: "questionAndAnswer"
         }
       ]
