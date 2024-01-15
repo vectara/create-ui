@@ -5,7 +5,7 @@ This app provides working sample code for implementing a Search Summary UI that'
 The Search Summary UI is characterized by:
 
 - A search box for entering a natural-language query. This can take the form of a question or just search terms.
-- A \*\*list of search results.
+- A list of search results.
 - A summary of search results that are most relevant to the query, with citations.
 
 A user will typically scan the summary for points of interest, which is faster than reviewing the list of search results. If an aspect of the summary catches their eye, they'll dig deeper into the cited search result. They'll repeat this pattern until they've reviewed all of the interesting information that was relevant to their query.

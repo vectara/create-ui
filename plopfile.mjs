@@ -18,12 +18,6 @@ export default function (plop) {
   plop.setGenerator("vectara-create", {
     description: "Configuration Variables",
     prompts: async (inquirer) => {
-      await inquirer.prompt({
-        type: "input",
-        name: "acknowledgePrimer",
-        message: "Welcome to Vectara's UI Creator!\nPress Enter to continue."
-      });
-
       const answers = await renderApplicationPrompts(inquirer);
 
       return {

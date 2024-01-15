@@ -1,111 +1,81 @@
-const vectaraWebsiteQuestions = require(`${__dirname}/../../sampleData/vectara-website/queries.json`);
-const vectaraDocsQuestions = require(`${__dirname}/../../sampleData/vectara-docs/queries.json`);
-const askFeynmanQuestions = require(`${__dirname}/../../sampleData/ask-feynman/queries.json`);
-
-const DEFAULT_CONFIGS = {
-  "vectara-docs": {
-    customerId: "1366999410",
-    corpusId: "1",
-    apiKey: "zqt_UXrBcnI2UXINZkrv4g1tQPhzj02vfdtqYJIDiA",
-    appName: "Vectara Docs",
-    questions: JSON.stringify(vectaraDocsQuestions.questions)
-  },
-
-  "vectara-website": {
-    customerId: "1366999410",
-    corpusId: "2",
-    apiKey: "zqt_UXrBcnnt4156FZqMtzK8OEoZqcR0OrecS5Bb6Q",
-    appName: "Vectara.com Q&A",
-    questions: JSON.stringify(vectaraWebsiteQuestions.questions)
-  },
-
-  "ask-feynman": {
-    customerId: "1366999410",
-    corpusId: "3",
-    apiKey: "zqt_UXrBclYURJiAW9MiKT1L60EJC6iaIoWYj_bSJg",
-    appName: "Ask Feynman",
-    questions: JSON.stringify(askFeynmanQuestions.questions)
-  }
-};
-
 module.exports = {
   renderPrompts: async (inquirer) => {
     const appTypeAns = await inquirer.prompt({
       type: "list",
       name: "appType",
-      message: "What type of UI would you like to create?",
-      choices: [
-        { name: "Search", value: "search" },
-        { name: "Search Summary", value: "searchSummary" },
-        { name: "Question and Answer", value: "questionAndAnswer" },
-        { name: "Preconfigured demo", value: "preset" }
-      ]
-    });
+      message: `
+╭―――――――――――――――――――――――――――╮
+│                           │
+│     Vectara Sample UI     │
+│                           │
+╰―――――――――――――――――――――――――――╯
 
-    const isDemoUi = appTypeAns.appType === "preset";
-
-    const presetAppDirNameAns = await inquirer.prompt({
-      when: () => isDemoUi,
-      type: "list",
-      name: "presetAppDirName",
-      message: "Choose a pre-built sample UI.",
+Create a sample UI codebase powered by the Vectara Platform.
+Which type of codebase would you like to create?\n`,
       choices: [
+        { name: "Search              | A typical semantic search UI.", value: "search" },
         {
-          name: "Vectara Docs - Answer questions about Vectara's platform documentation",
-          value: "vectara-docs"
+          name: "Search Summary      | A semantic search UI preceded by a summary of the most relevant results.",
+          value: "searchSummary"
         },
         {
-          name: "Vectara.com Q&A - Answer questions about Vectara's company website",
-          value: "vectara-website"
-        },
-        {
-          name: "Ask Feynman - Answer questions about Richard Feynman's lectures",
-          value: "ask-feynman"
+          name: "Question and Answer | Expects the user to ask a question and provides them a concise answer.",
+          value: "questionAndAnswer"
         }
       ]
     });
 
-    const customAppDirNameAns = await inquirer.prompt({
-      when: () => !isDemoUi,
-      type: "input",
-      name: "customAppDirName",
-      message: "What directory name would you like to use?"
+    const dataSourceAns = await inquirer.prompt({
+      type: "list",
+      name: "dataSource",
+      message:
+        "Want to connect to your own data or use our sample data? Sample data consists of pages scraped from docs.vectara.com.",
+      choices: [
+        { name: "Use my own data", value: "customData" },
+        {
+          name: "Use the Vectara Docs sample data",
+          value: "sampleData"
+        }
+      ]
     });
 
+    const isCustomData = dataSourceAns.dataSource === "customData";
+
     const appNameAns = await inquirer.prompt({
-      when: () => !isDemoUi,
+      when: () => isCustomData,
       type: "input",
       name: "appName",
-      message: "What would you like to name your application?"
+      message: "What do you want to name your application?"
     });
 
     const customerIdAns = await inquirer.prompt({
-      when: () => !isDemoUi,
+      when: () => isCustomData,
       type: "input",
       name: "customerId",
       message: "What's your Vectara Customer ID?"
     });
 
     const corpusIdAns = await inquirer.prompt({
-      when: () => !isDemoUi,
+      when: () => isCustomData,
       type: "input",
       name: "corpusId",
-      message: "What Vectara Corpus ID is associated with your data?"
+      message: "What's the Corpus ID of the corpus that contains your data?"
     });
 
     const apiKeyAns = await inquirer.prompt({
-      when: () => !isDemoUi,
+      when: () => isCustomData,
       type: "input",
       name: "apiKey",
-      message: "What is your Vectara QueryService API Key (This can be safely shared)?"
+      message: "What's your QueryService API Key? This must have access to the corpus."
     });
 
     const questions = [];
     const haveQuestionsAns = await inquirer.prompt({
-      when: () => !isDemoUi,
+      when: () => isCustomData,
       type: "confirm",
       name: "value",
-      message: "Would you like to add sample questions for your users?"
+      message: "Do you want the UI to suggest questions for people to try?",
+      default: false
     });
 
     if (haveQuestionsAns.value) {
@@ -117,7 +87,7 @@ module.exports = {
         let questionAns = await inquirer.prompt({
           type: "input",
           name: "value",
-          message: `Enter sample question ${numQuestions}:`
+          message: `Enter suggested question ${numQuestions}:`
         });
 
         questions.push(questionAns.value);
@@ -125,29 +95,34 @@ module.exports = {
         moreQuestionsAns = await inquirer.prompt({
           type: "confirm",
           name: "value",
-          message: "Would you like to add more questions?"
+          message: "Want to suggest another question?"
         });
       } while (moreQuestionsAns.value);
     }
 
-    const appDirName = presetAppDirNameAns.presetAppDirName ?? customAppDirNameAns.customAppDirName;
-
-    const promptAnswers = {
-      ...appTypeAns,
-      ...customerIdAns,
-      ...corpusIdAns,
-      ...apiKeyAns,
-      ...appNameAns,
-      appDirName,
-      questions: JSON.stringify(questions)
-    };
-
-    // Overlay default answers if app is a preset app.
-    const ans = {
-      ...promptAnswers,
-      ...(DEFAULT_CONFIGS[appDirName] ?? {})
-    };
-
-    return ans;
+    return isCustomData
+      ? {
+          appType: appTypeAns.appType,
+          appName: appNameAns.appName,
+          appDirName: appNameAns.appName.toLowerCase().replace(/[\s_]+/g, "-"),
+          customerId: customerIdAns.customerId,
+          corpusId: corpusIdAns.corpusId,
+          apiKey: apiKeyAns.apiKey,
+          questions: JSON.stringify(questions)
+        }
+      : {
+          appType: appTypeAns.appType,
+          appName: "Vectara Docs Example",
+          appDirName: "vectara-docs-example",
+          customerId: "1366999410",
+          corpusId: "1",
+          apiKey: "zqt_UXrBcnI2UXINZkrv4g1tQPhzj02vfdtqYJIDiA",
+          questions: JSON.stringify([
+            "How do I enable hybrid search?",
+            "How is data encrypted?",
+            "What is a textless corpus?",
+            "How do I configure OAuth?"
+          ])
+        };
   }
 };
