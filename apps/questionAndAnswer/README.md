@@ -1,6 +1,6 @@
 # Vectara sample code for a Question and Answer UI
 
-This app provides working sample code for implementing a Question and Answer UI that's powered by [Vectara](https://vectara.com/). It was generated using the [Create UI code-generator](https://github.com/vectara/create-ui).
+This app provides working sample code for implementing a Question and Answer UI that's powered by [Vectara](https://vectara.com/). It was generated using the [Create-UI code-generator](https://github.com/vectara/create-ui).
 
 The Question and Answer UI is characterized by:
 

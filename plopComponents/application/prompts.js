@@ -1,3 +1,11 @@
+const APP_TYPE_TO_LABEL = {
+  search: "Search",
+  searchSummary: "Search Summary",
+  questionAndAnswer: "Question and Answer"
+};
+
+const toKebabCase = (str) => str.toLowerCase().replace(/[\s_]+/g, "-");
+
 module.exports = {
   renderPrompts: async (inquirer) => {
     const appTypeAns = await inquirer.prompt({
@@ -66,7 +74,8 @@ Which type of codebase would you like to create?\n`,
       when: () => isCustomData,
       type: "input",
       name: "apiKey",
-      message: "What's your QueryService API Key? This must have access to the corpus."
+      message:
+        "What's your API Key? This must have access to the corpus. We suggest limiting its privileges to the QueryService."
     });
 
     const questions = [];
@@ -74,7 +83,7 @@ Which type of codebase would you like to create?\n`,
       when: () => isCustomData,
       type: "confirm",
       name: "value",
-      message: "Do you want the UI to suggest questions for people to try?",
+      message: "The UI can suggest that users try various sample questions. Do you want to define some?",
       default: false
     });
 
@@ -104,7 +113,7 @@ Which type of codebase would you like to create?\n`,
       ? {
           appType: appTypeAns.appType,
           appName: appNameAns.appName,
-          appDirName: appNameAns.appName.toLowerCase().replace(/[\s_]+/g, "-"),
+          appDirName: toKebabCase(appNameAns.appName),
           customerId: customerIdAns.customerId,
           corpusId: corpusIdAns.corpusId,
           apiKey: apiKeyAns.apiKey,
@@ -113,7 +122,7 @@ Which type of codebase would you like to create?\n`,
       : {
           appType: appTypeAns.appType,
           appName: "Vectara Docs Example",
-          appDirName: "vectara-docs-example",
+          appDirName: toKebabCase(`vectara-docs-${APP_TYPE_TO_LABEL[appTypeAns.appType]}-example`),
           customerId: "1366999410",
           corpusId: "1",
           apiKey: "zqt_UXrBcnI2UXINZkrv4g1tQPhzj02vfdtqYJIDiA",
