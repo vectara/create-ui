@@ -1,129 +1,98 @@
 <p align="center">
-  <img style="max-width: 100%;" alt="Welcome to Create UI" src="img/project-logo.png"/>
-</p>
-<p>
-  <img alt="Version" src="https://img.shields.io/badge/version-1.1.0-blue.svg?cacheSeconds=2592000" />
-  <img src="https://img.shields.io/badge/npm-%3E%3D9.5.0-blue.svg" />
-  <img src="https://img.shields.io/badge/node-%3E%3D19.7.0-blue.svg" />
-  <a href="https://github.com/vectara/create-ui#readme" target="_blank">
-    <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
-  </a>
-  <a href="https://github.com/vectara/create-ui/graphs/commit-activity" target="_blank">
-    <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" />
-  </a>
-  <a href="https://twitter.com/vectara" target="_blank">
-    <img alt="Twitter: vectara" src="https://img.shields.io/twitter/follow/vectara.svg?style=social" />
-  </a>
+  <img style="max-width: 100%;" alt="Welcome to Create UI" src="images/projectLogo.png"/>
 </p>
 
-## About
+# Create-UI
 
-Create-UI is an tool for creating user interfaces, powered by the [Vectara Platform](https://vectara.com/).
+Create-UI is the fastest way to generate a functional, [Vectara](https://vectara.com/)-powered sample codebase for a range of user interfaces:
 
-For examples of what you'll be building, check out the following sites:
+- **Semantic search.** A typical search UI.
+- **Summarized semantic search.** A typical search UI preceded by a summary of the most relevant results. Perfect for users who want to scan an overview before digging deeper into interesting search results.
+- **Question and answer.** Ideal for users who want to ask an answer and get a concise answer.
 
-### [Ask News](https://asknews.demo.vectara.com)
+Use this tool to:
 
-![Ask News Screenshot](img/appScreenshots/ask_news.png)
+- Run the UIs in your browser so you can compare them and choose the right one for your GenAI application.
+- Use the underlying code as a starting point or reference for building your UI.
+- Borrow from our patterns for retrieving data from Vectara, munging it, and surfacing it in the UI.
 
-### [LegalAid](https://legalaid.demo.vectara.com)
+## Types of UIs
 
-![LegalAid Screenshot](img/appScreenshots/legal_aid.png)
+### Semantic search UI
 
-## Prerequisites
+![Semantic search UI screenshot](images/semanticSearch.jpg)
 
-To get started, the minimum requirement is to install [npm and node](https://nodejs.org/en/download). That's it!
+The Search UI is characterized by:
 
-## Quickstart
+- A search box for entering a natural-language query. This can take the form of a question or just search terms.
+- A list of search results.
 
-Create-UI comes packaged with preset configurations that allow you spin up a sample application using Vectara's public datastores. To quickly get started, run the following command:
+A user will typically scan the list for relevant results and dig deeper into any results that look interesting. They'll try variations on the same basic query to make sure they find as many potentially useful results as possible.
+
+### Summarized semantic search UI
+
+![Summarized semantic search UI screenshot](images/semanticSearchSummary.jpg)
+
+The Search Summary UI is characterized by:
+
+- A search box for entering a natural-language query. This can take the form of a question or just search terms.
+- A list of search results.
+- A summary of search results that are most relevant to the query, with citations.
+
+A user will typically scan the summary for points of interest, which is faster than reviewing the list of search results. If an aspect of the summary catches their eye, they'll dig deeper into the cited search result. They'll repeat this pattern until they've reviewed all of the interesting information that was relevant to their query.
+
+### Question and answer UI
+
+![Question and answer UI screenshot](images/questionAndAnswer.jpg)
+
+The Question and Answer UI is characterized by:
+
+- A search box for entering a natural-language query. This typically takes the form of a question.
+- A condensed answer based upon the most relevant search results, with citations.
+
+A user will typically scan the answer to see if it truly answers their question. They'll use the citations to verify that the answer is grounded in facts. If the answer doesn't fully answer their question they'll try again with a differently-worded question.
+
+## Under the hood
+
+Create-UI generates codebases consisting of a React+SCSS front-end and a very light-weight Express server for local development. The front-end connects directly to the Vectara API to search the data in your Vectara account. You can edit the code to make requests against a proxy server.
+
+## How to use
+
+### 1. Install NPM and Node
+
+Create-UI expects you to have [NPM and Node](https://nodejs.org/en/download) installed on your system.
+
+### 2. Generate a codebase
 
 ```
 npx @vectara/create-ui
 ```
 
-When prompted for which application to create, simply select from one of three default apps:
+Follow the prompts in the command line to generate your codebase. You can choose to use our sample data, which is ideal for folks who don't have a Vectara account yet. If you already have data in Vectara you can configure the UI to connect to it. [Learn more below.](https://github.com/vectara/create-ui?tab=readme-ov-file#set-up-your-data-in-vectara)
 
-1. `Vectara Docs` - Answer questions about Vectara documentation
-2. `Vectara.com` - Answer questions about the content of the Vectara company website
-3. `AskFeynman` - Answer questions about Richard Feynman's lectures
+When the prompts are complete, run the build command provided to you. You'll see the UI running in your browser.
 
-![Sample Setup: Step 1](img/setup/sample-step-1.gif)
+### 3. Set up your data in Vectara
 
-After selecting which application to create, Create-UI will complete a short setup process. Once this process is complete, copy and run the provided commands to run the app in your browser at `http://localhost:4444`.
+You can configure a Create-UI app to use our sample data or to pull data from your Vectara corpus. To set this up:
 
-![Sample App Setup: Step 2](img/setup/sample-step-2.gif)
+1. [Create a free Vectara account](https://console.vectara.com/signup).
+2. [Create a corpus and add data to it](https://docs.vectara.com/docs/console-ui/creating-a-corpus).
+3. [Create a **QueryService** API key](https://docs.vectara.com/docs/console-ui/manage-api-access#create-an-api-key).
 
-Congratulations! You've just setup and run a sample app powered by Vectara! We'll work on setting up a custom application later in the next section.
+**Pro-tip:** After you create an API key, navigate to your corpus and click on the "Access control" tab. Find your API key on the bottom and select the "Copy all" option to copy your customer ID, corpus ID, and API key. This gives you all the data you need to configure a Create-UI app.
 
-## Building Your Own Application
+![Copy all option](images/copyAll.jpg)
 
-### Prerequisites
+#### How to use metadata
 
-When building your own application, you will need to:
+Vectara enables you to define [metadata](https://docs.vectara.com/docs/learn/document-data-structuring#metadata) on your documents. Create-UI apps behave differently based on the presence of specific metadata fields:
 
-- **Create a data store:** Log into the [Vectara Console](https://console.vectara.com/) and [create a data store](https://docs.vectara.com/docs/console-ui/creating-a-corpus).
-- **Add data to the data store.** You can use [Vectara Ingest](https://github.com/vectara/vectara-ingest/blob/main/README.md#quickstart) to crawl datasets and websites, or use our [Indexing APIs](https://docs.vectara.com/docs/api-reference/indexing-apis/indexing) directly.
+- `title`: If this field is defined it will be rendered as the title of a search result. Typically this is something like the title of the document or webpage.
+- `url`: If this field is defined, the UI will render the search result as a link to the defined URL.
 
-### Running Your Custom App
+## License
 
-If you choose `Custom Application` from the application type prompt, you will be asked to provide:
-
-- your Vectara customer ID
-- the ID of the corpus you created as a prerequisite to this process
-- the API key of your selected Vectara corpus (**NOTE: Depending on your set up, this may be visible to users. To ensure safe sharing, ensure that this key is set up to only have query access.**)
-- any sample questions to display on the site, to get your users started.
-
-![Custom Setup: Step 1](img/setup/custom-step-1.gif)
-
-Once provided, the values above will go into your own customized `.env` configuration, and your site will be ready to go by running:
-
-```
-npm run start
-```
-
-## Make It Your Own!
-
-Whether you choose to set up a preset application or build a custom app, you have the ability to make it your own.
-
-### Modifying the UI
-
-The UI source code is all in the `src/` sub-directory of your main project directory. You are free to make any changes to suit your unique needs.
-
-NOTE: The UI assumes there is a metadata field called `url` for each document in your Vectara corpus. If the `url` field exists, it will be displayed with search results as a clickable URL. If it does not, the title is used instead, but it will not be clickable.
-
-### Modifying the Proxy Server
-
-While the app run via `npm run start` works with a local client that accesses the Vectara API directly, running the app via Docker spins up a full-stack solution, using a proxy server to make Vectara API requests.
-
-In order to modify the request handlers, make changes to `/server/index.js`.
-
-## Configuration
-
-After the configuration process has created your `.env` file, you are free to make modifications to it to suit your development needs.
-
-These variables can be set in your `.env` file, which is created during the quickstart process.
-
-## Author
-
-👤 **Vectara**
-
-- Website: https://vectara.com
-- Twitter: [@vectara](https://twitter.com/vectara)
-- GitHub: [@vectara](https://github.com/vectara)
-- LinkedIn: [@vectara](https://www.linkedin.com/company/vectara/)
-- Discord: [@vectara](https://discord.gg/GFb8gMz6UH)
-
-## 🤝 Contributing
-
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/vectara/create-ui/issues). You can also take a look at the [contributing guide](https://github.com/vectara/create-ui/blob/master/CONTRIBUTING.md).
-
-## Show your support
-
-Give a ⭐️ if this project helped you!
-
-## 📝 License
-
-Copyright © 2023 [Vectara](https://github.com/vectara).<br />
+Create-UI is an open-sourced software licensed under the [Apache 2.0 license](/LICENSE).
 
 _This repository contains sample code that can help you build UIs powered by Vectara, and is licensed under the Apache 2.0 License. Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License._

@@ -8,9 +8,9 @@ const __dirname = path.dirname(__filename);
 const {
   setActions: setApplicationActions,
   getActions: getApplicationActions
-} = require(`${__dirname}/plopComponents/application/actions`);
+} = require(`${__dirname}/plopComponents/actions`);
 
-const { renderPrompts: renderApplicationPrompts } = require(`${__dirname}/plopComponents/application/prompts`);
+const { renderPrompts: renderApplicationPrompts } = require(`${__dirname}/plopComponents/prompts`);
 
 export default function (plop) {
   setApplicationActions(plop, __dirname);

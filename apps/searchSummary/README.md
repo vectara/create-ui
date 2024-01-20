@@ -1,6 +1,6 @@
 # Vectara sample code for a Search Summary UI
 
-This app provides working sample code for implementing a Search Summary UI that's powered by [Vectara](https://vectara.com/). It was generated using the [Create UI code-generator](https://github.com/vectara/create-ui).
+This app provides working sample code for implementing a Search Summary UI that's powered by [Vectara](https://vectara.com/). It was generated using the [Create-UI code-generator](https://github.com/vectara/create-ui).
 
 The Search Summary UI is characterized by:
 

@@ -26,7 +26,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vectara/create-ui.git"
+    "url": "https://github.com/vectara/create-ui.git"
   },
   "bugs": {
     "url": "https://github.com/vectara/create-ui/issues"
