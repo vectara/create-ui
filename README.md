@@ -13,8 +13,16 @@ Create-UI is the fastest way to generate a functional, [Vectara](https://vectara
 Use this tool to:
 
 - Run the UIs in your browser so you can compare them and choose the right one for your GenAI application.
+- Borrow from our patterns for retrieving data from Vectara, restructuring the data, and surfacing it to users.
 - Use the underlying code as a starting point or reference for building your UI.
-- Borrow from our patterns for retrieving data from Vectara, munging it, and surfacing it in the UI.
+
+> [!TIP]
+>
+> Looking for something else? Try another open-source project:
+>
+> - **[React-Search](https://github.com/vectara/react-search)**: Add Vectara semantic search to your React apps with a few lines of code.
+> - **[Vectara Answer](https://github.com/vectara/vectara-answer)**: Configure a sample Docker app for searching Vectara data.
+> - **[Vectara Ingest](https://github.com/vectara/vectara-ingest)**: Crawl data sources and ingest the data into Vectara.
 
 ## Types of UIs
 
