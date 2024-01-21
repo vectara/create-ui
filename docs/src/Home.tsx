@@ -33,7 +33,7 @@ export const Home = () => {
         }
         right={
           <VuiIconButton
-            href="https://github.com/vectara/react-search"
+            href="https://github.com/vectara/create-ui"
             target="_blank"
             color="neutral"
             size="l"
