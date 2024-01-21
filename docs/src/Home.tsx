@@ -3,6 +3,7 @@ import {
   VuiAppContent,
   VuiAppHeader,
   VuiAppLayout,
+  VuiLink,
   VuiFlexContainer,
   VuiFlexItem,
   VuiIcon,
@@ -53,7 +54,9 @@ export const Home = () => {
 
             <p>Summarized semantic search (screenshot, link, description)</p>
 
-            <p>Question and answer (screenshot, link, description)</p>
+            <p>
+              <a href="./questionAndAnswerDemo">Question and answer</a> (screenshot, link, description)
+            </p>
           </div>
         </VuiAppContent>
       </VuiAppLayout>

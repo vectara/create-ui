@@ -35287,7 +35287,10 @@ pre[class*="language-"] {
         /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("p", { children: "Here are examples of what you get out of the box with Vectara Create-UI." }),
         /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("p", { children: "Semantic search (screenshot, link, description)" }),
         /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("p", { children: "Summarized semantic search (screenshot, link, description)" }),
-        /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("p", { children: "Question and answer (screenshot, link, description)" })
+        /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)("p", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("a", { href: "./questionAndAnswerDemo", children: "Question and answer" }),
+          " (screenshot, link, description)"
+        ] })
       ] }) }) })
     ] });
   };
