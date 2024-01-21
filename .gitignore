@@ -4,8 +4,4 @@ node_modules/
 apps/**/configuration.ts
 apps/**/node_modules/
 apps/**/package-lock.json
-
-# Just in case we accidentally generate these during maintenance.
-demoDocs/
-demoDotcom/
-demoFeynman/
+apps/**/build/

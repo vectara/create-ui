@@ -3,11 +3,10 @@ import { sanitizeCitations, reorderCitations, applyCitationOrder } from "../ui/u
 import { useSearchContext } from "../contexts/SearchContext";
 import { ProgressReport } from "./progressReport/ProgressReport";
 import { DeserializedSearchResult } from "./types";
-import { ConfidenceScore } from "./summary/ConfidenceScore";
 import { Summary } from "./summary/Summary";
 
 export const SummaryUx = () => {
-  const { isSearching, searchResults, isSummarizing, summarizationResponse, summaryEnableHem } = useSearchContext();
+  const { isSearching, searchResults, isSummarizing, summarizationResponse } = useSearchContext();
 
   const rawSummary = summarizationResponse?.summary[0]?.text;
   const unorderedSummary = sanitizeCitations(rawSummary);
@@ -35,13 +34,6 @@ export const SummaryUx = () => {
           {summarySearchResults && summarySearchResults.length > 0 && (
             <>
               <VuiSpacer size="m" />
-
-              {summaryEnableHem && (
-                <>
-                  <ConfidenceScore rawSummary={rawSummary} summarySearchResults={summarySearchResults} />
-                  <VuiSpacer size="s" />
-                </>
-              )}
 
               {summarySearchResults.map((result, i) => (
                 <div key={i}>

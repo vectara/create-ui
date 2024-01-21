@@ -25,7 +25,9 @@ export const Home = () => {
             <VuiFlexItem grow={false} shrink={false}>
               <VuiTitle size="xs">
                 <h1>
-                  <strong>Vectara Create-UI</strong>
+                  <strong>
+                    <a href="https://vectara.github.io/create-ui">Vectara Create-UI</a>
+                  </strong>
                 </h1>
               </VuiTitle>
             </VuiFlexItem>
