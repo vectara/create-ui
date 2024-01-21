@@ -12,6 +12,7 @@
     "plop": "plop",
     "release": "release-it --access public",
     "docs": "node docs/docsServer.js",
+    "buildDocs": "node docs/build.js",
     "dev:search": "cd apps/search && cp ../../sampleConfigurations/search-configuration.ts ./src/configuration.ts && npm install && npm run start",
     "dev:searchSummary": "cd apps/searchSummary && cp ../../sampleConfigurations/searchSummary-configuration.ts ./src/configuration.ts && npm install && npm run start",
     "dev:qa": "cd apps/questionAndAnswer && cp ../../sampleConfigurations/questionAndAnswer-configuration.ts ./src/configuration.ts && npm install && npm run start"
