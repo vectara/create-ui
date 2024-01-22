@@ -1,4 +1,4 @@
-import { VuiFlexContainer, VuiFlexItem, VuiTitle, VuiSpinner, VuiSpacer } from "../contexts/ui";
+import { VuiFlexContainer, VuiFlexItem, VuiTitle, VuiSpinner, VuiSpacer } from "../ui";
 import { useSearchContext } from "../contexts/SearchContext";
 import { SearchResultList } from "./results/SearchResultList";
 import { SearchErrorCallout } from "./results/SearchErrorCallout";
