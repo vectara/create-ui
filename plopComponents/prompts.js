@@ -14,7 +14,7 @@ module.exports = {
       message: `
 ╭―――――――――――――――――――――――――――╮
 │                           │
-│     Vectara Sample UI     │
+│     Vectara Create-UI     │
 │                           │
 ╰―――――――――――――――――――――――――――╯
 
