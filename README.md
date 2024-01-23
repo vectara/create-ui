@@ -44,7 +44,7 @@ When the prompts are complete, run the build command provided to you. You'll see
 
 ### Semantic Search UI
 
-![Semantic Search UI screenshot](images/demoSearch.jpg)
+<img src="images/demoSearch.jpg" alt="Semantic Search UI screenshot" width="800" />
 
 The Semantic Search UI is characterized by:
 
@@ -55,7 +55,7 @@ A user will typically scan the list for relevant results and dig deeper into any
 
 ### Summarized Semantic Search UI
 
-![Summarized Semantic Search UI screenshot](images/demoSearchSummary.jpg)
+<img src="images/demoSearchSummary.jpg" alt="Summarized Semantic Search UI screenshot" width="800" />
 
 The Summarized Semantic Search UI is characterized by:
 
@@ -67,7 +67,7 @@ A user will typically scan the summary for points of interest, which is faster t
 
 ### Question and Answer UI
 
-![Question and Answer UI screenshot](images/demoQuestionAndAnswer.jpg)
+<img src="images/demoQuestionAndAnswer.jpg" alt="Question and Answer UI screenshot" width="800" />
 
 The Question and Answer UI is characterized by:
 
