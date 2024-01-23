@@ -100,30 +100,17 @@ export const sendSearchRequest = async ({
     ]
   };
 
-  let headers = {};
-  let url = "";
-  if (process.env.NODE_ENV === "production") {
-    // Call proxy server if in production
-    url = `/v1/query`;
-    headers = {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      }
-    };
-  } else {
-    // Call directly if in development
-    url = `https://${endpoint}/v1/query`;
-    headers = {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "customer-id": customerId,
-        "x-api-key": apiKey,
-        "grpc-timeout": "60S"
-      }
-    };
-  }
+  const url = `https://${endpoint}/v1/query`;
+  const headers = {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "customer-id": customerId,
+      "x-api-key": apiKey,
+      "grpc-timeout": "60S"
+    }
+  };
+
   const result = await axios.post(url, body, headers);
 
   const status = result["data"]["responseSet"][0]["status"];
