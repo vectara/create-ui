@@ -35269,12 +35269,12 @@ pre[class*="language-"] {
         {
           left: /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)(VuiFlexContainer, { spacing: "m", alignItems: "center", children: [
             /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(VuiFlexItem, { grow: false, shrink: false, children: /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(HeaderLogo, {}) }),
-            /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(VuiFlexItem, { grow: false, shrink: false, children: /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(VuiTitle, { size: "xs", children: /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("h1", { children: /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("strong", { children: "Vectara Create-UI" }) }) }) })
+            /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(VuiFlexItem, { grow: false, shrink: false, children: /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(VuiTitle, { size: "xs", children: /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("h1", { children: /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("strong", { children: /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("a", { href: "https://vectara.github.io/create-ui", children: "Vectara Create-UI" }) }) }) }) })
           ] }),
           right: /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(
             VuiIconButton,
             {
-              href: "https://github.com/vectara/react-search",
+              href: "https://github.com/vectara/create-ui",
               target: "_blank",
               color: "neutral",
               size: "l",
@@ -35285,8 +35285,14 @@ pre[class*="language-"] {
       ),
       /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(VuiAppLayout, { children: /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(VuiAppContent, { className: "appExampleContent", padding: "xl", children: /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)("div", { className: "content", children: [
         /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("p", { children: "Here are examples of what you get out of the box with Vectara Create-UI." }),
-        /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("p", { children: "Semantic search (screenshot, link, description)" }),
-        /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("p", { children: "Summarized semantic search (screenshot, link, description)" }),
+        /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)("p", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("a", { href: "./searchDemo", children: "Semantic search" }),
+          " (screenshot, link, description)"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)("p", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("a", { href: "./searchSummaryDemo", children: "Summarized semantic search" }),
+          " (screenshot, link, description)"
+        ] }),
         /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)("p", { children: [
           /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("a", { href: "./questionAndAnswerDemo", children: "Question and answer" }),
           " (screenshot, link, description)"

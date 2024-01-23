@@ -27,6 +27,9 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Build Demos Script
+        run: npm run buildDemos
+
       - name: Build Page Script
         run: npm run buildDocs
 

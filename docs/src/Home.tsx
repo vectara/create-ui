@@ -52,9 +52,13 @@ export const Home = () => {
           <div className="content">
             <p>Here are examples of what you get out of the box with Vectara Create-UI.</p>
 
-            <p>Semantic search (screenshot, link, description)</p>
+            <p>
+              <a href="./searchDemo">Semantic search</a> (screenshot, link, description)
+            </p>
 
-            <p>Summarized semantic search (screenshot, link, description)</p>
+            <p>
+              <a href="./searchSummaryDemo">Summarized semantic search</a> (screenshot, link, description)
+            </p>
 
             <p>
               <a href="./questionAndAnswerDemo">Question and answer</a> (screenshot, link, description)
