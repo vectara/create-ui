@@ -60,6 +60,16 @@ npm run start
 
 If you make changes to the source code, the app will automatically reload with your changes.
 
+## Codebase
+
+### Front-end
+
+The front-end is React and SCSS. It connects directly to the Vectara API to search the data in your Vectara account. You can edit the code to make requests against a proxy server instead.
+
+### Back-end
+
+The back-end consists of a very light-weight Express server for local development.
+
 ## Set up your data in Vectara
 
 To set up this app to pull data from your Vectara corpus:
