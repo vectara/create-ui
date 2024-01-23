@@ -26,22 +26,22 @@ Use this tool to:
 
 ## Types of UIs
 
-### Semantic search UI
+### Semantic Search UI
 
-![Semantic search UI screenshot](images/semanticSearch.jpg)
+![Semantic Search UI screenshot](images/semanticSearch.jpg)
 
-The Search UI is characterized by:
+The Semantic Search UI is characterized by:
 
 - A search box for entering a natural-language query. This can take the form of a question or just search terms.
 - A list of search results.
 
 A user will typically scan the list for relevant results and dig deeper into any results that look interesting. They'll try variations on the same basic query to make sure they find as many potentially useful results as possible.
 
-### Summarized semantic search UI
+### Summarized Semantic Search UI
 
-![Summarized semantic search UI screenshot](images/semanticSearchSummary.jpg)
+![Summarized Semantic Search UI screenshot](images/semanticSearchSummary.jpg)
 
-The Search Summary UI is characterized by:
+The Summarized Semantic Search UI is characterized by:
 
 - A search box for entering a natural-language query. This can take the form of a question or just search terms.
 - A list of search results.
@@ -49,9 +49,9 @@ The Search Summary UI is characterized by:
 
 A user will typically scan the summary for points of interest, which is faster than reviewing the list of search results. If an aspect of the summary catches their eye, they'll dig deeper into the cited search result. They'll repeat this pattern until they've reviewed all of the interesting information that was relevant to their query.
 
-### Question and answer UI
+### Question and Answer UI
 
-![Question and answer UI screenshot](images/questionAndAnswer.jpg)
+![Question and Answer UI screenshot](images/questionAndAnswer.jpg)
 
 The Question and Answer UI is characterized by:
 
@@ -66,9 +66,9 @@ Create-UI generates codebases consisting of a React+SCSS front-end and a very li
 
 ## How to use
 
-### 1. Install NPM and Node
+### 1. Install Node and NPM
 
-Create-UI expects you to have [NPM and Node](https://nodejs.org/en/download) installed on your system.
+Create-UI expects you to have [Node and NPM](https://nodejs.org/en/download) installed on your system.
 
 ### 2. Generate a codebase
 

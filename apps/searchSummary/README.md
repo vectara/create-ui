@@ -1,8 +1,8 @@
-# Vectara sample code for a Search Summary UI
+# Vectara sample code for a Summarized Semantic Search UI
 
-This app provides working sample code for implementing a Search Summary UI that's powered by [Vectara](https://vectara.com/). It was generated using the [Create-UI code-generator](https://github.com/vectara/create-ui).
+This app provides working sample code for implementing a Summarized Semantic Search UI that's powered by [Vectara](https://vectara.com/). It was generated using the [Create-UI code-generator](https://github.com/vectara/create-ui).
 
-The Search Summary UI is characterized by:
+The Summarized Semantic UI is characterized by:
 
 - A search box for entering a natural-language query. This can take the form of a question or just search terms.
 - A list of search results.

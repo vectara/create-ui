@@ -1,8 +1,8 @@
-# Vectara sample code for a Search UI
+# Vectara sample code for a Semantic Search UI
 
-This app provides working sample code for implementing a Search UI that's powered by [Vectara](https://vectara.com/). It was generated using the [Create-UI code-generator](https://github.com/vectara/create-ui).
+This app provides working sample code for implementing a Semantic Search UI that's powered by [Vectara](https://vectara.com/). It was generated using the [Create-UI code-generator](https://github.com/vectara/create-ui).
 
-The Search UI is characterized by:
+The Semantic Search UI is characterized by:
 
 - A search box for entering a natural-language query. This can take the form of a question or just search terms.
 - A list of search results.
@@ -63,90 +63,3 @@ npm run start
 If you make changes to the source code, the app will automatically reload with your changes.
 
 NOTE: The UI assumes there is a metadata field called `url` for each document in your Vectara corpus. If the `url` field exists, it will be displayed with search results as a clickable URL. If it does not, the title is used instead, but it will not be clickable.
-
-## Configuration Reference
-
-```ts
-type Configuration = {
-  // The ID of your Vectara data store
-  corpusId: string;
-
-  // Your Vectara customer ID
-  customerId: string;
-
-  // The query API key of your Vectara data store
-  apiKey: string;
-
-  // The host of your API URL, default is "api.vectara.io"
-  endpoint: string;
-
-  // The header of your Q & A page
-  searchTitle?: string;
-
-  // Sample questions to show in the UI
-  questions?: string[];
-
-  // Whether or not to enable re-ranking, which only works in English for now.
-  // For more info, see: https://docs.vectara.com/docs/api-reference/search-apis/reranking
-  rerank?: boolean;
-
-  // The number of results to use for re-ranking.
-  rerankNumResults?: number;
-
-  // The title of your application, to be shown in the UI.
-  appTitle?: string;
-
-  // App header presentation details - link, logo, alt description, and logo height.
-  appHeaderLogoLink?: string;
-  appHeaderLogoSrc?: string;
-  appHeaderLogoAlt?: string;
-  appHeaderLogoHeight?: string;
-
-  // Presentation configuration for an option "Learn More" link to be shown at the top of the UI.
-  appHeaderLearnMoreLink?: string;
-  appHeaderLearnMoreText?: string;
-
-  // Filters
-  enableSourceFilters?: boolean;
-  allSources?: boolean;
-  sources?: string[];
-
-  // Form presentation details - input box title, logo, description, and placeholder
-  searchTitle?: string;
-  searchLogoLink?: string;
-  searchLogoSrc?: string;
-  searchLogoAlt?: string;
-  searchLogoHeight?: string;
-  searchDescription?: string;
-  searchPlaceholder?: string;
-
-  // Summary
-  summaryDefaultLanguage?: string;
-  summaryNumResults?: number;
-  summaryNumSentences?: number;
-  summaryPromptName?: string;
-  summaryEnableHem?: boolean;
-
-  // The number of words that will trigger a hybrid search.
-  // A hybrid search will include keyword searches.
-  hybridSearchNumWords?: number;
-
-  // Lambda values for long and short input values.
-  // For more info, see: https://docs.vectara.com/docs/api-recipes
-  hybridSearchLambdaLong?: number;
-  hybridSearchLambdaShort?: number;
-
-  // Whether to use Vectara's MMR (maximum marginal relevance) functionality.
-  // For more info, see: https://docs.vectara.com/docs/api-reference/search-apis/reranking
-  mmr?: boolean;
-
-  // The number of results to use for reranking
-  mmrNumResults?: number;
-
-  // The diversity bias factor (0..1) for MMR reranker.
-  // The higher the value, the more MMR is preferred over relevance.
-  mmrDiversityBias?: number;
-
-  hfToken?: string;
-};
-```
