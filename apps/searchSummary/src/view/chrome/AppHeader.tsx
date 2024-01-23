@@ -1,5 +1,5 @@
 import { BiLogoGithub } from "react-icons/bi";
-import { VuiFlexContainer, VuiFlexItem, VuiTitle, VuiIconButton, VuiIcon, VuiAppHeader } from "../../ui";
+import { VuiFlexContainer, VuiFlexItem, VuiTitle, VuiIconButton, VuiIcon, VuiLink, VuiAppHeader } from "../../ui";
 import { HeaderLogo } from "./HeaderLogo";
 
 export const AppHeader = () => {
@@ -15,7 +15,9 @@ export const AppHeader = () => {
             <VuiTitle size="xs">
               <h1>
                 <strong>
-                  <a href="https://vectara.github.io/create-ui">Vectara Create-UI</a>
+                  <VuiLink isAnchor href="https://vectara.github.io/create-ui">
+                    Vectara Create-UI
+                  </VuiLink>
                 </strong>
               </h1>
             </VuiTitle>

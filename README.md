@@ -28,7 +28,7 @@ Use this tool to:
 
 ### Semantic Search UI
 
-![Semantic Search UI screenshot](images/semanticSearch.jpg)
+![Semantic Search UI screenshot](images/demoSearch.jpg)
 
 The Semantic Search UI is characterized by:
 
@@ -39,7 +39,7 @@ A user will typically scan the list for relevant results and dig deeper into any
 
 ### Summarized Semantic Search UI
 
-![Summarized Semantic Search UI screenshot](images/semanticSearchSummary.jpg)
+![Summarized Semantic Search UI screenshot](images/demoSearchSummary.jpg)
 
 The Summarized Semantic Search UI is characterized by:
 
@@ -51,7 +51,7 @@ A user will typically scan the summary for points of interest, which is faster t
 
 ### Question and Answer UI
 
-![Question and Answer UI screenshot](images/questionAndAnswer.jpg)
+![Question and Answer UI screenshot](images/demoQuestionAndAnswer.jpg)
 
 The Question and Answer UI is characterized by:
 

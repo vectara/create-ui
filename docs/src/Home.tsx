@@ -15,6 +15,34 @@ import {
 } from "./ui";
 import { HeaderLogo } from "components/HeaderLogo";
 
+const DemoTitle = ({ title, href }: { title: string; href: string }) => (
+  <VuiFlexContainer alignItems="end" justifyContent="spaceBetween" className="demoTitle">
+    <VuiFlexItem>
+      <VuiTitle size="m">
+        <h2>{title}</h2>
+      </VuiTitle>
+    </VuiFlexItem>
+
+    <VuiFlexItem>
+      <VuiText>
+        <p>
+          <VuiLink isAnchor href={href}>
+            See demo →
+          </VuiLink>
+        </p>
+      </VuiText>
+    </VuiFlexItem>
+  </VuiFlexContainer>
+);
+
+const DemoImage = ({ href, src, alt }: { href: string; src: string; alt: string }) => (
+  <VuiFlexContainer alignItems="start" justifyContent="center" direction="column">
+    <VuiLink isAnchor href={href}>
+      <img alt={alt} className="demoImage" src={src} />
+    </VuiLink>
+  </VuiFlexContainer>
+);
+
 export const Home = () => {
   return (
     <>
@@ -29,7 +57,9 @@ export const Home = () => {
               <VuiTitle size="xs">
                 <h1>
                   <strong>
-                    <a href="https://vectara.github.io/create-ui">Vectara Create-UI</a>
+                    <VuiLink isAnchor href="https://vectara.github.io/create-ui">
+                      Vectara Create-UI
+                    </VuiLink>
                   </strong>
                 </h1>
               </VuiTitle>
@@ -61,8 +91,11 @@ export const Home = () => {
 
             <VuiText>
               <p>
-                Create-UI is the fastest way to generate a <a href="https://vectara.com/">Vectara</a>-powered sample
-                codebase for a range of user interfaces.
+                Create-UI is the fastest way to generate a{" "}
+                <VuiLink isAnchor href="https://vectara.com/">
+                  Vectara
+                </VuiLink>
+                -powered sample codebase for a range of user interfaces.
               </p>
             </VuiText>
 
@@ -71,8 +104,13 @@ export const Home = () => {
             <VuiText>
               <p>
                 Create the UIs below with a single command. Requires{" "}
-                <a href="https://nodejs.org/en/download">Node and NPM</a>. For more info,{" "}
-                <a href="https://github.com/vectara/create-ui">read the docs.</a>
+                <VuiLink isAnchor href="https://nodejs.org/en/download">
+                  Node and NPM
+                </VuiLink>
+                . For more info,{" "}
+                <VuiLink isAnchor href="https://github.com/vectara/create-ui">
+                  read the docs.
+                </VuiLink>
               </p>
             </VuiText>
 
@@ -82,138 +120,26 @@ export const Home = () => {
 
             <VuiSpacer size="xl" />
 
-            <VuiFlexContainer alignItems="end" justifyContent="spaceBetween">
-              <VuiFlexItem>
-                <VuiTitle size="m">
-                  <h2>Semantic Search UI</h2>
-                </VuiTitle>
-              </VuiFlexItem>
-
-              <VuiFlexItem>
-                <VuiText>
-                  <p>
-                    <a href="./searchDemo">See demo →</a>
-                  </p>
-                </VuiText>
-              </VuiFlexItem>
-            </VuiFlexContainer>
-
-            <VuiSpacer size="l" />
-
-            <a href="./searchDemo">
-              <img alt="Screenshot of Semantic Search UI" className="demoImage" src="./images/demoSearch.jpg" />
-            </a>
-
-            <VuiSpacer size="m" />
-
-            <VuiText>
-              <p>The Semantic Search UI is characterized by: </p>
-              <ul>
-                <li>
-                  A search box for entering a natural-language query. This can take the form of a question or just
-                  search terms.
-                </li>
-                <li>A list of search results.</li>
-              </ul>
-              <p>
-                A user will typically scan the list for relevant results and dig deeper into any results that look
-                interesting. They'll try variations on the same basic query to make sure they find as many potentially
-                useful results as possible.
-              </p>
-            </VuiText>
+            <DemoTitle title="Semantic Search UI" href="./searchDemo" />
+            <DemoImage href="./searchDemo" src="./images/demoSearch.jpg" alt="Screenshot of Semantic Search UI" />
 
             <VuiSpacer size="xl" />
 
-            <VuiFlexContainer alignItems="end" justifyContent="spaceBetween">
-              <VuiFlexItem>
-                <VuiTitle size="m">
-                  <h2>Summarized Semantic Search UI</h2>
-                </VuiTitle>
-              </VuiFlexItem>
-
-              <VuiFlexItem>
-                <VuiText>
-                  <p>
-                    <a href="./searchSummaryDemo">See demo →</a>
-                  </p>
-                </VuiText>
-              </VuiFlexItem>
-            </VuiFlexContainer>
-
-            <VuiSpacer size="l" />
-
-            <a href="./searchSummaryDemo">
-              <img
-                className="demoImage"
-                alt="Screenshot of Summarized Semantic Search UI"
-                src="./images/demoSearchSummary.jpg"
-              />
-            </a>
-
-            <VuiSpacer size="m" />
-
-            <VuiText>
-              <p>The Summarized Semantic UI is characterized by:</p>
-              <ul>
-                <li>
-                  A search box for entering a natural-language query. This can take the form of a question or just
-                  search terms.
-                </li>
-                <li>A list of search results.</li>
-                <li>A summary of search results that are most relevant to the query, with citations.</li>
-              </ul>
-              <p>
-                A user will typically scan the summary for points of interest, which is faster than reviewing the list
-                of search results. If an aspect of the summary catches their eye, they'll dig deeper into the cited
-                search result. They'll repeat this pattern until they've reviewed all of the interesting information
-                that was relevant to their query.
-              </p>
-            </VuiText>
+            <DemoTitle title="Summarized Semantic Search UI" href="./searchSummaryDemo" />
+            <DemoImage
+              href="./searchSummaryDemo"
+              src="./images/demoSearchSummary.jpg"
+              alt="Screenshot of Summarized Semantic Search UI"
+            />
 
             <VuiSpacer size="xl" />
 
-            <VuiFlexContainer alignItems="end" justifyContent="spaceBetween">
-              <VuiFlexItem>
-                <VuiTitle size="m">
-                  <h2>Question and Answer UI</h2>
-                </VuiTitle>
-              </VuiFlexItem>
-
-              <VuiFlexItem>
-                <VuiText>
-                  <p>
-                    <a href="./questionAndAnswerDemo">See demo →</a>
-                  </p>
-                </VuiText>
-              </VuiFlexItem>
-            </VuiFlexContainer>
-
-            <VuiSpacer size="l" />
-
-            <a href="./questionAndAnswerDemo">
-              <img
-                className="demoImage"
-                alt="Screenshot of Question and Answer UI"
-                src="./images/demoQuestionAndAnswer.jpg"
-              />
-            </a>
-
-            <VuiSpacer size="m" />
-
-            <VuiText>
-              <p>The Question and Answer UI is characterized by:</p>
-              <ul>
-                <li>
-                  A search box for entering a natural-language query. This typically takes the form of a question.
-                </li>
-                <li>A condensed answer based upon the most relevant search results, with citations.</li>
-              </ul>
-              <p>
-                A user will typically scan the answer to see if it truly answers their question. They'll use the
-                citations to verify that the answer is grounded in facts. If the answer doesn't fully answer their
-                question they'll try again with a differently-worded question.
-              </p>
-            </VuiText>
+            <DemoTitle title="Question and Answer UI" href="./questionAndAnswerDemo" />
+            <DemoImage
+              href="./questionAndAnswerDemo"
+              src="./images/demoQuestionAndAnswer.jpg"
+              alt="Screenshot of Question and Answer UI"
+            />
 
             <VuiSpacer size="xxl" />
           </div>

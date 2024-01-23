@@ -14,13 +14,14 @@ export type Props = {
   title?: string;
   id?: string;
   role?: string;
+  isAnchor?: boolean;
 };
 
 export const VuiLinkInternal = ({ ...rest }: Props) => {
   return <VuiLink {...rest} track />;
 };
 
-export const VuiLink = ({ children, href, target, onClick, className, track, ...rest }: Props) => {
+export const VuiLink = ({ children, href, target, onClick, className, track, isAnchor, ...rest }: Props) => {
   if (!href) {
     return (
       <button className={classNames("vuiLink", "vuiLink--button", className)} onClick={onClick} {...rest}>
@@ -40,6 +41,15 @@ export const VuiLink = ({ children, href, target, onClick, className, track, ...
 
   if (target === "_blank") {
     props.target = target;
+  }
+
+  // Uncouple from react-router.
+  if (isAnchor) {
+    return (
+      <a className={classNames("vuiLink", className)} href={href} onClick={onClick} {...props}>
+        {children}
+      </a>
+    );
   }
 
   return (
