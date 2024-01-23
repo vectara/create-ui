@@ -8,7 +8,7 @@ Create-UI is the fastest way to generate a [Vectara](https://vectara.com/)-power
 
 - **Semantic search:** A typical search UI.
 - **Summarized semantic search:** A typical search UI preceded by a summary of the most relevant results. Perfect for users who want to scan an overview before digging deeper into interesting search results.
-- **Question and answer:** Ideal for users who want to ask an answer and get a concise answer.
+- **Question and answer:** Ideal for users who want to ask a question and get a concise answer.
 
 Use this tool to:
 
