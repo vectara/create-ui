@@ -1,5 +1,5 @@
 import { useConfigContext } from "../../contexts/ConfigurationContext";
-import { VuiFlexContainer, VuiFlexItem, VuiSpacer, VuiTextColor, VuiText } from "../../ui";
+import { VuiFlexContainer, VuiFlexItem } from "../../ui";
 import { useSearchContext } from "../../contexts/SearchContext";
 import { ExampleQuestion } from "./ExampleQuestion";
 import "./exampleQuestions.scss";
@@ -12,31 +12,19 @@ export const ExampleQuestions = () => {
   if (!hasExampleQuestions) return null;
 
   return (
-    <div>
-      <VuiSpacer size="s" />
-
-      <VuiText size="s">
-        <p>
-          <VuiTextColor color="accent">Describe your interest above or try one of these topics.</VuiTextColor>
-        </p>
-      </VuiText>
-
-      <VuiSpacer size="m" />
-
-      <VuiFlexContainer spacing="m" wrap className="promptList">
-        {exampleQuestions.map((exampleQuestion) => (
-          <VuiFlexItem grow={1} key={exampleQuestion}>
-            <ExampleQuestion
-              key={exampleQuestion}
-              className="prompt"
-              onClick={() => {
-                onSearch({ value: exampleQuestion });
-              }}
-              title={exampleQuestion}
-            />
-          </VuiFlexItem>
-        ))}
-      </VuiFlexContainer>
-    </div>
+    <VuiFlexContainer spacing="m" wrap className="promptList">
+      {exampleQuestions.map((exampleQuestion) => (
+        <VuiFlexItem grow={1} key={exampleQuestion}>
+          <ExampleQuestion
+            key={exampleQuestion}
+            className="prompt"
+            onClick={() => {
+              onSearch({ value: exampleQuestion });
+            }}
+            title={exampleQuestion}
+          />
+        </VuiFlexItem>
+      ))}
+    </VuiFlexContainer>
   );
 };

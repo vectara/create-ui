@@ -4,11 +4,11 @@
 
 # Create-UI
 
-Create-UI is the fastest way to generate a functional, [Vectara](https://vectara.com/)-powered sample codebase for a range of user interfaces:
+Create-UI is the fastest way to generate a [Vectara](https://vectara.com/)-powered sample codebase for a range of user interfaces:
 
-- **Semantic search.** A typical search UI.
-- **Summarized semantic search.** A typical search UI preceded by a summary of the most relevant results. Perfect for users who want to scan an overview before digging deeper into interesting search results.
-- **Question and answer.** Ideal for users who want to ask an answer and get a concise answer.
+- **Semantic search:** A typical search UI.
+- **Summarized semantic search:** A typical search UI preceded by a summary of the most relevant results. Perfect for users who want to scan an overview before digging deeper into interesting search results.
+- **Question and answer:** Ideal for users who want to ask an answer and get a concise answer.
 
 Use this tool to:
 
@@ -24,24 +24,40 @@ Use this tool to:
 > - **[Vectara Answer](https://github.com/vectara/vectara-answer)**: Configure a sample Docker app for searching Vectara data.
 > - **[Vectara Ingest](https://github.com/vectara/vectara-ingest)**: Crawl data sources and ingest the data into Vectara.
 
+## How to use
+
+### 1. Install Node and NPM
+
+Create-UI expects you to have [Node and NPM](https://nodejs.org/en/download) installed on your system.
+
+### 2. Generate a codebase
+
+```
+npx @vectara/create-ui
+```
+
+Follow the prompts in the command line to generate a React codebase. You can choose to use our sample data, which is ideal for folks who don't have a Vectara account yet. If you already have data in Vectara **[you can configure the UI to connect to it](#set-up-your-data-in-vectara)**.
+
+When the prompts are complete, run the build command provided to you. You'll see the UI running in your browser.
+
 ## Types of UIs
 
-### Semantic search UI
+### Semantic Search UI
 
-![Semantic search UI screenshot](images/semanticSearch.jpg)
+<img src="images/demoSearch.jpg" alt="Semantic Search UI screenshot" width="800" />
 
-The Search UI is characterized by:
+The Semantic Search UI is characterized by:
 
 - A search box for entering a natural-language query. This can take the form of a question or just search terms.
 - A list of search results.
 
 A user will typically scan the list for relevant results and dig deeper into any results that look interesting. They'll try variations on the same basic query to make sure they find as many potentially useful results as possible.
 
-### Summarized semantic search UI
+### Summarized Semantic Search UI
 
-![Summarized semantic search UI screenshot](images/semanticSearchSummary.jpg)
+<img src="images/demoSearchSummary.jpg" alt="Summarized Semantic Search UI screenshot" width="800" />
 
-The Search Summary UI is characterized by:
+The Summarized Semantic Search UI is characterized by:
 
 - A search box for entering a natural-language query. This can take the form of a question or just search terms.
 - A list of search results.
@@ -49,9 +65,9 @@ The Search Summary UI is characterized by:
 
 A user will typically scan the summary for points of interest, which is faster than reviewing the list of search results. If an aspect of the summary catches their eye, they'll dig deeper into the cited search result. They'll repeat this pattern until they've reviewed all of the interesting information that was relevant to their query.
 
-### Question and answer UI
+### Question and Answer UI
 
-![Question and answer UI screenshot](images/questionAndAnswer.jpg)
+<img src="images/demoQuestionAndAnswer.jpg" alt="Question and Answer UI screenshot" width="800" />
 
 The Question and Answer UI is characterized by:
 
@@ -60,27 +76,7 @@ The Question and Answer UI is characterized by:
 
 A user will typically scan the answer to see if it truly answers their question. They'll use the citations to verify that the answer is grounded in facts. If the answer doesn't fully answer their question they'll try again with a differently-worded question.
 
-## Under the hood
-
-Create-UI generates codebases consisting of a React+SCSS front-end and a very light-weight Express server for local development. The front-end connects directly to the Vectara API to search the data in your Vectara account. You can edit the code to make requests against a proxy server.
-
-## How to use
-
-### 1. Install NPM and Node
-
-Create-UI expects you to have [NPM and Node](https://nodejs.org/en/download) installed on your system.
-
-### 2. Generate a codebase
-
-```
-npx @vectara/create-ui
-```
-
-Follow the prompts in the command line to generate your codebase. You can choose to use our sample data, which is ideal for folks who don't have a Vectara account yet. If you already have data in Vectara you can configure the UI to connect to it. [Learn more below.](https://github.com/vectara/create-ui?tab=readme-ov-file#set-up-your-data-in-vectara)
-
-When the prompts are complete, run the build command provided to you. You'll see the UI running in your browser.
-
-### 3. Set up your data in Vectara
+## Set up your data in Vectara
 
 You can configure a Create-UI app to use our sample data or to pull data from your Vectara corpus. To set this up:
 
@@ -92,7 +88,7 @@ You can configure a Create-UI app to use our sample data or to pull data from yo
 
 ![Copy all option](images/copyAll.jpg)
 
-#### How to use metadata
+### How to use metadata
 
 Vectara enables you to define [metadata](https://docs.vectara.com/docs/learn/document-data-structuring#metadata) on your documents. Create-UI apps behave differently based on the presence of specific metadata fields:
 

@@ -36,8 +36,6 @@ interface SearchContextType {
   summaryNumResults: number;
   summaryNumSentences: number;
   summaryPromptName: string;
-  summaryEnableHem: boolean;
-  hfToken: string;
   history: HistoryItem[];
   clearHistory: () => void;
   searchResultsRef: React.MutableRefObject<HTMLElement[] | null[]>;
@@ -60,7 +58,7 @@ type Props = {
 let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
-  const { search, summary, rerank, hybrid } = useConfigContext();
+  const { search, rerank, hybrid } = useConfigContext();
 
   const [searchValue, setSearchValue] = useState<string>("");
   const [filterValue, setFilterValue] = useState("");
@@ -142,7 +140,7 @@ export const SearchContextProvider = ({ children }: Props) => {
     }
   };
 
-  const getLanguage = (): SummaryLanguage => (languageValue ?? summary.defaultLanguage) as SummaryLanguage;
+  const getLanguage = (): SummaryLanguage => (languageValue ?? "auto") as SummaryLanguage;
 
   const onSearch = async ({
     value = searchValue,
@@ -237,9 +235,9 @@ export const SearchContextProvider = ({ children }: Props) => {
             rerankNumResults: rerank.numResults,
             rerankerId: rerank.id,
             rerankDiversityBias: rerank.diversityBias,
-            summaryNumResults: summary.summaryNumResults,
-            summaryNumSentences: summary.summaryNumSentences,
-            summaryPromptName: summary.summaryPromptName,
+            summaryNumResults: 7,
+            summaryNumSentences: 3,
+            summaryPromptName: "vectara-summary-ext-v1.2.0",
             hybridNumWords: hybrid.numWords,
             hybridLambdaLong: hybrid.lambdaLong,
             hybridLambdaShort: hybrid.lambdaShort,
@@ -307,11 +305,9 @@ export const SearchContextProvider = ({ children }: Props) => {
         summarizationResponse,
         summaryTime,
         language: getLanguage(),
-        summaryNumResults: summary.summaryNumResults,
-        summaryNumSentences: summary.summaryNumSentences,
-        summaryPromptName: summary.summaryPromptName,
-        summaryEnableHem: summary.summaryEnableHem,
-        hfToken: summary.hfToken,
+        summaryNumResults: 7,
+        summaryNumSentences: 3,
+        summaryPromptName: "vectara-summary-ext-v1.2.0",
         history,
         clearHistory,
         searchResultsRef,

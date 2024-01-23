@@ -11,7 +11,7 @@ import {
   VuiText,
   VuiTextColor,
   VuiTitle
-} from "../../contexts/ui";
+} from "../../ui";
 
 type Props = {
   isOpen: boolean;

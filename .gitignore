@@ -4,8 +4,9 @@ node_modules/
 apps/**/configuration.ts
 apps/**/node_modules/
 apps/**/package-lock.json
+apps/**/build/
 
-# Just in case we accidentally generate these during maintenance.
-demoDocs/
-demoDotcom/
-demoFeynman/
+docs/public/script.js
+docs/public/script.js.map
+docs/public/*Static/
+docs/public/*Demo.html
