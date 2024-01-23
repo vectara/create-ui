@@ -28,8 +28,8 @@ The app expects to find a `configuration.ts` file in the `/src` directory with t
 import { Config } from "./contexts/ConfigurationContext";
 
 export const configuration: Config = {
-  corpusId: "<your corpus ID here>",
   customerId: "<your customer ID here>",
+  corpusId: "<your corpus ID here>",
   apiKey: "<your API key here>",
   endpoint: "api.vectara.io"
 };
@@ -49,9 +49,7 @@ export const configuration: Config = {
 };
 ```
 
-The TS definition for the `Config` type can be found [in this file](https://github.com/vectara/create-ui/blob/main/apps/qa/src/contexts/ConfigurationContext.tsx).
-
-For more information on configuration options, please see [this section](#configuration-reference).
+For more information on configuration options, see the [Configuration Reference section](#configuration-reference) or the original [TS definition](./src/contexts/ConfigurationContext.tsx) for the `Config`.
 
 ## Running locally
 
@@ -63,91 +61,43 @@ npm run start
 
 If you make changes to the source code, the app will automatically reload with your changes.
 
-NOTE: The UI assumes there is a metadata field called `url` for each document in your Vectara corpus. If the `url` field exists, it will be displayed with search results as a clickable URL. If it does not, the title is used instead, but it will not be clickable.
+## Set up your data in Vectara
+
+To set up this app to pull data from your Vectara corpus:
+
+1. [Create a free Vectara account](https://console.vectara.com/signup).
+2. [Create a corpus and add data to it](https://docs.vectara.com/docs/console-ui/creating-a-corpus).
+3. [Create a **QueryService** API key](https://docs.vectara.com/docs/console-ui/manage-api-access#create-an-api-key).
+
+**Pro-tip:** After you create an API key, navigate to your corpus and click on the "Access control" tab. Find your API key on the bottom and select the "Copy all" option to copy your customer ID, corpus ID, and API key. This gives you all the data you need to configure a Create-UI app.
+
+### How to use metadata
+
+Vectara enables you to define [metadata](https://docs.vectara.com/docs/learn/document-data-structuring#metadata) on your documents. This app behaves differently based on the presence of specific metadata fields:
+
+- `title`: If this field is defined it will be rendered as the title of a search result. Typically this is something like the title of the document or webpage.
+- `url`: If this field is defined, the UI will render the search result as a link to the defined URL.
 
 ## Configuration Reference
 
 ```ts
 type Configuration = {
-  // The ID of your Vectara data store
-  corpusId: string;
-
-  // Your Vectara customer ID
+  // Your Vectara customer ID.
   customerId: string;
 
-  // The query API key of your Vectara data store
+  // The ID of your Vectara corpus.
+  corpusId: string;
+
+  // A Query API key with access to your corpus.
   apiKey: string;
 
-  // The host of your API URL, default is "api.vectara.io"
+  // The host of your API URL. Defaults to "api.vectara.io".
   endpoint: string;
 
-  // The header of your Q & A page
-  searchTitle?: string;
-
-  // Sample questions to show in the UI
+  // Sample questions to show in the UI.
   questions?: string[];
 
-  // Whether or not to enable re-ranking, which only works in English for now.
-  // For more info, see: https://docs.vectara.com/docs/api-reference/search-apis/reranking
-  rerank?: boolean;
-
-  // The number of results to use for re-ranking.
-  rerankNumResults?: number;
-
-  // The title of your application, to be shown in the UI.
+  // The title of your application shown in the UI.
   appTitle?: string;
-
-  // App header presentation details - link, logo, alt description, and logo height.
-  appHeaderLogoLink?: string;
-  appHeaderLogoSrc?: string;
-  appHeaderLogoAlt?: string;
-  appHeaderLogoHeight?: string;
-
-  // Presentation configuration for an option "Learn More" link to be shown at the top of the UI.
-  appHeaderLearnMoreLink?: string;
-  appHeaderLearnMoreText?: string;
-
-  // Filters
-  enableSourceFilters?: boolean;
-  allSources?: boolean;
-  sources?: string[];
-
-  // Form presentation details - input box title, logo, description, and placeholder
-  searchTitle?: string;
-  searchLogoLink?: string;
-  searchLogoSrc?: string;
-  searchLogoAlt?: string;
-  searchLogoHeight?: string;
-  searchDescription?: string;
-  searchPlaceholder?: string;
-
-  // Summary
-  summaryDefaultLanguage?: string;
-  summaryNumResults?: number;
-  summaryNumSentences?: number;
-  summaryPromptName?: string;
-  summaryEnableHem?: boolean;
-
-  // The number of words that will trigger a hybrid search.
-  // A hybrid search will include keyword searches.
-  hybridSearchNumWords?: number;
-
-  // Lambda values for long and short input values.
-  // For more info, see: https://docs.vectara.com/docs/api-recipes
-  hybridSearchLambdaLong?: number;
-  hybridSearchLambdaShort?: number;
-
-  // Whether to use Vectara's MMR (maximum marginal relevance) functionality.
-  // For more info, see: https://docs.vectara.com/docs/api-reference/search-apis/reranking
-  mmr?: boolean;
-
-  // The number of results to use for reranking
-  mmrNumResults?: number;
-
-  // The diversity bias factor (0..1) for MMR reranker.
-  // The higher the value, the more MMR is preferred over relevance.
-  mmrDiversityBias?: number;
-
-  hfToken?: string;
 };
 ```
