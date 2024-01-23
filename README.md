@@ -6,9 +6,9 @@
 
 Create-UI is the fastest way to generate a [Vectara](https://vectara.com/)-powered sample codebase for a range of user interfaces:
 
-- **Semantic search.** A typical search UI.
-- **Summarized semantic search.** A typical search UI preceded by a summary of the most relevant results. Perfect for users who want to scan an overview before digging deeper into interesting search results.
-- **Question and answer.** Ideal for users who want to ask an answer and get a concise answer.
+- **Semantic search:** A typical search UI.
+- **Summarized semantic search:** A typical search UI preceded by a summary of the most relevant results. Perfect for users who want to scan an overview before digging deeper into interesting search results.
+- **Question and answer:** Ideal for users who want to ask an answer and get a concise answer.
 
 Use this tool to:
 
@@ -36,7 +36,7 @@ Create-UI expects you to have [Node and NPM](https://nodejs.org/en/download) ins
 npx @vectara/create-ui
 ```
 
-Follow the prompts in the command line to generate a React codebase. You can choose to use our sample data, which is ideal for folks who don't have a Vectara account yet. If you already have data in Vectara you can configure the UI to connect to it. [Learn more below.](#set-up-your-data-in-vectara)
+Follow the prompts in the command line to generate a React codebase. You can choose to use our sample data, which is ideal for folks who don't have a Vectara account yet. If you already have data in Vectara **[you can configure the UI to connect to it](#set-up-your-data-in-vectara)**.
 
 When the prompts are complete, run the build command provided to you. You'll see the UI running in your browser.
 
