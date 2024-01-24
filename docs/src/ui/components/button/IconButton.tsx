@@ -16,10 +16,26 @@ type Props = {
   target?: LinkProps["target"];
   track?: LinkProps["track"];
   tabIndex?: number;
+  isAnchor?: boolean;
 };
 
 export const VuiIconButton = forwardRef<HTMLButtonElement | null, Props>(
-  ({ className, icon, color = "primary", size = "m", onClick, href, target, track, tabIndex, ...rest }: Props, ref) => {
+  (
+    {
+      className,
+      icon,
+      color = "primary",
+      size = "m",
+      onClick,
+      href,
+      target,
+      track,
+      tabIndex,
+      isAnchor,
+      ...rest
+    }: Props,
+    ref
+  ) => {
     const props = {
       className: classNames("vuiIconButton", className, `vuiIconButton--${color}`, `vuiIconButton--${size}`),
       onClick,
@@ -30,6 +46,16 @@ export const VuiIconButton = forwardRef<HTMLButtonElement | null, Props>(
     const buttonIcon = createButtonIcon(icon, size, color);
 
     if (href) {
+      // Uncouple from react-router.
+      if (isAnchor) {
+        return (
+          // @ts-expect-error HTMLAnchorElement is not HTMLButtonElement.
+          <a href={href} target={target} {...props} {...getTrackingProps(track)} ref={ref}>
+            {buttonIcon}
+          </a>
+        );
+      }
+
       return (
         // @ts-expect-error Type 'string' is not assignable to type 'HTMLAttributeReferrerPolicy | undefined'.
         <Link to={href} target={target} {...props} {...getTrackingProps(track)}>

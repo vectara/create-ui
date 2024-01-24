@@ -14,6 +14,8 @@ import {
   VuiCode
 } from "./ui";
 import { HeaderLogo } from "components/HeaderLogo";
+import "./ui/_index.scss";
+import "./index.scss";
 
 const DemoTitle = ({ title, href }: { title: string; href: string }) => (
   <VuiFlexContainer alignItems="end" justifyContent="spaceBetween" className="demoTitle">
@@ -43,7 +45,7 @@ const DemoImage = ({ href, src, alt }: { href: string; src: string; alt: string 
   </VuiFlexContainer>
 );
 
-export const Home = () => {
+export const App = () => {
   return (
     <>
       <VuiAppHeader
@@ -68,6 +70,7 @@ export const Home = () => {
         }
         right={
           <VuiIconButton
+            isAnchor
             href="https://github.com/vectara/create-ui"
             target="_blank"
             color="neutral"
