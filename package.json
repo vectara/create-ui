@@ -7,10 +7,7 @@
     "@vectara/create-ui": "bin/index.mjs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "install-dependencies": "node steps/installDeps.js",
     "plop": "plop",
-    "release": "release-it --access public",
     "docs": "node docs/docsServer.js",
     "buildDocs": "node docs/build.js",
     "buildDemos": "node docs/buildDemos.js",
@@ -19,15 +16,14 @@
     "dev:qa": "cd apps/questionAndAnswer && cp ../../sampleConfigurations/questionAndAnswer-configuration.ts ./src/configuration.ts && npm install && npm run start"
   },
   "author": "Deryk DeGuzman",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "dependencies": {
-    "@types/react": "^18.2.21",
-    "@types/react-dom": "^18.2.7",
-    "async": "^3.2.5",
     "minimist": "^1.2.8",
     "plop": "^4.0.0"
   },
   "devDependencies": {
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
     "@types/prismjs": "^1.26.3",
     "chokidar": "^3.5.3",
     "classnames": "^2.3.2",
@@ -45,10 +41,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/vectara/create-ui.git"
+    "url": "https://github.com/vectara/create-ui"
   },
   "bugs": {
     "url": "https://github.com/vectara/create-ui/issues"
   },
-  "homepage": "https://github.com/vectara/create-ui#readme"
+  "homepage": "https://github.com/vectara/create-ui"
 }

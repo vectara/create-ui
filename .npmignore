@@ -1,0 +1,8 @@
+/.github
+/docs
+/images
+/node_modules
+.prettierignore
+.prettierrc.json
+package-lock.json
+README.md
