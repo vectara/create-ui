@@ -2,6 +2,7 @@
 /docs
 /images
 /node_modules
+**/node_modules
 .prettierignore
 .prettierrc.json
 package-lock.json
