@@ -15,8 +15,25 @@
     "dev:searchSummary": "cd apps/searchSummary && cp ../../sampleConfigurations/searchSummary-configuration.ts ./src/configuration.ts && npm install && npm run start",
     "dev:qa": "cd apps/questionAndAnswer && cp ../../sampleConfigurations/questionAndAnswer-configuration.ts ./src/configuration.ts && npm install && npm run start"
   },
-  "author": "Deryk DeGuzman",
+  "author": {
+    "name": "Vectara, Inc.",
+    "url": "https://www.vectara.com"
+  },
   "license": "Apache-2.0",
+  "homepage": "https://github.com/vectara/create-ui",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vectara/create-ui"
+  },
+  "keywords": [
+    "vectara",
+    "search",
+    "semantic",
+    "genAI",
+    "ai",
+    "summarization",
+    "codegen"
+  ],
   "dependencies": {
     "minimist": "^1.2.8",
     "plop": "^4.0.0"
@@ -38,13 +55,5 @@
     "react-router-dom": "^6.8.2",
     "rimraf": "^5.0.5",
     "typescript": "^5.3.3"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/vectara/create-ui"
-  },
-  "bugs": {
-    "url": "https://github.com/vectara/create-ui/issues"
-  },
-  "homepage": "https://github.com/vectara/create-ui"
+  }
 }
