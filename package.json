@@ -7,10 +7,7 @@
     "@vectara/create-ui": "bin/index.mjs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "install-dependencies": "node steps/installDeps.js",
     "plop": "plop",
-    "release": "release-it --access public",
     "docs": "node docs/docsServer.js",
     "buildDocs": "node docs/build.js",
     "buildDemos": "node docs/buildDemos.js",
@@ -18,16 +15,32 @@
     "dev:searchSummary": "cd apps/searchSummary && cp ../../sampleConfigurations/searchSummary-configuration.ts ./src/configuration.ts && npm install && npm run start",
     "dev:qa": "cd apps/questionAndAnswer && cp ../../sampleConfigurations/questionAndAnswer-configuration.ts ./src/configuration.ts && npm install && npm run start"
   },
-  "author": "Deryk DeGuzman",
-  "license": "UNLICENSED",
+  "author": {
+    "name": "Vectara, Inc.",
+    "url": "https://www.vectara.com"
+  },
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/vectara/create-ui",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vectara/create-ui"
+  },
+  "keywords": [
+    "vectara",
+    "search",
+    "semantic",
+    "genAI",
+    "ai",
+    "summarization",
+    "codegen"
+  ],
   "dependencies": {
-    "@types/react": "^18.2.21",
-    "@types/react-dom": "^18.2.7",
-    "async": "^3.2.5",
     "minimist": "^1.2.8",
     "plop": "^4.0.0"
   },
   "devDependencies": {
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
     "@types/prismjs": "^1.26.3",
     "chokidar": "^3.5.3",
     "classnames": "^2.3.2",
@@ -42,13 +55,5 @@
     "react-router-dom": "^6.8.2",
     "rimraf": "^5.0.5",
     "typescript": "^5.3.3"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/vectara/create-ui.git"
-  },
-  "bugs": {
-    "url": "https://github.com/vectara/create-ui/issues"
-  },
-  "homepage": "https://github.com/vectara/create-ui#readme"
+  }
 }
