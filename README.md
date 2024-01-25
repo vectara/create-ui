@@ -21,8 +21,8 @@ Use this tool to:
 > Looking for something else? Try another open-source project:
 >
 > - **[React-Search](https://github.com/vectara/react-search)**: Add Vectara semantic search to your React apps with a few lines of code.
-> - **[Vectara Answer](https://github.com/vectara/vectara-answer)**: Configure a sample Docker app for searching Vectara data.
-> - **[Vectara Ingest](https://github.com/vectara/vectara-ingest)**: Crawl data sources and ingest the data into Vectara.
+> - **[Vectara Answer](https://github.com/vectara/vectara-answer)**: Demo app for Summarized Semantic Search with advanced configuration options.
+> - **[Vectara Ingest](https://github.com/vectara/vectara-ingest)**: Sample templates for pulling data from many popular data sources.
 
 ## How to use
 
