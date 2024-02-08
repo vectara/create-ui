@@ -31,6 +31,7 @@ export const VuiBadge = ({ children, className, color, onClick, href, target, tr
 
   if (href) {
     return (
+      // @ts-expect-error Type 'string' is not assignable to type 'HTMLAttributeReferrerPolicy | undefined'.
       <Link className={classes} onClick={onClick} to={href} target={target} {...getTrackingProps(track)}>
         {children}
       </Link>

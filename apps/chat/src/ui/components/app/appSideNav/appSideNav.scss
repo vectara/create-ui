@@ -62,12 +62,13 @@
   text-decoration: none;
 
   &:hover {
+    background-color: $colorPrimaryLighterShade;
+    border-radius: $sizeM;
     color: $colorPrimary;
-    text-decoration: underline;
   }
 }
 
 .vuiAppSideNavLink--active {
-  background-color: $colorPrimaryLightShade;
-  border-radius: $sizeM;
+  font-weight: $fontWeightBold;
+  text-decoration: underline;
 }

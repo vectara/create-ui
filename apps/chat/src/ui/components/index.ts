@@ -43,7 +43,7 @@ import { VuiInfoTable, InfoTableColumnAlign, InfoTableRow, InfoTableRowType } fr
 import { VuiLink, VuiLinkInternal } from "./link/Link";
 import { VuiList } from "./list/List";
 import { VuiMenu } from "./menu/Menu";
-import { VuiMenuItem } from "./menu/MenuItem";
+import { VuiMenuItem, MenuItem } from "./menu/MenuItem";
 import { VuiModal } from "./modal/Modal";
 import { VuiNotifications } from "./notification/Notifications";
 import { Notification } from "./notification/Notification";
@@ -89,6 +89,7 @@ export type {
   InfoTableColumnAlign,
   InfoTableRow,
   InfoTableRowType,
+  MenuItem,
   Notification,
   OptionListItem,
   RadioButtonConfig,

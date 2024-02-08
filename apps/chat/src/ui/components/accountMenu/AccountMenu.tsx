@@ -1,4 +1,3 @@
-import { VuiHorizontalRule } from "../horizontalRule/HorizontalRule";
 import { VuiPopover } from "../popover/Popover";
 import { VuiSpacer } from "../spacer/Spacer";
 
@@ -30,13 +29,7 @@ export const VuiAccountMenu = ({ isOpen, setIsOpen, button, info, children }: Pr
               <div key={index} className="vuiAccountMenuHeaderItem">
                 <div className="vuiAccountMenuHeaderItem__title">{item.title}</div>
                 <div className="vuiAccountMenuHeaderItem__value">{item.value}</div>
-                {index < info.length - 1 && (
-                  <>
-                    <VuiSpacer size="xs" />
-                    <VuiHorizontalRule />
-                    <VuiSpacer size="xs" />
-                  </>
-                )}
+                {index < info.length - 1 && <VuiSpacer size="m" />}
               </div>
             ))}
           </div>

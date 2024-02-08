@@ -34,22 +34,16 @@
   flex-shrink: 0;
   color: $colorSubdued;
   text-decoration: none;
-  transition: all $transitionSpeed;
   box-shadow: transparent 0px 1px 0px, transparent 0px -1px 0px inset;
   cursor: pointer;
 
-  &:hover,
-  &:active {
-    color: $colorText;
-    text-decoration: none;
-  }
-
   &:hover {
-    background-color: $colorLightShade;
+    text-decoration: underline;
+    color: $colorPrimary;
+    background-color: $colorPrimaryLighterShade;
   }
 
   &.vuiTab-isActive {
-    color: $colorText;
     box-shadow: $colorPrimary 0px 1px 0px, $colorPrimary 0px -1px 0px inset;
   }
 }

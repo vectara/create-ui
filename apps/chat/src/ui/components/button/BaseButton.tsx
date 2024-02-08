@@ -81,6 +81,7 @@ export const BaseButton = forwardRef<HTMLButtonElement | null, Props>(
       });
 
       return (
+        // @ts-expect-error Type 'string' is not assignable to type 'HTMLAttributeReferrerPolicy | undefined'.
         <Link
           className={wrapperClasses}
           to={href}
@@ -102,7 +103,7 @@ export const BaseButton = forwardRef<HTMLButtonElement | null, Props>(
     const props = {
       onClick,
       tabIndex,
-      ["type"]: isSubmit ? "submit" : undefined,
+      ["type"]: isSubmit ? "submit" : "button",
       ...rest
     };
 

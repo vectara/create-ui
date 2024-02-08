@@ -1,10 +1,7 @@
 .vuiMenu {
   border: 1px solid $borderColor;
   border-radius: $sizeXs;
-}
-
-.vuiMenuItem + .vuiMenuItem {
-  border-top: 1px solid $borderColor;
+  overflow: hidden;
 }
 
 .vuiMenuItem {
@@ -13,14 +10,70 @@
   padding: $sizeS $sizeL;
   cursor: pointer;
   text-decoration: none;
-  box-shadow: $shadowSmallStart;
-  transition: all $transitionSpeed;
-  text-decoration-color: $colorText;
   text-align: left;
+}
+
+.vuiMenu--noBorder {
+  border: none;
+  border-radius: 0;
+
+  .vuiMenuItem {
+    padding: $sizeS $sizeM;
+  }
+}
+
+.vuiMenuItem--neutral {
+  .vuiMenuItem__title {
+    color: $colorText;
+  }
 
   &:hover {
-    box-shadow: $shadowSmallEnd;
-    text-decoration: underline;
-    text-decoration-color: $colorText;
+    background-color: $colorPrimaryLighterShade;
+
+    .vuiMenuItem__title,
+    .vuiMenuItem__text {
+      color: $colorPrimary;
+    }
   }
+}
+
+.vuiMenuItem--primary {
+  .vuiMenuItem__title {
+    color: $colorPrimary;
+  }
+
+  &:hover {
+    background-color: $colorPrimaryLighterShade;
+
+    .vuiMenuItem__title,
+    .vuiMenuItem__text {
+      color: $colorPrimary;
+    }
+  }
+}
+
+.vuiMenuItem--danger {
+  .vuiMenuItem__title {
+    color: $colorDanger;
+  }
+
+  &:hover {
+    background-color: $colorDangerLighterShade;
+
+    .vuiMenuItem__title,
+    .vuiMenuItem__text {
+      color: $colorDanger;
+    }
+  }
+}
+
+.vuiMenuItem__title {
+  font-size: $fontSizeMedium;
+  line-height: 1.4;
+}
+
+.vuiMenuItem__text {
+  color: $colorSubdued;
+  font-size: $fontSizeSmall;
+  line-height: 1.4;
 }

@@ -31,6 +31,7 @@ export const VuiIconButton = forwardRef<HTMLButtonElement | null, Props>(
 
     if (href) {
       return (
+        // @ts-expect-error Type 'string' is not assignable to type 'HTMLAttributeReferrerPolicy | undefined'.
         <Link to={href} target={target} {...props} {...getTrackingProps(track)}>
           <button ref={ref}>{buttonIcon}</button>
         </Link>

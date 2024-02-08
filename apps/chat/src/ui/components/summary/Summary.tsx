@@ -6,7 +6,7 @@ import { VuiText } from "../typography/Text";
 const markDownCitations = (summary: string) => {
   const citations = extractCitations(summary);
   return citations
-    .reduce((accum, { text, references }, index) => {
+    .reduce((accum, { text, references }) => {
       if (references) {
         accum.push(text);
 

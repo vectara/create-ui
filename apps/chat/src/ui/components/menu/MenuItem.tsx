@@ -1,20 +1,19 @@
 import classNames from "classnames";
 import { VuiSpacer } from "../spacer/Spacer";
-import { VuiText } from "../typography/Text";
-import { VuiTextColor } from "../typography/TextColor";
 import { Props as LinkProps } from "../link/Link";
 import { Link } from "react-router-dom";
 
-type Props = {
+export type MenuItem = {
   className?: string;
-  title?: string;
-  text?: string;
+  title?: React.ReactNode;
+  text?: React.ReactNode;
   onClick?: () => void;
   href?: LinkProps["href"];
+  color?: "neutral" | "primary" | "danger";
 };
 
-export const VuiMenuItem = ({ className, title, text, href, onClick, ...rest }: Props) => {
-  const classes = classNames(className, "vuiMenuItem");
+export const VuiMenuItem = ({ className, title, text, onClick, href, color = "neutral", ...rest }: MenuItem) => {
+  const classes = classNames(className, "vuiMenuItem", `vuiMenuItem--${color}`);
 
   const props = {
     className: classes,
@@ -24,17 +23,9 @@ export const VuiMenuItem = ({ className, title, text, href, onClick, ...rest }: 
 
   const content = (
     <>
-      <VuiText>
-        <p>{title}</p>
-      </VuiText>
-
-      <VuiSpacer size="xxs" />
-
-      <VuiText size="xs">
-        <VuiTextColor color="subdued">
-          <p>{text}</p>
-        </VuiTextColor>
-      </VuiText>
+      {title && <div className="vuiMenuItem__title">{title}</div>}
+      {text && title && <VuiSpacer size="xxs" />}
+      {text && <div className="vuiMenuItem__text">{text}</div>}
     </>
   );
 
