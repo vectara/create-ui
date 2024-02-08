@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { BiError } from "react-icons/bi";
 import Markdown from "markdown-to-jsx";
-import { VuiFlexContainer, VuiFlexItem, VuiIcon, VuiSpacer, VuiText } from "../ui";
+import { VuiButtonSecondary, VuiFlexContainer, VuiFlexItem, VuiIcon, VuiSpacer, VuiText } from "../ui";
 import { applyCitationOrder, extractCitations, reorderCitations } from "../ui/utils/citations";
 import { DeserializedSearchResult } from "./types";
 import { ChatReferences } from "./ChatReferences";
-import { SUMMARY_NUM_RESULTS } from "../contexts/SearchContext";
+import { SUMMARY_NUM_RESULTS, useSearchContext } from "../contexts/SearchContext";
 
 const removeCitations = (text: string) => text.replace(/ ?\[\d+\]/g, "");
 
@@ -55,17 +55,12 @@ type Props = {
 };
 
 export const ChatItem = ({ isLoading, question, answer, searchResults, error }: Props) => {
+  const { onRetry } = useSearchContext();
   const [isReferencesOpen, setIsReferencesOpen] = useState(false);
 
   let content;
 
-  if (isLoading) {
-    content = (
-      <div className="chatMessageContainer chatMessageContainer--thinking">
-        <div className="chatMessage">🧠 Thinking&hellip;</div>
-      </div>
-    );
-  } else if (error) {
+  if (error) {
     content = (
       <div className="chatMessageContainer chatMessageContainer--error">
         <div className="chatMessage">
@@ -78,7 +73,19 @@ export const ChatItem = ({ isLoading, question, answer, searchResults, error }: 
 
             <VuiFlexItem grow={false}>{error}</VuiFlexItem>
           </VuiFlexContainer>
+
+          <VuiSpacer size="s" />
+
+          <VuiButtonSecondary color="primary" size="m" onClick={() => onRetry()}>
+            Try again
+          </VuiButtonSecondary>
         </div>
+      </div>
+    );
+  } else if (isLoading) {
+    content = (
+      <div className="chatMessageContainer chatMessageContainer--thinking">
+        <div className="chatMessage">🧠 Thinking&hellip;</div>
       </div>
     );
   } else if (answer) {

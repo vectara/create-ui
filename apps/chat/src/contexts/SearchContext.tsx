@@ -43,6 +43,7 @@ interface SearchContextType {
   searchResultsRef: React.MutableRefObject<HTMLElement[] | null[]>;
   selectedSearchResultPosition: number | undefined;
   selectSearchResultAt: (position: number) => void;
+  onRetry: () => void;
 }
 
 const SearchContext = createContext<SearchContextType | undefined>(undefined);
@@ -117,6 +118,10 @@ export const SearchContextProvider = ({ children }: Props) => {
 
   const getLanguage = (): SummaryLanguage => (languageValue ?? "auto") as SummaryLanguage;
 
+  const onRetry = () => {
+    onSearch({ value: summarizationQuestion });
+  };
+
   const onSearch = async ({
     value = searchValue,
     filter = filterValue,
@@ -126,119 +131,119 @@ export const SearchContextProvider = ({ children }: Props) => {
     filter?: string;
     language?: SummaryLanguage;
   }) => {
+    if (!value?.trim()) return;
+
     const searchId = ++searchCount;
 
     setSearchValue("");
     setFilterValue(filter);
+    setSearchError(undefined);
+    setSummarizationError(undefined);
     setLanguageValue(language);
     setSummarizationResponse(undefined);
     setSummarizationQuestion(value);
 
-    if (value?.trim()) {
-      // Save to history.
-      setHistory(addHistoryItem({ query: value, filter, language }, history));
+    // Save to history.
+    setHistory(addHistoryItem({ query: value, filter, language }, history));
 
-      // First call - only search results - should come back quicky while we wait for summarization
-      setIsSearching(true);
-      setIsSummarizing(true);
-      setSelectedSearchResultPosition(undefined);
+    // First call - only search results - should come back quicky while we wait for summarization
+    setIsSearching(true);
+    setIsSummarizing(true);
+    setSelectedSearchResultPosition(undefined);
 
-      let initialSearchResponse;
+    let initialSearchResponse;
 
+    try {
+      const startTime = Date.now();
+      initialSearchResponse = await sendSearchRequest({
+        filter,
+        queryValue: value,
+        rerank: rerank.isEnabled,
+        rerankNumResults: rerank.numResults,
+        rerankerId: rerank.id,
+        rerankDiversityBias: rerank.diversityBias,
+        hybridNumWords: hybrid.numWords,
+        hybridLambdaLong: hybrid.lambdaLong,
+        hybridLambdaShort: hybrid.lambdaShort,
+        customerId: search.customerId!,
+        corpusId: search.corpusId!,
+        endpoint: search.endpoint!,
+        apiKey: search.apiKey!
+      });
+      const totalTime = Date.now() - startTime;
+
+      // If we send multiple requests in rapid succession, we only want to
+      // display the results of the most recent request.
+      if (searchId === searchCount) {
+        setIsSearching(false);
+        setSearchTime(totalTime);
+        setSearchResponse(initialSearchResponse);
+
+        if (initialSearchResponse.response.length > 0) {
+          setSearchError(undefined);
+        } else {
+          setSearchError({
+            message: "There weren't any results for your search."
+          });
+        }
+      }
+    } catch (error) {
+      console.log("Search error", error);
+      setIsSearching(false);
+      setIsSummarizing(false);
+      setSearchError(error as SearchError);
+      setSearchResponse(undefined);
+      return;
+    }
+
+    // Second call - search and summarize (if summary is enabled); this may take a while to return results
+    if (initialSearchResponse.response.length > 0) {
+      const startTime = Date.now();
       try {
-        const startTime = Date.now();
-        initialSearchResponse = await sendSearchRequest({
+        const response = await sendSearchRequest({
           filter,
           queryValue: value,
+          summaryMode: true,
           rerank: rerank.isEnabled,
           rerankNumResults: rerank.numResults,
           rerankerId: rerank.id,
           rerankDiversityBias: rerank.diversityBias,
+          summaryNumResults: SUMMARY_NUM_RESULTS,
+          summaryNumSentences: 3,
+          summaryPromptName: "vectara-summary-ext-v1.2.0",
           hybridNumWords: hybrid.numWords,
           hybridLambdaLong: hybrid.lambdaLong,
           hybridLambdaShort: hybrid.lambdaShort,
+          language,
           customerId: search.customerId!,
           corpusId: search.corpusId!,
           endpoint: search.endpoint!,
-          apiKey: search.apiKey!
+          apiKey: search.apiKey!,
+          chat: { conversationId: "" }
         });
         const totalTime = Date.now() - startTime;
-
+        console.log(response);
         // If we send multiple requests in rapid succession, we only want to
         // display the results of the most recent request.
         if (searchId === searchCount) {
-          setIsSearching(false);
-          setSearchTime(totalTime);
-          setSearchResponse(initialSearchResponse);
-
-          if (initialSearchResponse.response.length > 0) {
-            setSearchError(undefined);
-          } else {
-            setSearchError({
-              message: "There weren't any results for your search."
-            });
-          }
+          setIsSummarizing(false);
+          setSummarizationError(undefined);
+          setSummarizationResponse(response);
+          setSummaryTime(totalTime);
         }
       } catch (error) {
-        console.log("Search error", error);
-        setIsSearching(false);
-        setSearchError(error as SearchError);
-        setSearchResponse(undefined);
-      }
-
-      // Second call - search and summarize (if summary is enabled); this may take a while to return results
-      if (initialSearchResponse.response.length > 0) {
-        const startTime = Date.now();
-        try {
-          const response = await sendSearchRequest({
-            filter,
-            queryValue: value,
-            summaryMode: true,
-            rerank: rerank.isEnabled,
-            rerankNumResults: rerank.numResults,
-            rerankerId: rerank.id,
-            rerankDiversityBias: rerank.diversityBias,
-            summaryNumResults: SUMMARY_NUM_RESULTS,
-            summaryNumSentences: 3,
-            summaryPromptName: "vectara-summary-ext-v1.2.0",
-            hybridNumWords: hybrid.numWords,
-            hybridLambdaLong: hybrid.lambdaLong,
-            hybridLambdaShort: hybrid.lambdaShort,
-            language,
-            customerId: search.customerId!,
-            corpusId: search.corpusId!,
-            endpoint: search.endpoint!,
-            apiKey: search.apiKey!,
-            chat: { conversationId: "" }
-          });
-          const totalTime = Date.now() - startTime;
-          console.log(response);
-          // If we send multiple requests in rapid succession, we only want to
-          // display the results of the most recent request.
-          if (searchId === searchCount) {
-            setIsSummarizing(false);
-            setSummarizationError(undefined);
-            setSummarizationResponse(response);
-            setSummaryTime(totalTime);
-          }
-        } catch (error) {
-          console.log("Summary error", error);
-          setIsSummarizing(false);
-          setSummarizationError(error as SearchError);
-          setSummarizationResponse(undefined);
-        }
-      } else {
+        console.log("Summary error", error);
         setIsSummarizing(false);
-        setSummarizationError({
-          message: "No search results to summarize"
-        });
+        setSummarizationError(error as SearchError);
         setSummarizationResponse(undefined);
+        return;
       }
     } else {
-      setSearchResponse(undefined);
-      setSummarizationResponse(undefined);
-      setIsSearching(false);
       setIsSummarizing(false);
+      setSummarizationError({
+        message: "No search results to summarize"
+      });
+      setSummarizationResponse(undefined);
     }
   };
 
@@ -274,7 +279,8 @@ export const SearchContextProvider = ({ children }: Props) => {
         clearHistory,
         searchResultsRef,
         selectedSearchResultPosition,
-        selectSearchResultAt
+        selectSearchResultAt,
+        onRetry
       }}
     >
       {children}

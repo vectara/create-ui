@@ -38,17 +38,7 @@ export const ChatView = () => {
         question={summarizationQuestion}
         answer={summarizationResponse?.summary[0].text}
         searchResults={searchResults}
-        // error={
-        //   errorsCount !== undefined &&
-        //   errorsCount > 0 && (
-        //     <ErrorsCallout
-        //       viewErrorsButtonLabel={errorsCount > 1 ? `View ${errorsCount} errors` : "View error"}
-        //       onClickViewErrorsButton={() => setIsErrorsDrawerOpen(true)}
-        //       isSummarizationEnabled={true}
-        //       onRetry={resendQueryRequest}
-        //     />
-        //   )
-        // }
+        error={searchError && <>{searchError.message}</>}
       />
     );
   }
@@ -67,6 +57,8 @@ export const ChatView = () => {
         <VuiAppContent className="appContent" fullWidth={false} padding="none">
           <VuiFlexContainer direction="column" className="appContent__inner" spacing="none">
             <VuiFlexItem grow={1}>
+              <VuiSpacer size="xl" />
+
               {!hasContent ? (
                 <div className="exampleQuestionsContainer">
                   <VuiText>
@@ -99,7 +91,7 @@ export const ChatView = () => {
                 search={() => onSubmitChat()}
               />
 
-              <VuiSpacer size="m" />
+              <VuiSpacer size="xl" />
             </VuiFlexItem>
           </VuiFlexContainer>
         </VuiAppContent>
