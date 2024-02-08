@@ -1,0 +1,117 @@
+@import "../ui/styleUtils/index.scss";
+@import "../variables.scss";
+
+@keyframes pulsate {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.appContent,
+.appContent__inner {
+  height: 100%;
+}
+
+.exampleQuestionsContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.chatMessageContainer {
+  display: flex;
+}
+
+.chatMessage {
+  padding: $sizeS $sizeM;
+  border-radius: $sizeM;
+}
+
+.chatMessageContainer--question {
+  justify-content: flex-end;
+  align-items: center;
+
+  .chatMessage {
+    max-width: 420px;
+    background-color: $colorAccent;
+    color: $colorEmptyShade;
+    border-bottom-right-radius: 0;
+  }
+}
+
+.chatMessageContainer--thinking,
+.chatMessageContainer--error,
+.chatMessageContainer--answer {
+  justify-content: flex-start;
+
+  .chatMessage {
+    max-width: 620px;
+    background-color: $colorLightShade;
+    border-bottom-left-radius: 0;
+  }
+}
+
+.chatMessageContainer--thinking {
+  .chatMessage {
+    opacity: 1;
+    animation: pulsate 1s infinite linear;
+    color: $colorDarkShade;
+  }
+}
+
+.chatMessageContainer--answer {
+  .chatMessage {
+    color: $colorFullShade;
+  }
+}
+
+.chatMessageContainer--error {
+  .chatMessage {
+    color: $colorDanger;
+  }
+}
+
+.chatMessageContainer__optionsButton {
+  margin-left: $sizeS;
+}
+
+.chatInputContainer {
+  position: sticky;
+  bottom: 0;
+  background-color: $colorEmptyShade;
+  padding: 0 0 $sizeL;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8));
+  }
+}
+
+.chatInputContainer-hasChatHistory {
+  padding: 0;
+}
+
+.chatSummaryCitation,
+.chatSearchResultPosition {
+  background-color: rgba($colorFullShade, 0.05);
+  color: $colorFullShade;
+  padding: $sizeXxs $sizeXs;
+  font-size: $fontSizeSmall;
+  border-radius: $sizeXxs;
+  font-weight: $fontWeightBold;
+  line-height: 1.4;
+}
+
+.chatSummaryCitation {
+  display: inline;
+}
