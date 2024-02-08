@@ -99,7 +99,7 @@ export const ChatItem = ({ isLoading, question, answer, searchResults, error }: 
     content = (
       <div className="chatMessageContainer chatMessageContainer--answer">
         <div className="chatMessage">
-          <VuiText>
+          <VuiText size="m">
             <Markdown
               children={sanitizedAnswer}
               options={{
@@ -114,11 +114,15 @@ export const ChatItem = ({ isLoading, question, answer, searchResults, error }: 
           </VuiText>
 
           {reorderedSearchResults && reorderedSearchResults.length > 0 && (
-            <ChatReferences
-              searchResults={reorderedSearchResults}
-              isOpen={isReferencesOpen}
-              setIsOpen={setIsReferencesOpen}
-            />
+            <>
+              <VuiSpacer size="s" />
+
+              <ChatReferences
+                searchResults={reorderedSearchResults}
+                isOpen={isReferencesOpen}
+                setIsOpen={setIsReferencesOpen}
+              />
+            </>
           )}
         </div>
       </div>

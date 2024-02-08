@@ -75,7 +75,7 @@ export const ChatView = () => {
                 chatItems.map((item: any, index: number) => (
                   <Fragment key={index}>
                     {item}
-                    {index < chatItems.length - 1 ? <VuiSpacer size="xs" /> : <VuiSpacer size="xl" />}
+                    {index < chatItems.length - 1 ? <VuiSpacer size="m" /> : <VuiSpacer size="xl" />}
                   </Fragment>
                 ))
               )}

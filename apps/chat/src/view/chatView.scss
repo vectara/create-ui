@@ -14,6 +14,7 @@
 .appContent,
 .appContent__inner {
   height: 100%;
+  max-width: 1000px;
 }
 
 .exampleQuestionsContainer {
@@ -33,14 +34,11 @@
 }
 
 .chatMessageContainer--question {
-  justify-content: flex-end;
-  align-items: center;
-
   .chatMessage {
-    max-width: 420px;
-    background-color: $colorAccent;
-    color: $colorEmptyShade;
-    border-bottom-right-radius: 0;
+    max-width: 720px;
+    color: $colorSubdued;
+    font-size: $fontSizeStandard;
+    font-weight: $fontWeightBold;
   }
 }
 
@@ -48,11 +46,13 @@
 .chatMessageContainer--error,
 .chatMessageContainer--answer {
   justify-content: flex-start;
+  padding: 0 $sizeL;
 
   .chatMessage {
-    max-width: 620px;
+    max-width: 940px;
     background-color: $colorLightShade;
-    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
   }
 }
 
@@ -84,7 +84,7 @@
   position: sticky;
   bottom: 0;
   background-color: $colorEmptyShade;
-  padding: 0 0 $sizeL;
+  padding: 0 $sizeL $sizeL;
 
   &::before {
     content: "";
@@ -105,7 +105,7 @@
 .chatSearchResultPosition {
   background-color: rgba($colorFullShade, 0.05);
   color: $colorFullShade;
-  padding: $sizeXxs $sizeXs;
+  padding: $sizeXxxs $sizeXxs;
   font-size: $fontSizeSmall;
   border-radius: $sizeXxs;
   font-weight: $fontWeightBold;
