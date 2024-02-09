@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { BiError } from "react-icons/bi";
 import Markdown from "markdown-to-jsx";
 import { VuiButtonSecondary, VuiFlexContainer, VuiFlexItem, VuiIcon, VuiSpacer, VuiText } from "../ui";
@@ -52,11 +51,20 @@ type Props = {
   answer?: string;
   searchResults?: DeserializedSearchResult[];
   error?: React.ReactNode;
+  isReferencesOpen?: boolean;
+  setIsReferencesOpen?: (isOpen: boolean) => void;
 };
 
-export const ChatItem = ({ isLoading, question, answer, searchResults, error }: Props) => {
+export const ChatItem = ({
+  isLoading,
+  question,
+  answer,
+  searchResults,
+  error,
+  isReferencesOpen,
+  setIsReferencesOpen
+}: Props) => {
   const { onRetry } = useSearchContext();
-  const [isReferencesOpen, setIsReferencesOpen] = useState(false);
 
   let content;
 

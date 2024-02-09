@@ -4,11 +4,17 @@ import { ChatReference } from "./ChatReference";
 
 type Props = {
   searchResults: DeserializedSearchResult[];
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
+  isOpen?: boolean;
+  setIsOpen?: (isOpen: boolean) => void;
 };
 
-export const ChatReferences = ({ searchResults, isOpen, setIsOpen }: Props) => {
+export const ChatReferences = ({
+  searchResults,
+  isOpen = false,
+  setIsOpen = () => {
+    console.log("setIsOpen");
+  }
+}: Props) => {
   return (
     <VuiAccordion
       header={`Based on ${searchResults.length} ${searchResults.length === 1 ? "fact" : "facts"}`}

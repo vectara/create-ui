@@ -222,7 +222,7 @@ export const SearchContextProvider = ({ children }: Props) => {
           chat: { conversationId: "" }
         });
         const totalTime = Date.now() - startTime;
-        console.log(response);
+
         // If we send multiple requests in rapid succession, we only want to
         // display the results of the most recent request.
         if (searchId === searchCount) {

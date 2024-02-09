@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import { VuiAppContent, VuiAppLayout, VuiFlexContainer, VuiFlexItem, VuiSpacer, VuiText, VuiTextColor } from "../ui";
 import { useSearchContext } from "../contexts/SearchContext";
@@ -22,6 +22,66 @@ export const ChatView = () => {
     summarizationQuestion
   } = useSearchContext();
   const { onSubmitChat, chatHistory } = useChatContext();
+  const [isReferencesOpen, setIsReferencesOpen] = useState(false);
+
+  const appLayoutRef = useRef<HTMLDivElement>(null);
+  const isScrolledToBottomRef = useRef(true);
+
+  const updateScrollPosition = () => {
+    // Scrolling UX rules:
+    // * Scroll down if the last recorded scroll position was already
+    //   at the bottom of the list and if the last question has resolved
+    //   to an answer.
+    // * If the user has scrolled to another position, then don’t
+    //   auto-scroll.
+
+    // This way if the user takes control of the scroll position, they
+    // remain in control. If the user hasn’t taken control of the scroll
+    // position, then the scroll feels stable (by staying at the
+    // bottom) as opposed to scrolling unpredictably through the list
+    // as questions resolve.
+    if (isScrolledToBottomRef.current) {
+      // Scroll to the bottom of the chat to keep the latest turn in view.
+      appLayoutRef.current?.scrollTo({
+        left: 0,
+        top: appLayoutRef.current?.scrollHeight,
+        behavior: "smooth"
+      });
+    }
+  };
+
+  useEffect(() => {
+    const layoutNode = appLayoutRef.current;
+
+    const onScrollContent = (e: Event) => {
+      const isScrolledToBottom = appLayoutRef.current
+        ? Math.abs(
+            appLayoutRef.current.scrollHeight - appLayoutRef.current.clientHeight - appLayoutRef.current.scrollTop
+          ) < 50
+        : true;
+
+      isScrolledToBottomRef.current = isScrolledToBottom;
+    };
+
+    // We're going to track the scroll position, which will determine
+    // or not the user is at the bottom of the chat.
+    layoutNode?.addEventListener("scroll", onScrollContent);
+
+    return () => {
+      layoutNode?.removeEventListener("scroll", onScrollContent);
+    };
+  }, []);
+
+  useEffect(updateScrollPosition, [
+    isSearching,
+    isSummarizing,
+    searchError,
+    summarizationError,
+    summarizationResponse,
+    summarizationQuestion,
+    chatHistory,
+    isReferencesOpen
+  ]);
 
   const chatItems = chatHistory.map((turn, index) => {
     const { question, answer } = turn;
@@ -39,6 +99,8 @@ export const ChatView = () => {
         answer={summarizationResponse?.summary[0].text}
         searchResults={searchResults}
         error={searchError && <>{searchError.message}</>}
+        isReferencesOpen={isReferencesOpen}
+        setIsReferencesOpen={setIsReferencesOpen}
       />
     );
   }
@@ -53,7 +115,7 @@ export const ChatView = () => {
     <>
       <AppHeader />
 
-      <VuiAppLayout>
+      <VuiAppLayout ref={appLayoutRef}>
         <VuiAppContent className="appContent" fullWidth={false} padding="none">
           <VuiFlexContainer direction="column" className="appContent__inner" spacing="none">
             <VuiFlexItem grow={1}>
