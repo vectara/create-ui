@@ -2,6 +2,7 @@ const fs = require("fs");
 const { exec } = require("child_process");
 
 const appTypeToTemplateDir = {
+  chat: "chat",
   search: "search",
   searchSummary: "searchSummary",
   questionAndAnswer: "questionAndAnswer"

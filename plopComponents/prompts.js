@@ -1,4 +1,5 @@
 const APP_TYPE_TO_LABEL = {
+  chat: "Chat",
   search: "Search",
   searchSummary: "Search Summary",
   questionAndAnswer: "Question and Answer"
@@ -21,6 +22,7 @@ module.exports = {
 Create a sample UI codebase powered by the Vectara Platform.
 Which type of codebase would you like to create?\n`,
       choices: [
+        { name: "Chat                       -> A typical chat UI.", value: "chat" },
         { name: "Semantic Search            -> A typical semantic search UI.", value: "search" },
         {
           name: "Summarized Semantic Search -> A semantic search UI preceded by a summary of the most relevant results.",

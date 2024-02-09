@@ -6,6 +6,7 @@
 
 Create-UI is the fastest way to generate a [Vectara](https://vectara.com/)-powered sample codebase for a range of user interfaces:
 
+- **Chat:** A chat UI.
 - **Semantic search:** A typical search UI.
 - **Summarized semantic search:** A typical search UI preceded by a summary of the most relevant results. Perfect for users who want to scan an overview before digging deeper into interesting search results.
 - **Question and answer:** Ideal for users who want to ask a question and get a concise answer.
@@ -41,6 +42,15 @@ Follow the prompts in the command line to generate a React codebase. You can cho
 When the prompts are complete, run the build command provided to you. You'll see the UI running in your browser.
 
 ## Types of UIs
+
+### Chat UI
+
+<img src="images/demoChat.jpg" alt="Chat UI screenshot" width="800" />
+
+The Chat UI is characterized by:
+
+- An input box for entering a natural-language query. This typically takes the form of a question.
+- A conversational thread based upon the most relevant search results and the conversational context. The most recent respons contains citations.
 
 ### Semantic Search UI
 

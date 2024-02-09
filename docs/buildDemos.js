@@ -26,6 +26,7 @@ const buildDemo = (appDirectoryName, configurationFileName) => {
 
 (async () => {
   try {
+    buildDemo("chat", "chat-configuration");
     buildDemo("questionAndAnswer", "questionAndAnswer-configuration");
     buildDemo("search", "search-configuration");
     buildDemo("searchSummary", "searchSummary-configuration");

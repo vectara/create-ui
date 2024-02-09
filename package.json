@@ -11,6 +11,7 @@
     "docs": "node docs/docsServer.js",
     "buildDocs": "node docs/build.js",
     "buildDemos": "node docs/buildDemos.js",
+    "dev:chat": "cd apps/chat && cp ../../sampleConfigurations/chat-configuration.ts ./src/configuration.ts && npm install && npm run start",
     "dev:search": "cd apps/search && cp ../../sampleConfigurations/search-configuration.ts ./src/configuration.ts && npm install && npm run start",
     "dev:searchSummary": "cd apps/searchSummary && cp ../../sampleConfigurations/searchSummary-configuration.ts ./src/configuration.ts && npm install && npm run start",
     "dev:qa": "cd apps/questionAndAnswer && cp ../../sampleConfigurations/questionAndAnswer-configuration.ts ./src/configuration.ts && npm install && npm run start"

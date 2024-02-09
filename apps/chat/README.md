@@ -1,13 +1,11 @@
-# Vectara sample code for a Question and Answer UI
+# Vectara sample code for a Chat UI
 
-This app provides working sample code for implementing a Question and Answer UI that's powered by [Vectara](https://vectara.com/). It was generated using the [Create-UI code-generator](https://github.com/vectara/create-ui).
+This app provides working sample code for implementing a Chat UI that's powered by [Vectara](https://vectara.com/). It was generated using the [Create-UI code-generator](https://github.com/vectara/create-ui).
 
-The Question and Answer UI is characterized by:
+The Chat UI is characterized by:
 
-- A search box for entering a natural-language query. This typically takes the form of a question.
-- A condensed answer based upon the most relevant search results, with citations.
-
-A user will typically scan the answer to see if it truly answers their question. They'll use the citations to verify that the answer is grounded in facts. If the answer doesn't fully answer their question they'll try again with a differently-worded question.
+- An input box for entering a natural-language query. This typically takes the form of a question.
+- A conversational thread based upon the most relevant search results and the conversational context. The most recent respons contains citations.
 
 ## Dependencies
 
