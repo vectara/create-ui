@@ -105,9 +105,7 @@ export const ChatView = () => {
     );
   }
 
-  const chatInputClasses = classNames("chatInputContainer", {
-    "chatInputContainer-hasChatHistory": !chatHistory.length
-  });
+  const chatInputClasses = classNames("chatInputContainer");
 
   const hasContent = isSearching || isSummarizing || chatHistory.length > 0 || summarizationQuestion;
 

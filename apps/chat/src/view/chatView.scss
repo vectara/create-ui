@@ -14,7 +14,15 @@
 .appContent,
 .appContent__inner {
   height: 100%;
+  width: 100%;
   max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.appContent__inner {
+  padding: 0 $sizeL $sizeL;
 }
 
 .exampleQuestionsContainer {
@@ -84,7 +92,7 @@
   position: sticky;
   bottom: 0;
   background-color: $colorEmptyShade;
-  padding: 0 $sizeL $sizeL;
+  padding-bottom: $sizeL;
 
   &::before {
     content: "";
@@ -95,10 +103,6 @@
     height: 20px;
     background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8));
   }
-}
-
-.chatInputContainer-hasChatHistory {
-  padding: 0;
 }
 
 .chatSummaryCitation,
