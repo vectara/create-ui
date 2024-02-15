@@ -59,9 +59,10 @@ export const SearchContextProvider = ({ children }: Props) => {
 
   const [searchValue, setSearchValue] = useState<string>("");
   const [filterValue, setFilterValue] = useState("");
+  const [conversationId, setConversationId] = useState<string | undefined>();
 
   // Language
-  const [languageValue, setLanguageValue] = useState<SummaryLanguage>();
+  const [languageValue, setLanguageValue] = useState<SummaryLanguage>("eng");
 
   // History
   const [history, setHistory] = useState<HistoryItem[]>([]);
@@ -219,9 +220,11 @@ export const SearchContextProvider = ({ children }: Props) => {
           corpusId: search.corpusId!,
           endpoint: search.endpoint!,
           apiKey: search.apiKey!,
-          chat: { conversationId: "" }
+          chat: { conversationId }
         });
         const totalTime = Date.now() - startTime;
+
+        setConversationId(response.summary[0].chat.conversationId);
 
         // If we send multiple requests in rapid succession, we only want to
         // display the results of the most recent request.

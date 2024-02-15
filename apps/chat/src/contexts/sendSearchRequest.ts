@@ -81,8 +81,11 @@ export const sendSearchRequest = async ({
                 {
                   responseLang: language,
                   maxSummarizedResults: summaryNumResults,
-                  summarizerPromptName: summaryPromptName
-                  // chat
+                  summarizerPromptName: summaryPromptName,
+                  chat: {
+                    store: true,
+                    conversationId: chat?.conversationId
+                  }
                 }
               ]
             }

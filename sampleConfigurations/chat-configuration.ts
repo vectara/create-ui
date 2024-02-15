@@ -6,5 +6,5 @@ export const configuration: Config = {
   appTitle: "Chat UI",
   apiKey: "zqt_UXrBcnI2UXINZkrv4g1tQPhzj02vfdtqYJIDiA",
   endpoint: "api.vectara.io",
-  questions: ["What's hybrid search?", "What's the vectara platform?"]
+  questions: ["What's hybrid search?", "What's the Vectara platform?"]
 };
