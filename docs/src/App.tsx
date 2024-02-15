@@ -123,6 +123,11 @@ export const App = () => {
 
             <VuiSpacer size="xl" />
 
+            <DemoTitle title="Chat UI" href="./chatDemo" />
+            <DemoImage href="./chatDemo" src="./images/demoChat.jpg" alt="Screenshot of Chat UI" />
+
+            <VuiSpacer size="xl" />
+
             <DemoTitle title="Semantic Search UI" href="./searchDemo" />
             <DemoImage href="./searchDemo" src="./images/demoSearch.jpg" alt="Screenshot of Semantic Search UI" />
 

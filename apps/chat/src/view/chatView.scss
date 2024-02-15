@@ -1,0 +1,121 @@
+@import "../ui/styleUtils/index.scss";
+@import "../variables.scss";
+
+@keyframes pulsate {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.appContent,
+.appContent__inner {
+  height: 100%;
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.appContent__inner {
+  padding: 0 $sizeL $sizeL;
+}
+
+.exampleQuestionsContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.chatMessageContainer {
+  display: flex;
+}
+
+.chatMessage {
+  padding: $sizeS $sizeM;
+  border-radius: $sizeM;
+}
+
+.chatMessageContainer--question {
+  .chatMessage {
+    max-width: 720px;
+    color: $colorText;
+    font-size: $fontSizeStandard;
+    font-weight: $fontWeightBold;
+  }
+}
+
+.chatMessageContainer--thinking,
+.chatMessageContainer--error,
+.chatMessageContainer--answer {
+  justify-content: flex-start;
+  padding: 0 $sizeL;
+
+  .chatMessage {
+    max-width: 940px;
+    background-color: $colorLightShade;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+.chatMessageContainer--thinking {
+  .chatMessage {
+    opacity: 1;
+    animation: pulsate 1s infinite linear;
+    color: $colorDarkShade;
+  }
+}
+
+.chatMessageContainer--answer {
+  .chatMessage {
+    color: $colorFullShade;
+  }
+}
+
+.chatMessageContainer--error {
+  .chatMessage {
+    color: $colorDanger;
+  }
+}
+
+.chatMessageContainer__optionsButton {
+  margin-left: $sizeS;
+}
+
+.chatInputContainer {
+  position: sticky;
+  bottom: 0;
+  background-color: $colorEmptyShade;
+  padding-bottom: $sizeL;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8));
+  }
+}
+
+.chatSummaryCitation,
+.chatSearchResultPosition {
+  background-color: rgba($colorFullShade, 0.05);
+  color: $colorFullShade;
+  padding: $sizeXxxs $sizeXxs;
+  font-size: $fontSizeSmall;
+  border-radius: $sizeXxs;
+  font-weight: $fontWeightBold;
+  line-height: 1.4;
+}
+
+.chatSummaryCitation {
+  display: inline;
+}
