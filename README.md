@@ -21,6 +21,7 @@ Use this tool to:
 >
 > Looking for something else? Try another open-source project:
 >
+> - **[React-Chatbot](https://github.com/vectara/react-chatbot)**: Add a compact Vectara-powered chatbot widget chat to your React apps.
 > - **[React-Search](https://github.com/vectara/react-search)**: Add Vectara semantic search to your React apps with a few lines of code.
 > - **[Vectara Answer](https://github.com/vectara/vectara-answer)**: Demo app for Summarized Semantic Search with advanced configuration options.
 > - **[Vectara Ingest](https://github.com/vectara/vectara-ingest)**: Sample templates and crawlers for pulling data from many popular data sources.
