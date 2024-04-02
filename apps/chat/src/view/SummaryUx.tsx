@@ -7,7 +7,7 @@ import { Summary } from "./summary/Summary";
 export const SummaryUx = () => {
   const { isSearching, searchResults, isSummarizing, summarizationResponse } = useSearchContext();
 
-  const rawSummary = summarizationResponse?.summary[0]?.text;
+  const rawSummary = summarizationResponse;
   const unorderedSummary = sanitizeCitations(rawSummary);
 
   let summary = "";

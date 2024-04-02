@@ -53,7 +53,7 @@ export const ChatContextProvider = ({ children }: Props) => {
       addToChatHistory({
         id: "0",
         question: summarizationQuestion,
-        answer: summarizationResponse?.summary[0].text ?? "",
+        answer: summarizationResponse ?? "",
         results: searchResults ?? []
       });
     }
