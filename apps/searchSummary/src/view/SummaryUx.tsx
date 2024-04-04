@@ -16,13 +16,13 @@ export const SummaryUx = () => {
     selectedSearchResultPosition
   } = useSearchContext();
 
-  const rawSummary = summarizationResponse?.summary[0]?.text;
+  const rawSummary = summarizationResponse;
   const unorderedSummary = sanitizeCitations(rawSummary);
 
   let summary = "";
   let summarySearchResults: DeserializedSearchResult[] = [];
 
-  if (!isSummarizing && unorderedSummary) {
+  if (unorderedSummary) {
     summary = reorderCitations(unorderedSummary);
     if (searchResults) {
       summarySearchResults = applyCitationOrder(searchResults, unorderedSummary);

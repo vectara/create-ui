@@ -1,6 +1,6 @@
 import { BiError } from "react-icons/bi";
 import Markdown from "markdown-to-jsx";
-import { VuiButtonSecondary, VuiFlexContainer, VuiFlexItem, VuiIcon, VuiSpacer, VuiText } from "../ui";
+import { VuiButtonSecondary, VuiFlexContainer, VuiFlexItem, VuiIcon, VuiSpacer, VuiSpinner, VuiText } from "../ui";
 import { applyCitationOrder, extractCitations, reorderCitations } from "../ui/utils/citations";
 import { DeserializedSearchResult } from "./types";
 import { ChatReferences } from "./ChatReferences";
@@ -47,6 +47,7 @@ const SummaryCitation = ({ reference }: { reference: string }) => {
 
 type Props = {
   isLoading?: boolean;
+  isSummarizing?: boolean;
   question?: string;
   answer?: string;
   searchResults?: DeserializedSearchResult[];
@@ -57,6 +58,7 @@ type Props = {
 
 export const ChatItem = ({
   isLoading,
+  isSummarizing,
   question,
   answer,
   searchResults,
@@ -111,7 +113,7 @@ export const ChatItem = ({
             <Markdown
               children={sanitizedAnswer}
               options={{
-                forceBlock: true,
+                forceInline: true,
                 overrides: {
                   SummaryCitation: {
                     component: SummaryCitation
@@ -119,6 +121,12 @@ export const ChatItem = ({
                 }
               }}
             />
+            {isSummarizing && (
+              <span>
+                {" "}
+                <VuiSpinner size="xs" />
+              </span>
+            )}
           </VuiText>
 
           {reorderedSearchResults && reorderedSearchResults.length > 0 && (

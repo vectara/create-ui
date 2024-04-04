@@ -6,6 +6,7 @@ import { useConfigContext } from "./ConfigurationContext";
 import { sendSearchRequest } from "./sendSearchRequest";
 import { HistoryItem, addHistoryItem, deleteHistory, retrieveHistory } from "./history";
 import { deserializeSearchResponse } from "../utils/deserializeSearchResponse";
+import { streamQuery, StreamUpdate } from "@vectara/stream-query-client";
 
 interface SearchContextType {
   filterValue: string;
@@ -30,7 +31,7 @@ interface SearchContextType {
   searchTime: number;
   isSummarizing: boolean;
   summarizationError: SearchError | undefined;
-  summarizationResponse: SearchResponse | undefined;
+  summarizationResponse: string | undefined;
   summaryTime: number;
   language: SummaryLanguage;
   summaryNumResults: number;
@@ -80,7 +81,7 @@ export const SearchContextProvider = ({ children }: Props) => {
   // Summarization
   const [isSummarizing, setIsSummarizing] = useState(false);
   const [summarizationError, setSummarizationError] = useState<SearchError | undefined>();
-  const [summarizationResponse, setSummarizationResponse] = useState<SearchResponse>();
+  const [summarizationResponse, setSummarizationResponse] = useState<string>();
   const [summaryTime, setSummaryTime] = useState<number>(0);
 
   // Citation selection
@@ -227,41 +228,44 @@ export const SearchContextProvider = ({ children }: Props) => {
       if (initialSearchResponse.response.length > 0) {
         const startTime = Date.now();
         try {
-          const response = await sendSearchRequest({
-            filter,
-            queryValue: value,
-            summaryMode: true,
-            rerank: rerank.isEnabled,
-            rerankNumResults: rerank.numResults,
-            rerankerId: rerank.id,
-            rerankDiversityBias: rerank.diversityBias,
-            summaryNumResults: 7,
-            summaryNumSentences: 3,
-            summaryPromptName: "vectara-summary-ext-v1.2.0",
-            hybridNumWords: hybrid.numWords,
-            hybridLambdaLong: hybrid.lambdaLong,
-            hybridLambdaShort: hybrid.lambdaShort,
-            language,
-            customerId: search.customerId!,
-            corpusId: search.corpusId!,
-            endpoint: search.endpoint!,
-            apiKey: search.apiKey!
-          });
-          const totalTime = Date.now() - startTime;
+          const onStreamUpdate = (update: StreamUpdate) => {
+            // If we send multiple requests in rapid succession, we only want to
+            // display the results of the most recent request.
+            if (searchId === searchCount) {
+              if (update.isDone) {
+                setIsSummarizing(false);
+                setSummaryTime(Date.now() - startTime);
+              }
+              setSummarizationError(undefined);
+              setSummarizationResponse(update.updatedText ?? undefined);
+            }
+          };
 
-          // If we send multiple requests in rapid succession, we only want to
-          // display the results of the most recent request.
-          if (searchId === searchCount) {
-            setIsSummarizing(false);
-            setSummarizationError(undefined);
-            setSummarizationResponse(response);
-            setSummaryTime(totalTime);
-          }
+          streamQuery(
+            {
+              filter,
+              queryValue: value,
+              rerank: rerank.isEnabled,
+              rerankNumResults: rerank.numResults,
+              rerankerId: rerank.id,
+              rerankDiversityBias: rerank.diversityBias,
+              summaryNumResults: 7,
+              summaryNumSentences: 3,
+              summaryPromptName: "vectara-summary-ext-v1.2.0",
+              language,
+              customerId: search.customerId!,
+              corpusIds: search.corpusId!.split(","),
+              endpoint: search.endpoint!,
+              apiKey: search.apiKey!
+            },
+            onStreamUpdate
+          );
         } catch (error) {
           console.log("Summary error", error);
           setIsSummarizing(false);
           setSummarizationError(error as SearchError);
           setSummarizationResponse(undefined);
+          return;
         }
       } else {
         setIsSummarizing(false);

@@ -186,7 +186,7 @@ export const ProgressReport = ({ isSearching, isSummarizing }: Props) => {
     key: "generatedSummaryStep",
     isComplete: true,
     render: () => {
-      const hasSummary = summarizationResponse?.summary;
+      const hasSummary = summarizationResponse;
       const icon = hasSummary ? (
         <VuiIcon size="s" color="success">
           <BiCheck />

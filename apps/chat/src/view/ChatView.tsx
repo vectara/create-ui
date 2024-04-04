@@ -94,9 +94,10 @@ export const ChatView = () => {
   if (isSearching || isSummarizing || summarizationResponse || searchError || summarizationError) {
     chatItems.push(
       <ChatItem
-        isLoading={isSearching || isSummarizing}
+        isLoading={isSearching || !summarizationResponse}
+        isSummarizing={isSummarizing}
         question={summarizationQuestion}
-        answer={summarizationResponse?.summary[0].text}
+        answer={summarizationResponse}
         searchResults={searchResults}
         error={searchError && <>{searchError.message}</>}
         isReferencesOpen={isReferencesOpen}

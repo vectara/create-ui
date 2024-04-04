@@ -8,13 +8,13 @@ import { Summary } from "./summary/Summary";
 export const SummaryUx = () => {
   const { isSearching, searchResults, isSummarizing, summarizationResponse } = useSearchContext();
 
-  const rawSummary = summarizationResponse?.summary[0]?.text;
+  const rawSummary = summarizationResponse;
   const unorderedSummary = sanitizeCitations(rawSummary);
 
   let summary = "";
   let summarySearchResults: DeserializedSearchResult[] = [];
 
-  if (!isSummarizing && unorderedSummary) {
+  if (unorderedSummary) {
     summary = reorderCitations(unorderedSummary);
     if (searchResults) {
       summarySearchResults = applyCitationOrder(searchResults, unorderedSummary);
