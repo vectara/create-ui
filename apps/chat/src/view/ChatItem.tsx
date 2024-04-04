@@ -121,7 +121,12 @@ export const ChatItem = ({
                 }
               }}
             />
-            <span>{isSummarizing && <VuiSpinner size="xs" />}</span>
+            {isSummarizing && (
+              <span>
+                {" "}
+                <VuiSpinner size="xs" />
+              </span>
+            )}
           </VuiText>
 
           {reorderedSearchResults && reorderedSearchResults.length > 0 && (

@@ -39,11 +39,6 @@
 .chatMessage {
   padding: $sizeS $sizeM;
   border-radius: $sizeM;
-
-  .vuiSpinner {
-    display: inline-block;
-    margin-left: 8px;
-  }
 }
 
 .chatMessageContainer--question {
