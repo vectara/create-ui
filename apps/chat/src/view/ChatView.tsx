@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
-import { VuiAppContent, VuiAppLayout, VuiFlexContainer, VuiFlexItem, VuiSpacer, VuiText, VuiTextColor } from "../ui";
+import { VuiAppContent, VuiAppLayout, VuiFlexContainer, VuiFlexItem, VuiSpacer } from "../ui";
 import { useSearchContext } from "../contexts/SearchContext";
 import { useChatContext } from "../contexts/ChatContext";
 import { AppHeader } from "./chrome/AppHeader";
@@ -121,17 +121,7 @@ export const ChatView = () => {
               <VuiSpacer size="xl" />
 
               {!hasContent ? (
-                <div className="exampleQuestionsContainer">
-                  <VuiText>
-                    <p>
-                      <VuiTextColor color="subdued">Try out these example questions</VuiTextColor>
-                    </p>
-                  </VuiText>
-
-                  <VuiSpacer size="m" />
-
-                  <ExampleQuestions />
-                </div>
+                <ExampleQuestions />
               ) : (
                 chatItems.map((item, index) => (
                   <Fragment key={index}>
