@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { HfInference, HfInferenceEndpoint } from "@huggingface/inference";
-import { DeserializedSearchResult } from "../view/types";
+import { SearchResultWithSnippet } from "../view/types";
 
 const API_URL = "https://api-inference.huggingface.co/models/vectara/hallucination_evaluation_model";
 
 async function getMaxScore(
   hem: HfInferenceEndpoint,
   summaryWithoutCitations: string,
-  summarySearchResults: DeserializedSearchResult[]
+  summarySearchResults: SearchResultWithSnippet[]
 ) {
   async function getHemScore(inputText: string): Promise<number> {
     const responseData = await hem.textClassification({ inputs: inputText });
@@ -54,7 +54,7 @@ const getConfidenceLevel = (score: number): ConfidenceLevel => {
 export const useHemScore = (
   hfToken: string,
   rawSummary: string | undefined,
-  summarySearchResults: DeserializedSearchResult[]
+  summarySearchResults: SearchResultWithSnippet[]
 ) => {
   const [isFetchingHemScore, setIsFetchingHemScore] = useState<boolean>(false);
   const [hemScore, setHemScore] = useState<number>(-1);

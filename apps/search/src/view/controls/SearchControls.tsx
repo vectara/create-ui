@@ -21,7 +21,7 @@ type Props = {
 
 export const SearchControls = ({ hasQuery }: Props) => {
   const { app } = useConfigContext();
-  const { searchValue, setSearchValue, onSearch, reset } = useSearchContext();
+  const { searchValue, setSearchValue, onSearch, reset, isSearching } = useSearchContext();
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
   const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +30,10 @@ export const SearchControls = ({ hasQuery }: Props) => {
 
   const onSearchSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSearch({ value: searchValue });
+
+    if (!isSearching) {
+      onSearch({ value: searchValue });
+    }
   };
 
   return (

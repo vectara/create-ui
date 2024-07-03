@@ -5,7 +5,7 @@ import { configuration } from "../configuration";
 export interface Config {
   // Search
   endpoint: string;
-  corpusId: string;
+  corpusKey: string;
   customerId: string;
   apiKey: string;
 
@@ -18,7 +18,7 @@ export interface Config {
 
 type Search = {
   endpoint?: string;
-  corpusId?: string;
+  corpusKey?: string;
   customerId?: string;
   apiKey?: string;
 };
@@ -52,7 +52,7 @@ type Props = {
 
 const SEARCH_CONFIGS = {
   endpoint: configuration.endpoint,
-  corpusId: configuration.corpusId,
+  corpusKey: configuration.corpusKey,
   customerId: configuration.customerId,
   apiKey: configuration.apiKey
 };

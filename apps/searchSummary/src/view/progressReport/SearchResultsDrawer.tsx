@@ -9,19 +9,16 @@ import {
   VuiSpacer,
   VuiText,
   VuiTextColor,
-  VuiTitle,
-  truncateEnd,
-  truncateStart
+  VuiTitle
 } from "../../ui";
 import { useSearchContext } from "../../contexts/SearchContext";
 import "./searchResultsDrawer.scss";
+import { parseSnippet } from "../../utils/parseSnippet";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
 };
-
-const CONTEXT_MAX_LENGTH = 200;
 
 export const SearchResultsDrawer = ({ isOpen, onClose }: Props) => {
   const { searchValue, searchResults } = useSearchContext();
@@ -69,30 +66,25 @@ export const SearchResultsDrawer = ({ isOpen, onClose }: Props) => {
 
       <div className="searchResultsDrawerResults">
         {searchResults?.map((result, index) => {
-          const {
-            source,
-            title,
-            url,
-            snippet: { pre, post, text }
-          } = result;
+          const { pre, text, post } = parseSnippet(result.text);
 
           return (
             <VuiSearchResult
-              key={text}
+              key={result.text}
               result={{
-                title,
-                url,
+                title: result.document_metadata.title as string,
+                url: result.document_metadata.url as string,
                 snippet: {
-                  pre: truncateStart(pre, CONTEXT_MAX_LENGTH),
+                  pre,
                   text,
-                  post: truncateEnd(post, CONTEXT_MAX_LENGTH)
+                  post
                 }
               }}
               position={index + 1}
               subTitle={
                 <VuiText size="s">
                   <p>
-                    <VuiTextColor color="subdued">Source: {source}</VuiTextColor>
+                    <VuiTextColor color="subdued">Source: {result.document_metadata.source as string}</VuiTextColor>
                   </p>
                 </VuiText>
               }

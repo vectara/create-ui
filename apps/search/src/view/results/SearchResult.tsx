@@ -1,22 +1,20 @@
 import { forwardRef } from "react";
 import { VuiText, VuiTextColor, VuiSearchResult } from "../../ui";
 import { truncateEnd, truncateStart } from "../../ui/utils/truncateString";
-import { DeserializedSearchResult } from "../types";
+import { SearchResultWithSnippet } from "../types";
 import "./SearchResult.scss";
 
 type Props = {
-  result: DeserializedSearchResult;
+  result: SearchResultWithSnippet;
   position: number;
 };
 
 const CONTEXT_MAX_LENGTH = 200;
 
 export const SearchResult = forwardRef<HTMLDivElement | null, Props>(({ result, position }: Props, ref) => {
-  const {
-    title,
-    url,
-    snippet: { pre, post, text }
-  } = result;
+  const url = result.document_metadata.url as string;
+  const title = result.document_metadata.title as string;
+  const { pre, text, post } = result.snippet;
 
   return (
     <VuiSearchResult

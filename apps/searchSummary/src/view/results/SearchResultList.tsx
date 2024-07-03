@@ -1,8 +1,8 @@
 import { SearchResult } from "./SearchResult";
-import { DeserializedSearchResult } from "../types";
+import { SearchResultWithSnippet } from "../types";
 
 type Props = {
-  results: Array<DeserializedSearchResult>;
+  results: Array<SearchResultWithSnippet>;
   selectedSearchResultPosition?: number;
   setSearchResultRef: (el: HTMLDivElement | null, index: number) => void;
 };

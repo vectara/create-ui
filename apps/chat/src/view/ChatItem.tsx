@@ -2,7 +2,7 @@ import { BiError } from "react-icons/bi";
 import Markdown from "markdown-to-jsx";
 import { VuiButtonSecondary, VuiFlexContainer, VuiFlexItem, VuiIcon, VuiSpacer, VuiSpinner, VuiText } from "../ui";
 import { applyCitationOrder, extractCitations, reorderCitations } from "../ui/utils/citations";
-import { DeserializedSearchResult } from "./types";
+import { SearchResult } from "./types";
 import { ChatReferences } from "./ChatReferences";
 import { SUMMARY_NUM_RESULTS, useSearchContext } from "../contexts/SearchContext";
 
@@ -50,7 +50,7 @@ type Props = {
   isSummarizing?: boolean;
   question?: string;
   answer?: string;
-  searchResults?: DeserializedSearchResult[];
+  searchResults?: SearchResult[];
   error?: React.ReactNode;
   isReferencesOpen?: boolean;
   setIsReferencesOpen?: (isOpen: boolean) => void;

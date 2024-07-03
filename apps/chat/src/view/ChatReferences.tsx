@@ -1,9 +1,9 @@
 import { VuiAccordion, VuiSpacer } from "../ui";
-import { DeserializedSearchResult } from "./types";
+import { SearchResultWithSnippet } from "./types";
 import { ChatReference } from "./ChatReference";
 
 type Props = {
-  searchResults: DeserializedSearchResult[];
+  searchResults: SearchResultWithSnippet[];
   isOpen?: boolean;
   setIsOpen?: (isOpen: boolean) => void;
 };

@@ -4,7 +4,7 @@ import { useSearchContext } from "../contexts/SearchContext";
 import { SearchResultList } from "./results/SearchResultList";
 import { ProgressReport } from "./progressReport/ProgressReport";
 import { SummaryCitation } from "./summary/SummaryCitation";
-import { DeserializedSearchResult } from "./types";
+import { SearchResultWithSnippet } from "./types";
 
 export const SummaryUx = () => {
   const {
@@ -20,7 +20,7 @@ export const SummaryUx = () => {
   const unorderedSummary = sanitizeCitations(rawSummary);
 
   let summary = "";
-  let summarySearchResults: DeserializedSearchResult[] = [];
+  let summarySearchResults: SearchResultWithSnippet[] = [];
 
   if (unorderedSummary) {
     summary = reorderCitations(unorderedSummary);
