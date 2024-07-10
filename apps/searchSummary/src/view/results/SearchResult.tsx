@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { VuiText, VuiTextColor, VuiSearchResult } from "../../ui";
+import { VuiText, VuiTextColor, VuiSearchResult, truncateStart, truncateEnd } from "../../ui";
 import { SearchResultWithSnippet } from "../types";
 import "./SearchResult.scss";
 
@@ -8,6 +8,10 @@ type Props = {
   position: number;
   isSelected: boolean;
 };
+
+// Vectara provides a requested number of sentences/characters before/after relevant reference snippets.
+// This variable allows for controlling the length of the text actually rendered to the screen.
+const CONTEXT_MAX_LENGTH = 200;
 
 export const SearchResult = forwardRef<HTMLDivElement | null, Props>(({ result, position, isSelected }: Props, ref) => {
   const url = result.document_metadata.url as string;
@@ -22,9 +26,9 @@ export const SearchResult = forwardRef<HTMLDivElement | null, Props>(({ result, 
         title,
         url,
         snippet: {
-          pre,
+          pre: truncateStart(pre, CONTEXT_MAX_LENGTH),
           text,
-          post
+          post: truncateEnd(post, CONTEXT_MAX_LENGTH)
         }
       }}
       position={position + 1}

@@ -260,6 +260,9 @@ export const SearchContextProvider = ({ children }: Props) => {
                     }
                 : undefined,
             contextConfiguration: {
+              // If sentences/chars context is not displayed properly,
+              // you may need to adjust the CONTEXT_MAX_LENGTH variable
+              // in the components that display reference snippets.
               sentencesBefore: 2,
               sentencesAfter: 2,
               startTag: START_TAG,

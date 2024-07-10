@@ -9,6 +9,8 @@ type Props = {
   position: number;
 };
 
+// Vectara provides a requested number of sentences/characters before/after relevant reference snippets.
+// This variable allows for controlling the length of the text actually rendered to the screen.
 const CONTEXT_MAX_LENGTH = 200;
 
 export const SearchResult = forwardRef<HTMLDivElement | null, Props>(({ result, position }: Props, ref) => {

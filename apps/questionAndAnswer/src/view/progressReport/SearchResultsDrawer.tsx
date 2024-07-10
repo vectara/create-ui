@@ -9,7 +9,9 @@ import {
   VuiSpacer,
   VuiText,
   VuiTextColor,
-  VuiTitle
+  VuiTitle,
+  truncateEnd,
+  truncateStart
 } from "../../ui";
 import { useSearchContext } from "../../contexts/SearchContext";
 import "./searchResultsDrawer.scss";
@@ -19,6 +21,10 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
 };
+
+// Vectara provides a requested number of sentences/characters before/after relevant reference snippets.
+// This variable allows for controlling the length of the text actually rendered to the screen.
+const CONTEXT_MAX_LENGTH = 200;
 
 export const SearchResultsDrawer = ({ isOpen, onClose }: Props) => {
   const { searchValue, searchResults } = useSearchContext();
@@ -75,9 +81,9 @@ export const SearchResultsDrawer = ({ isOpen, onClose }: Props) => {
                 title: result.document_metadata.title as string,
                 url: result.document_metadata.url as string,
                 snippet: {
-                  pre,
+                  pre: truncateStart(pre, CONTEXT_MAX_LENGTH),
                   text,
-                  post
+                  post: truncateEnd(post, CONTEXT_MAX_LENGTH)
                 }
               }}
               position={index + 1}
