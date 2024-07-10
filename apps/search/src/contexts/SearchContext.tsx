@@ -114,6 +114,7 @@ export const SearchContextProvider = ({ children }: Props) => {
             case "requestError":
             case "error":
             case "genericError":
+            case "unexpectedError":
               setSearchError({
                 message: "Error sending the query request"
               });
