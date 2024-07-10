@@ -3,7 +3,7 @@ import { VuiButtonPrimary, VuiDrawer, VuiLink, VuiSpacer, VuiText, VuiTitle, Vui
 type Props = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  corpusId: string;
+  corpusKey: string;
   onUpdateCorpusId: (event: React.ChangeEvent<HTMLInputElement>) => void;
   customerId: string;
   onUpdateCustomerId: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -16,7 +16,7 @@ type Props = {
 export const ConfigurationDrawer = ({
   isOpen,
   setIsOpen,
-  corpusId,
+  corpusKey,
   onUpdateCorpusId,
   customerId,
   onUpdateCustomerId,
@@ -59,7 +59,7 @@ export const ConfigurationDrawer = ({
       <VuiSpacer size="xs" />
 
       <VuiFormGroup label="Corpus ID" labelFor="corpusId">
-        <VuiTextInput value={corpusId} onChange={onUpdateCorpusId} />
+        <VuiTextInput value={corpusKey} onChange={onUpdateCorpusId} />
       </VuiFormGroup>
 
       <VuiSpacer size="xs" />

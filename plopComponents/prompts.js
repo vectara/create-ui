@@ -65,11 +65,11 @@ Which type of codebase would you like to create?\n`,
       message: "What's your Vectara Customer ID?"
     });
 
-    const corpusIdAns = await inquirer.prompt({
+    const corpusKeyAns = await inquirer.prompt({
       when: () => isCustomData,
       type: "input",
-      name: "corpusId",
-      message: "What's the Corpus ID of the corpus that contains your data?"
+      name: "corpusKey",
+      message: "What's the Corpus Key of the corpus that contains your data?"
     });
 
     const apiKeyAns = await inquirer.prompt({
@@ -117,7 +117,7 @@ Which type of codebase would you like to create?\n`,
           appName: appNameAns.appName,
           appDirName: toKebabCase(appNameAns.appName),
           customerId: customerIdAns.customerId,
-          corpusId: corpusIdAns.corpusId,
+          corpusKey: corpusKeyAns.corpusKey,
           apiKey: apiKeyAns.apiKey,
           questions: JSON.stringify(questions)
         }
@@ -126,7 +126,7 @@ Which type of codebase would you like to create?\n`,
           appName: "Vectara Docs Example",
           appDirName: toKebabCase(`vectara-docs-${APP_TYPE_TO_LABEL[appTypeAns.appType]}-example`),
           customerId: "1366999410",
-          corpusId: "1",
+          corpusKey: "vectara-docs_1",
           apiKey: "zqt_UXrBcnI2UXINZkrv4g1tQPhzj02vfdtqYJIDiA",
           questions: JSON.stringify([
             "How do I enable hybrid search?",

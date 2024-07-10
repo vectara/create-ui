@@ -1,11 +1,9 @@
-import { DeserializedSearchResult } from "./types";
+import { SearchResultWithSnippet } from "./types";
 import { VuiFlexContainer, VuiFlexItem, VuiLink, VuiText } from "../ui";
 
-export const ChatReference = ({ result, position }: { result: DeserializedSearchResult; position: number }) => {
-  const {
-    snippet: { text },
-    url
-  } = result;
+export const ChatReference = ({ result, position }: { result: SearchResultWithSnippet; position: number }) => {
+  const url = result.document_metadata.url as string;
+  const text = result.snippet.text;
 
   return (
     <>

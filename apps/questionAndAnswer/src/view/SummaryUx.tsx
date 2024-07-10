@@ -1,8 +1,8 @@
-import { VuiSpacer, VuiFlexContainer, VuiFlexItem, VuiText, VuiTextColor, truncateEnd } from "../ui";
+import { VuiSpacer, VuiFlexContainer, VuiFlexItem, VuiText, VuiTextColor } from "../ui";
 import { sanitizeCitations, reorderCitations, applyCitationOrder } from "../ui/utils/citations";
 import { useSearchContext } from "../contexts/SearchContext";
 import { ProgressReport } from "./progressReport/ProgressReport";
-import { DeserializedSearchResult } from "./types";
+import { SearchResultWithSnippet } from "./types";
 import { Summary } from "./summary/Summary";
 
 export const SummaryUx = () => {
@@ -12,7 +12,7 @@ export const SummaryUx = () => {
   const unorderedSummary = sanitizeCitations(rawSummary);
 
   let summary = "";
-  let summarySearchResults: DeserializedSearchResult[] = [];
+  let summarySearchResults: SearchResultWithSnippet[] = [];
 
   if (unorderedSummary) {
     summary = reorderCitations(unorderedSummary);
@@ -49,7 +49,7 @@ export const SummaryUx = () => {
   );
 };
 
-const Reference = ({ result, position }: { result: DeserializedSearchResult; position: number }) => {
+const Reference = ({ result, position }: { result: SearchResultWithSnippet; position: number }) => {
   const {
     snippet: { post, text }
   } = result;
@@ -64,7 +64,7 @@ const Reference = ({ result, position }: { result: DeserializedSearchResult; pos
         <VuiFlexItem grow={1} shrink={1}>
           <VuiText size="s">
             <p>
-              <strong>{text}</strong> <VuiTextColor color="subdued">{truncateEnd(post, 140)}</VuiTextColor>
+              <strong>{text}</strong> <VuiTextColor color="subdued">{post}</VuiTextColor>
             </p>
           </VuiText>
         </VuiFlexItem>

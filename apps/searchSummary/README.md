@@ -29,7 +29,7 @@ import { Config } from "./contexts/ConfigurationContext";
 
 export const configuration: Config = {
   customerId: "<your customer ID here>",
-  corpusId: "<your corpus ID here>",
+  corpusKey: "<your corpus key here>",
   apiKey: "<your API key here>",
   endpoint: "api.vectara.io"
 };
@@ -95,8 +95,8 @@ type Configuration = {
   // Your Vectara customer ID.
   customerId: string;
 
-  // The ID of your Vectara corpus.
-  corpusId: string;
+  // The key of your Vectara corpus.
+  corpusKey: string;
 
   // A Query API key with access to your corpus.
   apiKey: string;

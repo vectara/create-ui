@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { createContext, useContext, ReactNode, useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { DeserializedSearchResult, SearchResponse, SearchError } from "../view/types";
+import { SearchError, mmrRerankerId, SearchResult, SearchResultWithSnippet } from "../view/types";
 import { useConfigContext } from "./ConfigurationContext";
-import { sendSearchRequest } from "./sendSearchRequest";
 import { HistoryItem, addHistoryItem, deleteHistory, retrieveHistory } from "./history";
-import { deserializeSearchResponse } from "../utils/deserializeSearchResponse";
+import { ApiV2, streamQueryV2 } from "@vectara/stream-query-client";
+import { END_TAG, START_TAG, parseSnippet } from "../utils/parseSnippet";
 
 interface SearchContextType {
   filterValue: string;
@@ -16,7 +16,7 @@ interface SearchContextType {
   reset: () => void;
   isSearching: boolean;
   searchError: SearchError | undefined;
-  searchResults: DeserializedSearchResult[] | undefined;
+  searchResults: SearchResultWithSnippet[] | undefined;
   searchTime: number;
   history: HistoryItem[];
   clearHistory: () => void;
@@ -34,8 +34,6 @@ type Props = {
   children: ReactNode;
 };
 
-let searchCount = 0;
-
 export const SearchContextProvider = ({ children }: Props) => {
   const { search, rerank, hybrid } = useConfigContext();
 
@@ -50,7 +48,7 @@ export const SearchContextProvider = ({ children }: Props) => {
   // Basic search
   const [isSearching, setIsSearching] = useState(false);
   const [searchError, setSearchError] = useState<SearchError | undefined>();
-  const [searchResponse, setSearchResponse] = useState<SearchResponse>();
+  const [searchResults, setSearchResults] = useState<SearchResultWithSnippet[] | undefined>(undefined);
   const [searchTime, setSearchTime] = useState<number>(0);
 
   useEffect(() => {
@@ -76,8 +74,6 @@ export const SearchContextProvider = ({ children }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]); // TODO: Add onSearch and fix infinite render loop
 
-  const searchResults = deserializeSearchResponse(searchResponse);
-
   const clearHistory = () => {
     setHistory([]);
     deleteHistory();
@@ -92,10 +88,10 @@ export const SearchContextProvider = ({ children }: Props) => {
     filter?: string;
     isPersistable?: boolean;
   }) => {
-    const searchId = ++searchCount;
-
+    setSearchError(undefined);
     setSearchValue(value);
     setFilterValue(filter);
+    setIsSearching(true);
 
     if (value?.trim()) {
       // Save to history.
@@ -109,55 +105,91 @@ export const SearchContextProvider = ({ children }: Props) => {
         );
       }
 
-      setIsSearching(true);
-
-      let initialSearchResponse;
+      const startTime = Date.now();
+      let resultsWithSnippets;
 
       try {
-        const startTime = Date.now();
-        initialSearchResponse = await sendSearchRequest({
-          filter,
-          queryValue: value,
-          rerank: rerank.isEnabled,
-          rerankNumResults: rerank.numResults,
-          rerankerId: rerank.id,
-          rerankDiversityBias: rerank.diversityBias,
-          hybridNumWords: hybrid.numWords,
-          hybridLambdaLong: hybrid.lambdaLong,
-          hybridLambdaShort: hybrid.lambdaShort,
-          customerId: search.customerId!,
-          corpusId: search.corpusId!,
-          endpoint: search.endpoint!,
-          apiKey: search.apiKey!
-        });
-        const totalTime = Date.now() - startTime;
+        const onStreamEvent = (event: ApiV2.StreamEvent) => {
+          switch (event.type) {
+            case "requestError":
+            case "error":
+            case "genericError":
+            case "unexpectedError":
+              setSearchError({
+                message: "Error sending the query request"
+              });
+              break;
 
-        // If we send multiple requests in rapid succession, we only want to
-        // display the results of the most recent request.
-        if (searchId === searchCount) {
-          setIsSearching(false);
-          setSearchTime(totalTime);
-          setSearchResponse(initialSearchResponse);
+            case "searchResults":
+              setIsSearching(false);
+              setSearchTime(Date.now() - startTime);
 
-          if (initialSearchResponse.response.length > 0) {
-            setSearchError(undefined);
-          } else {
-            setSearchError({
-              message: "There weren't any results for your search."
-            });
+              resultsWithSnippets = event.searchResults.map((result: SearchResult) => {
+                const { pre, text, post } = parseSnippet(result.text);
+
+                return {
+                  ...result,
+                  snippet: {
+                    pre,
+                    text,
+                    post
+                  }
+                };
+              });
+
+              setSearchResults(resultsWithSnippets);
+              break;
           }
-        }
+        };
+
+        const streamQueryConfig: ApiV2.StreamQueryConfig = {
+          apiKey: search.apiKey!,
+          customerId: search.customerId!,
+          query: value,
+          corpusKey: search.corpusKey!,
+          search: {
+            offset: 0,
+            metadataFilter: "",
+            lexicalInterpolation:
+              value.trim().split(" ").length > hybrid.numWords ? hybrid.lambdaLong : hybrid.lambdaShort,
+            reranker:
+              rerank.isEnabled && rerank.id
+                ? rerank.id === mmrRerankerId
+                  ? {
+                      type: "mmr",
+                      diversityBias: 0
+                    }
+                  : {
+                      type: "customer_reranker",
+                      // rnk_ prefix needed for conversion from API v1 to v2.
+                      rerankerId: `rnk_${rerank.id.toString()}`
+                    }
+                : undefined,
+            contextConfiguration: {
+              // If sentences/chars context is not displayed properly,
+              // you may need to adjust the CONTEXT_MAX_LENGTH variable
+              // in the components that display reference snippets.
+              sentencesBefore: 2,
+              sentencesAfter: 2,
+              startTag: START_TAG,
+              endTag: END_TAG
+            }
+          },
+          chat: { store: true }
+        };
+
+        streamQueryV2({ streamQueryConfig, onStreamEvent });
       } catch (error) {
         console.log("Search error", error);
         setIsSearching(false);
         setSearchError(error as SearchError);
-        setSearchResponse(undefined);
+        setSearchResults(undefined);
       }
     } else {
       // Persist to URL.
       if (isPersistable) setSearchParams(new URLSearchParams(""));
 
-      setSearchResponse(undefined);
+      setSearchResults(undefined);
       setIsSearching(false);
     }
   };

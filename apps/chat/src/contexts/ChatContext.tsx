@@ -1,12 +1,12 @@
 import { createContext, useContext, ReactNode, useState } from "react";
-import { DeserializedSearchResult } from "../view/types";
+import { SearchResultWithSnippet } from "../view/types";
 import { useSearchContext } from "./SearchContext";
 
 export type ChatTurn = {
   id: string;
   question: string;
   answer: string;
-  results: DeserializedSearchResult[];
+  results: SearchResultWithSnippet[];
 };
 
 interface ChatContextType {
