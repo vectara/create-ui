@@ -1,6 +1,6 @@
 {
   "name": "@vectara/create-ui",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "The fastest way to generate a Vectara-powered sample codebase for a range of user interfaces",
   "main": "index.js",
   "bin": {
