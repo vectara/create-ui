@@ -30,7 +30,7 @@ Use this tool to:
 
 ### 1. Install Node and NPM
 
-Create-UI expects you to have [Node and NPM](https://nodejs.org/en/download) installed on your system.
+Create-UI expects you to have [Node v18 or higher and NPM](https://nodejs.org/en/download) installed on your system.
 
 ### 2. Generate a codebase
 
