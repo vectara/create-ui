@@ -14,6 +14,9 @@ export interface Config {
 
   // Questions
   questions?: string[];
+
+  // FCS
+  fcs: boolean;
 }
 
 type Search = {
@@ -42,6 +45,7 @@ interface ConfigContextType {
   rerank: Rerank;
   hybrid: Hybrid;
   exampleQuestions: ExampleQuestions;
+  isFcsEnabled: boolean;
 }
 
 const ConfigContext = createContext<ConfigContextType | undefined>(undefined);
@@ -83,7 +87,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
         app: APP_CONFIGS,
         rerank: rerankConfig,
         hybrid,
-        exampleQuestions
+        exampleQuestions,
+        isFcsEnabled: configuration.fcs
       }}
     >
       {children}

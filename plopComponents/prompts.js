@@ -7,9 +7,11 @@ const APP_TYPE_TO_LABEL = {
 
 const toKebabCase = (str) => str.toLowerCase().replace(/[\s_]+/g, "-");
 
+const generativeAppTypes = ["chat", "searchSummary", "questionAndAnswer"];
+
 module.exports = {
   renderPrompts: async (inquirer) => {
-    const appTypeAns = await inquirer.prompt({
+    const appTypeAnswer = await inquirer.prompt({
       type: "list",
       name: "appType",
       message: `
@@ -35,7 +37,7 @@ Which type of codebase would you like to create?\n`,
       ]
     });
 
-    const dataSourceAns = await inquirer.prompt({
+    const dataSourceAnswer = await inquirer.prompt({
       type: "list",
       name: "dataSource",
       message:
@@ -49,30 +51,41 @@ Which type of codebase would you like to create?\n`,
       ]
     });
 
+    let fcsAnswer;
+    if (generativeAppTypes.includes(appTypeAnswer.appType)) {
+      fcsAnswer = await inquirer.prompt({
+        type: "confirm",
+        name: "value",
+        message:
+          "Do you want to show users a Factual Consistency Score to indicate the level of hallucination in the answers to their questions?",
+        default: false
+      });
+    }
+
     const isCustomData = dataSourceAns.dataSource === "customData";
 
-    const appNameAns = await inquirer.prompt({
+    const appNameAnswer = await inquirer.prompt({
       when: () => isCustomData,
       type: "input",
       name: "appName",
       message: "What do you want to name your application?"
     });
 
-    const customerIdAns = await inquirer.prompt({
+    const customerIdAnswer = await inquirer.prompt({
       when: () => isCustomData,
       type: "input",
       name: "customerId",
       message: "What's your Vectara Customer ID?"
     });
 
-    const corpusKeyAns = await inquirer.prompt({
+    const corpusKeyAnswer = await inquirer.prompt({
       when: () => isCustomData,
       type: "input",
       name: "corpusKey",
       message: "What's the Corpus Key of the corpus that contains your data?"
     });
 
-    const apiKeyAns = await inquirer.prompt({
+    const apiKeyAnswer = await inquirer.prompt({
       when: () => isCustomData,
       type: "input",
       name: "apiKey",
@@ -81,7 +94,7 @@ Which type of codebase would you like to create?\n`,
     });
 
     const questions = [];
-    const haveQuestionsAns = await inquirer.prompt({
+    const haveQuestionsAnswer = await inquirer.prompt({
       when: () => isCustomData,
       type: "confirm",
       name: "value",
@@ -89,45 +102,48 @@ Which type of codebase would you like to create?\n`,
       default: false
     });
 
-    if (haveQuestionsAns.value) {
-      let moreQuestionsAns;
+    if (haveQuestionsAnswer.value) {
+      let moreQuestionsAnswer;
       let numQuestions = 0;
+
       do {
         numQuestions++;
 
-        let questionAns = await inquirer.prompt({
+        let questionAnswer = await inquirer.prompt({
           type: "input",
           name: "value",
           message: `Enter suggested question ${numQuestions}:`
         });
 
-        questions.push(questionAns.value);
+        questions.push(questionAnswer.value);
 
         moreQuestionsAns = await inquirer.prompt({
           type: "confirm",
           name: "value",
           message: "Want to suggest another question?"
         });
-      } while (moreQuestionsAns.value);
+      } while (moreQuestionsAnswer.value);
     }
 
     return isCustomData
       ? {
-          appType: appTypeAns.appType,
-          appName: appNameAns.appName,
-          appDirName: toKebabCase(appNameAns.appName),
-          customerId: customerIdAns.customerId,
-          corpusKey: corpusKeyAns.corpusKey,
-          apiKey: apiKeyAns.apiKey,
+          appType: appTypeAnswer.appType,
+          appName: appNameAnswer.appName,
+          appDirName: toKebabCase(appNameAnswer.appName),
+          customerId: customerIdAnswer.customerId,
+          corpusKey: corpusKeyAnswer.corpusKey,
+          apiKey: apiKeyAnswer.apiKey,
+          fcs: fcsAnswer?.value ?? false,
           questions: JSON.stringify(questions)
         }
       : {
-          appType: appTypeAns.appType,
+          appType: appTypeAnswer.appType,
           appName: "Vectara Docs Example",
-          appDirName: toKebabCase(`vectara-docs-${APP_TYPE_TO_LABEL[appTypeAns.appType]}-example`),
+          appDirName: toKebabCase(`vectara-docs-${APP_TYPE_TO_LABEL[appTypeAnswer.appType]}-example`),
           customerId: "1366999410",
           corpusKey: "vectara-docs_1",
           apiKey: "zqt_UXrBcnI2UXINZkrv4g1tQPhzj02vfdtqYJIDiA",
+          fcs: true,
           questions: JSON.stringify([
             "How do I enable hybrid search?",
             "How is data encrypted?",

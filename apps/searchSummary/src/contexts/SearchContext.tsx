@@ -36,6 +36,9 @@ interface SearchContextType {
   summaryNumResults: number;
   summaryNumSentences: number;
   summaryPromptName: string;
+  isComputingFcs: boolean;
+  fcs: number | undefined;
+  fcsTime: number;
   history: HistoryItem[];
   clearHistory: () => void;
   searchResultsRef: React.MutableRefObject<HTMLElement[] | null[]>;
@@ -56,7 +59,7 @@ type Props = {
 };
 
 export const SearchContextProvider = ({ children }: Props) => {
-  const { search, rerank, hybrid } = useConfigContext();
+  const { search, rerank, hybrid, isFcsEnabled } = useConfigContext();
 
   const [searchValue, setSearchValue] = useState<string>("");
   const [filterValue, setFilterValue] = useState("");
@@ -80,6 +83,11 @@ export const SearchContextProvider = ({ children }: Props) => {
   const [summarizationError, setSummarizationError] = useState<SearchError | undefined>();
   const [summarizationResponse, setSummarizationResponse] = useState<string>();
   const [summaryTime, setSummaryTime] = useState<number>(0);
+
+  // FCS
+  const [isComputingFcs, setIsComputingFcs] = useState(false);
+  const [fcs, setFcs] = useState<number>();
+  const [fcsTime, setFcsTime] = useState<number>(0);
 
   // Citation selection
   const searchResultsRef = useRef<HTMLElement[] | null[]>([]);
@@ -221,10 +229,17 @@ export const SearchContextProvider = ({ children }: Props) => {
 
             case "generationEnd":
               setIsSummarizing(false);
+              setSummaryTime(Date.now() - startTime - searchTime);
+              if (isFcsEnabled) setIsComputingFcs(true);
+              break;
+
+            case "factualConsistencyScore":
+              setFcs(event.factualConsistencyScore);
+              setFcsTime(Date.now() - startTime - summaryTime - searchTime);
+              setIsComputingFcs(false);
               break;
 
             case "end":
-              setSummaryTime(Date.now() - startTime);
               break;
           }
         };
@@ -262,7 +277,9 @@ export const SearchContextProvider = ({ children }: Props) => {
               endTag: END_TAG
             }
           },
-          chat: { store: true }
+          generation: {
+            enableFactualConsistencyScore: isFcsEnabled
+          }
         };
 
         streamQueryV2({ streamQueryConfig, onStreamEvent });
@@ -307,6 +324,9 @@ export const SearchContextProvider = ({ children }: Props) => {
         summarizationError,
         summarizationResponse,
         summaryTime,
+        isComputingFcs,
+        fcs,
+        fcsTime,
         language: getLanguage(),
         summaryNumResults: 7,
         summaryNumSentences: 3,

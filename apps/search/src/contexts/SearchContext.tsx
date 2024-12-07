@@ -174,8 +174,7 @@ export const SearchContextProvider = ({ children }: Props) => {
               startTag: START_TAG,
               endTag: END_TAG
             }
-          },
-          chat: { store: true }
+          }
         };
 
         streamQueryV2({ streamQueryConfig, onStreamEvent });

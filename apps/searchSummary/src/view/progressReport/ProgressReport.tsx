@@ -14,6 +14,7 @@ import {
 } from "../../ui";
 import { useSearchContext } from "../../contexts/SearchContext";
 import { SearchResultsDrawer } from "./SearchResultsDrawer";
+import { useConfigContext } from "../../contexts/ConfigurationContext";
 
 const humanizeTime = (ms: number) => {
   return `${(ms / 1000).toFixed(2)} seconds`;
@@ -25,8 +26,17 @@ type Props = {
 };
 
 export const ProgressReport = ({ isSearching, isSummarizing }: Props) => {
-  const { searchTime, summaryTime, searchResults, searchError, summarizationResponse, summarizationError } =
-    useSearchContext();
+  const { isFcsEnabled } = useConfigContext();
+  const {
+    searchTime,
+    summaryTime,
+    searchResults,
+    searchError,
+    summarizationResponse,
+    summarizationError,
+    isComputingFcs,
+    fcsTime
+  } = useSearchContext();
 
   const [isOpen, setIsOpen] = useState(true);
   const [isReviewSearchResultsOpen, setIsReviewSearchResultsOpen] = useState(false);
@@ -222,18 +232,103 @@ export const ProgressReport = ({ isSearching, isSummarizing }: Props) => {
     }
   };
 
-  let items = [receivedQuestionStep];
+  const items = [];
 
-  if (isSearching) {
-    items = items.concat([retrievingSearchResultsStep, generateSummaryStep]);
-  } else if (isSummarizing) {
-    items = items.concat([retrievedSearchResultsStep, generatingSummaryStep]);
-  } else if (searchError) {
-    items = items.concat([retrievedSearchResultsStep, canceledSummaryStep]);
-  } else if (summarizationError) {
-    items = items.concat([retrievedSearchResultsStep, generatedSummaryStep]);
-  } else {
-    items = items.concat([retrievedSearchResultsStep, generatedSummaryStep]);
+  items[0] = receivedQuestionStep;
+  items[1] = isSearching ? retrievingSearchResultsStep : retrievedSearchResultsStep;
+  items[2] = isSearching
+    ? generateSummaryStep
+    : searchError
+    ? canceledSummaryStep
+    : isSummarizing
+    ? generatingSummaryStep
+    : generatedSummaryStep;
+
+  if (isFcsEnabled) {
+    const computeFcsStep = {
+      key: "computeFcsStep",
+      isComplete: false,
+      render: () => (
+        <VuiText>
+          <p>
+            <VuiTextColor color="subdued">Compute Factual Consistency Score</VuiTextColor>
+          </p>
+        </VuiText>
+      )
+    };
+
+    const computingFcsStep = {
+      key: "computingFcsStep",
+      isComplete: true,
+      render: () => (
+        <VuiFlexContainer alignItems="start" spacing="xs">
+          <VuiFlexItem>
+            <VuiSpinner size="s" />
+          </VuiFlexItem>
+
+          <VuiFlexItem grow={false}>
+            <VuiText>
+              <p>Computing Factual Consistency Score</p>
+            </VuiText>
+          </VuiFlexItem>
+        </VuiFlexContainer>
+      )
+    };
+
+    const canceledFcsStep = {
+      key: "canceledFcsStep",
+      isComplete: true,
+      render: () => (
+        <VuiFlexContainer alignItems="start" spacing="xs">
+          <VuiFlexItem>
+            <VuiSpacer size="xxxs" />
+            <VuiIcon color="subdued">
+              <BiX />
+            </VuiIcon>
+          </VuiFlexItem>
+
+          <VuiFlexItem grow={false}>
+            <VuiText>
+              <VuiTextColor color="subdued">
+                <p>Factual Consistency Score canceled</p>
+              </VuiTextColor>
+            </VuiText>
+          </VuiFlexItem>
+        </VuiFlexContainer>
+      )
+    };
+
+    const computedFcsStep = {
+      key: "computedFcsStep",
+      isComplete: true,
+      render: () => {
+        return (
+          <VuiFlexContainer alignItems="start" spacing="xs">
+            <VuiFlexItem>
+              <VuiSpacer size="xxxs" />
+              <VuiIcon size="s" color="success">
+                <BiCheck />
+              </VuiIcon>
+            </VuiFlexItem>
+
+            <VuiFlexItem grow={false}>
+              <VuiText>
+                <p>Factual Consistency Score computed in {humanizeTime(fcsTime)}</p>
+              </VuiText>
+            </VuiFlexItem>
+          </VuiFlexContainer>
+        );
+      }
+    };
+
+    items[3] =
+      isSearching || isSummarizing
+        ? computeFcsStep
+        : searchError
+        ? canceledFcsStep
+        : isComputingFcs
+        ? computingFcsStep
+        : computedFcsStep;
   }
 
   return (
