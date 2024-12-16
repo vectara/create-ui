@@ -7,7 +7,8 @@ const APP_TYPE_TO_LABEL = {
 
 const toKebabCase = (str) => str.toLowerCase().replace(/[\s_]+/g, "-");
 
-const generativeAppTypes = ["chat", "searchSummary", "questionAndAnswer"];
+// TODO: Add chat
+const generativeAppTypes = ["searchSummary", "questionAndAnswer"];
 
 module.exports = {
   renderPrompts: async (inquirer) => {

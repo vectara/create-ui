@@ -14,9 +14,6 @@ export interface Config {
 
   // Questions
   questions?: string[];
-
-  // FCS
-  fcs: boolean;
 }
 
 type Search = {
