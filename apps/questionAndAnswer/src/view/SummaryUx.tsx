@@ -4,9 +4,10 @@ import { useSearchContext } from "../contexts/SearchContext";
 import { ProgressReport } from "./progressReport/ProgressReport";
 import { SearchResultWithSnippet } from "./types";
 import { Summary } from "./summary/Summary";
+import { ConfidenceBadge } from "./summary/ConfidenceBadge";
 
 export const SummaryUx = () => {
-  const { isSearching, searchResults, isSummarizing, summarizationResponse } = useSearchContext();
+  const { isSearching, searchResults, isSummarizing, summarizationResponse, fcs } = useSearchContext();
 
   const rawSummary = summarizationResponse;
   const unorderedSummary = sanitizeCitations(rawSummary);
@@ -28,6 +29,15 @@ export const SummaryUx = () => {
       {summary && (
         <>
           <VuiSpacer size="l" />
+
+          {fcs && (
+            <>
+              <VuiFlexItem>
+                <ConfidenceBadge fcs={fcs} />
+              </VuiFlexItem>
+              <VuiSpacer size="m" />
+            </>
+          )}
 
           <Summary summary={summary} />
 

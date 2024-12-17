@@ -235,7 +235,8 @@ export const SearchContextProvider = ({ children }: Props) => {
 
             case "factualConsistencyScore":
               setFcs(event.factualConsistencyScore);
-              setFcsTime(Date.now() - startTime - summaryTime - searchTime);
+              // Sometimes fCS is negative for some reason.
+              setFcsTime(Math.max(0, Date.now() - startTime - summaryTime - searchTime));
               setIsComputingFcs(false);
               break;
 
