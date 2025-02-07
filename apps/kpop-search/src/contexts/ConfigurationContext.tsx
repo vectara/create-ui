@@ -54,11 +54,7 @@ type Props = {
 
 const SEARCH_CONFIGS = {
   endpoint: configuration.endpoint,
-  corpora: configuration.corpora || [{
-    corpusKey: configuration.corpusKey,
-    customerId: configuration.customerId,
-    apiKey: configuration.apiKey
-  }]
+  corpora: configuration.corpora
 };
 
 const APP_CONFIGS = {
