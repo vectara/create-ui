@@ -1,0 +1,54 @@
+{
+  "articles": [
+    {
+      "title": "BTS Member Profiles",
+      "content": "BTS (방탄소년단) consists of 7 members: RM (Leader), Jin, Suga, J-Hope, Jimin, V, and Jungkook. The group debuted on June 13, 2013, under Big Hit Entertainment.",
+      "url": "https://ibighit.com/bts/eng/profile/",
+      "metadata": {
+        "type": "artist_profile",
+        "platform": "official"
+      }
+    },
+    {
+      "title": "BLACKPINK Latest Comeback",
+      "content": "BLACKPINK's latest release features members Jisoo, Jennie, Rosé, and Lisa showcasing their signature sound with a blend of hip-hop and pop elements.",
+      "url": "https://www.yg-blackpink.com/",
+      "metadata": {
+        "type": "news",
+        "platform": "official"
+      }
+    },
+    {
+      "title": "NewJeans Breaking Records",
+      "content": "NewJeans, consisting of Minji, Hanni, Danielle, Haerin, and Hyein, continues to break streaming records with their unique take on K-pop.",
+      "url": "https://newjeans.kr/",
+      "metadata": {
+        "type": "news",
+        "platform": "official"
+      }
+    }
+  ],
+  "social_media": [
+    {
+      "platform": "twitter",
+      "username": "bts_bighit",
+      "content": "BTS's 'Dynamite' becomes the most-streamed K-pop song on Spotify! Thank you ARMY for your incredible support! 💜 #BTS #방탄소년단",
+      "url": "https://twitter.com/bts_bighit",
+      "timestamp": "2024-02-07T12:00:00Z"
+    },
+    {
+      "platform": "instagram",
+      "username": "blackpinkofficial",
+      "content": "BLACKPINK 2024 WORLD TOUR [BORN PINK] Additional dates announced! See you soon BLINK! 🖤💗",
+      "url": "https://instagram.com/blackpinkofficial",
+      "timestamp": "2024-02-07T13:00:00Z"
+    },
+    {
+      "platform": "youtube",
+      "username": "NewJeans Official",
+      "content": "NewJeans (뉴진스) 'Super Shy' Official MV hits 100M views! Thank you for your love and support! 🐰",
+      "url": "https://youtube.com/@NewJeans_official",
+      "timestamp": "2024-02-07T14:00:00Z"
+    }
+  ]
+}
