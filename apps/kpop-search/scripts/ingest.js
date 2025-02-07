@@ -1,4 +1,4 @@
-const { ApiV2 } = require('@vectara/stream-query-client');
+const { ApiV2, streamQueryV2 } = require('@vectara/stream-query-client');
 const sampleData = require('../src/data/sample-data.json');
 
 const CUSTOMER_ID = "2213776567";
@@ -46,10 +46,18 @@ async function ingestSocialMedia(client, post) {
 }
 
 async function ingestData() {
-  const client = new ApiV2({
+  const streamQueryConfig = {
     apiKey: API_KEY,
-    customerId: CUSTOMER_ID
-  });
+    customerId: CUSTOMER_ID,
+    corpusKey: CORPUS_ID,
+    query: "test"
+  };
+  
+  const onStreamEvent = (event) => {
+    console.log('Stream event:', event);
+  };
+
+  await streamQueryV2({ streamQueryConfig, onStreamEvent });
 
   for (const article of sampleData.articles) {
     await ingestArticle(client, article);
