@@ -61,6 +61,7 @@ export const SearchContextProvider = ({ children }: Props) => {
 
   // Language
   const [languageValue, setLanguageValue] = useState<SummaryLanguage>("kor");
+  const getLanguage = (): SummaryLanguage => languageValue ?? "kor";
 
   // History
   const [history, setHistory] = useState<HistoryItem[]>([]);
@@ -112,8 +113,6 @@ export const SearchContextProvider = ({ children }: Props) => {
       });
     }
   };
-
-  const getLanguage = (): SummaryLanguage => (languageValue ?? "auto") as SummaryLanguage;
 
   const onRetry = () => {
     onSearch({ value: summarizationQuestion });
@@ -200,16 +199,16 @@ export const SearchContextProvider = ({ children }: Props) => {
         }
       };
 
+      const corpora = search.corpora || [];
       const streamQueryConfig: ApiV2.StreamQueryConfig = {
-        apiKey: search.apiKey!,
-        customerId: search.customerId!,
+        apiKey: corpora[0]?.apiKey || "",
+        customerId: corpora[0]?.customerId || "",
         query: value,
-        corpusKey: search.corpusKey!,
+        corpusKey: corpora[0]?.corpusKey || "",
         search: {
           offset: 0,
           metadataFilter: "",
-          lexicalInterpolation:
-            value.trim().split(" ").length > hybrid.numWords ? hybrid.lambdaLong : hybrid.lambdaShort,
+          lexicalInterpolation: value.trim().split(" ").length > hybrid.numWords ? hybrid.lambdaLong : hybrid.lambdaShort,
           reranker:
             rerank.isEnabled && rerank.id
               ? rerank.id === mmrRerankerId

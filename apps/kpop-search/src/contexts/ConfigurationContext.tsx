@@ -2,12 +2,16 @@ import { createContext, useContext, ReactNode } from "react";
 import { mmrRerankerId } from "../view/types";
 import { configuration } from "../configuration";
 
-export interface Config {
-  // Search
-  endpoint: string;
+export interface CorpusConfig {
   corpusKey: string;
   customerId: string;
   apiKey: string;
+}
+
+export interface Config {
+  // Search
+  endpoint: string;
+  corpora: CorpusConfig[];
 
   // App
   appTitle?: string;
@@ -18,9 +22,7 @@ export interface Config {
 
 type Search = {
   endpoint?: string;
-  corpusKey?: string;
-  customerId?: string;
-  apiKey?: string;
+  corpora?: CorpusConfig[];
 };
 
 type App = {
@@ -52,9 +54,11 @@ type Props = {
 
 const SEARCH_CONFIGS = {
   endpoint: configuration.endpoint,
-  corpusKey: configuration.corpusKey,
-  customerId: configuration.customerId,
-  apiKey: configuration.apiKey
+  corpora: configuration.corpora || [{
+    corpusKey: configuration.corpusKey,
+    customerId: configuration.customerId,
+    apiKey: configuration.apiKey
+  }]
 };
 
 const APP_CONFIGS = {
