@@ -5,6 +5,7 @@ import { applyCitationOrder, extractCitations, reorderCitations } from "../ui/ut
 import { SearchResult } from "./types";
 import { ChatReferences } from "./ChatReferences";
 import { SUMMARY_NUM_RESULTS, useSearchContext } from "../contexts/SearchContext";
+import { SocialMediaPreview } from "../components/SocialMediaPreview";
 
 const removeCitations = (text: string) => text.replace(/ ?\[\d+\]/g, "");
 
@@ -136,7 +137,9 @@ export const ChatItem = ({
           {reorderedSearchResults && reorderedSearchResults.length > 0 && (
             <>
               <VuiSpacer size="s" />
-
+              {showSocialMediaPreview && 'socialSource' in reorderedSearchResults[0] && (
+                <SocialMediaPreview source={reorderedSearchResults[0].socialSource} />
+              )}
               <ChatReferences
                 searchResults={reorderedSearchResults}
                 isOpen={isReferencesOpen}
