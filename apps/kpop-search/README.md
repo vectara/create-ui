@@ -1,11 +1,12 @@
-# Vectara sample code for a Chat UI
+# K-pop Search Platform
 
-This app provides working sample code for implementing a Chat UI that's powered by [Vectara](https://vectara.com/). It was generated using the [Create-UI code-generator](https://github.com/vectara/create-ui).
+A fan-centric search platform for K-pop content powered by Vectara.
 
-The Chat UI is characterized by:
-
-- An input box for entering a natural-language query. This typically takes the form of a question.
-- A conversational thread based upon the most relevant search results and the conversational context. The most recent respons contains citations.
+## Features
+- Chat-based search interface
+- Multilingual support (Korean/English)
+- Social media integration
+- Source linking
 
 ## Dependencies
 
@@ -19,7 +20,7 @@ npm install
 
 ## Configuration
 
-The app expects to find a `configuration.ts` file in the `/src` directory with this minimal configuration:
+The app requires a `configuration.ts` file in the `/src` directory with K-pop specific configuration:
 
 ```ts
 import { Config } from "./contexts/ConfigurationContext";
@@ -28,35 +29,47 @@ export const configuration: Config = {
   customerId: "<your customer ID here>",
   corpusKey: "<your corpus key here>",
   apiKey: "<your API key here>",
-  endpoint: "api.vectara.io"
-};
-```
-
-You can configure sample questions like this:
-
-```ts
-export const configuration: Config = {
-  // ... other configs here
+  endpoint: "api.vectara.io",
+  appTitle: "K-pop Search",
   questions: [
-    "How do I enable hybrid search?",
-    "How is data encrypted?",
-    "What is a textless corpus?",
-    "How do I configure OAuth?"
+    "Who are the members of BTS?",
+    "What are BLACKPINK's most popular songs?",
+    "Tell me about NewJeans' latest comeback",
+    "What K-pop concerts are happening this year?"
   ]
 };
 ```
 
+### Data Requirements
+- Vectara corpus must contain indexed K-pop content
+- Content should support both Korean and English text
+- Social media content should include platform metadata
+- URLs should be provided for source linking
+
 For more information on configuration options, see the [Configuration Reference section](#configuration-reference) or the original [TS definition](./src/contexts/ConfigurationContext.tsx) for the `Config`.
 
-## Running locally
+## Development and Testing Strategy
 
-Run the code locally and serve it at `http://localhost:4444/` with:
+### Important Notes
+- Local testing is not recommended due to NUANCED TypeScript dependency conflicts
+- Rely on CI checks for automated validation
+- Changes are validated through GitHub PR reviews and human testing
+- Vectara corpus content must be verified by reviewers
 
-```
-npm run start
-```
+### Verification Requirements
+Before merging changes:
+1. CI checks must pass
+2. Human review must verify:
+   - Vectara corpus content accessibility
+   - Multilingual support functionality
+   - Social media preview rendering
+   - Search result accuracy
 
-If you make changes to the source code, the app will automatically reload with your changes.
+### Running locally (Not Recommended)
+Due to NUANCED dependency issues, local testing is not currently supported. Instead:
+- Rely on CI checks for automated validation
+- Use PR reviews for functional verification
+- Request reviewer testing for specific features
 
 ## Codebase
 
