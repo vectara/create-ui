@@ -1,0 +1,79 @@
+.vuiMenu {
+  border: 1px solid $borderColor;
+  border-radius: $sizeXs;
+  overflow: hidden;
+}
+
+.vuiMenuItem {
+  display: block;
+  width: 100%;
+  padding: $sizeS $sizeL;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: left;
+}
+
+.vuiMenu--noBorder {
+  border: none;
+  border-radius: 0;
+
+  .vuiMenuItem {
+    padding: $sizeS $sizeM;
+  }
+}
+
+.vuiMenuItem--neutral {
+  .vuiMenuItem__title {
+    color: $colorText;
+  }
+
+  &:hover {
+    background-color: $colorPrimaryLighterShade;
+
+    .vuiMenuItem__title,
+    .vuiMenuItem__text {
+      color: $colorPrimary;
+    }
+  }
+}
+
+.vuiMenuItem--primary {
+  .vuiMenuItem__title {
+    color: $colorPrimary;
+  }
+
+  &:hover {
+    background-color: $colorPrimaryLighterShade;
+
+    .vuiMenuItem__title,
+    .vuiMenuItem__text {
+      color: $colorPrimary;
+    }
+  }
+}
+
+.vuiMenuItem--danger {
+  .vuiMenuItem__title {
+    color: $colorDanger;
+  }
+
+  &:hover {
+    background-color: $colorDangerLighterShade;
+
+    .vuiMenuItem__title,
+    .vuiMenuItem__text {
+      color: $colorDanger;
+    }
+  }
+}
+
+.vuiMenuItem__title {
+  font-size: $fontSizeMedium;
+  line-height: 1.4;
+}
+
+.vuiMenuItem__text {
+  color: $colorSubdued;
+  font-size: $fontSizeSmall;
+  line-height: 1.4;
+}
