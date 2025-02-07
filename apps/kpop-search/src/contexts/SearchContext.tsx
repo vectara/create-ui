@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { createContext, useContext, ReactNode, useState, useEffect, useRef } from "react";
+import React, { createContext, useContext, ReactNode, useState, useEffect, useRef } from "react";
 import { SummaryLanguage, SearchError, SearchResultWithSnippet, mmrRerankerId, SearchResult } from "../view/types";
 import { useConfigContext } from "./ConfigurationContext";
 import { HistoryItem, addHistoryItem, deleteHistory, retrieveHistory } from "./history";

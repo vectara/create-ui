@@ -45,6 +45,8 @@ const SummaryCitation = ({ reference }: { reference: string }) => {
   );
 };
 
+import React from "react";
+
 type Props = {
   isLoading?: boolean;
   isSummarizing?: boolean;
@@ -54,6 +56,7 @@ type Props = {
   error?: React.ReactNode;
   isReferencesOpen?: boolean;
   setIsReferencesOpen?: (isOpen: boolean) => void;
+  showSocialMediaPreview?: boolean;
 };
 
 export const ChatItem = ({
@@ -64,7 +67,8 @@ export const ChatItem = ({
   searchResults,
   error,
   isReferencesOpen,
-  setIsReferencesOpen
+  setIsReferencesOpen,
+  showSocialMediaPreview
 }: Props) => {
   const { onRetry } = useSearchContext();
 

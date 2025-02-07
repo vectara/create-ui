@@ -1,3 +1,4 @@
+import React from "react";
 import { VuiFlexContainer, VuiFlexItem, VuiTitle, VuiAppHeader } from "../../ui";
 import { HeaderLogo } from "./HeaderLogo";
 import { useConfigContext } from "../../contexts/ConfigurationContext";

@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import { VuiAppContent, VuiAppLayout, VuiFlexContainer, VuiFlexItem, VuiSpacer } from "../ui";
 import { useSearchContext } from "../contexts/SearchContext";
@@ -8,6 +8,7 @@ import { QueryInput } from "./controls/QueryInput";
 import { ExampleQuestions } from "./controls/ExampleQuestions";
 import { ChatItem } from "./ChatItem";
 import { SearchResultWithSocial } from "../types/social-media";
+import { SearchError } from "./types";
 import "./chatView.scss";
 
 export const ChatView = () => {
@@ -21,7 +22,17 @@ export const ChatView = () => {
     summarizationError,
     summarizationResponse,
     summarizationQuestion
-  } = useSearchContext();
+  } = useSearchContext() as unknown as {
+    isSearching: boolean;
+    isSummarizing: boolean;
+    searchValue: string;
+    setSearchValue: (value: string) => void;
+    searchError: SearchError | undefined;
+    searchResults: SearchResultWithSocial[] | undefined;
+    summarizationError: SearchError | undefined;
+    summarizationResponse: string | undefined;
+    summarizationQuestion: string;
+  };
   const { onSubmitChat, chatHistory } = useChatContext();
   const [isReferencesOpen, setIsReferencesOpen] = useState(false);
 
@@ -84,7 +95,7 @@ export const ChatView = () => {
     isReferencesOpen
   ]);
 
-  const chatItems = chatHistory.map((turn, index) => {
+  const chatItems = chatHistory.map((turn: { question: string; answer: string }, index: number) => {
     const { question, answer } = turn;
     return <ChatItem key={index} question={question} answer={answer} />;
   });
@@ -125,7 +136,7 @@ export const ChatView = () => {
               {!hasContent ? (
                 <ExampleQuestions />
               ) : (
-                chatItems.map((item, index) => (
+                chatItems.map((item: React.ReactNode, index: number) => (
                   <Fragment key={index}>
                     {item}
                     {index < chatItems.length - 1 ? <VuiSpacer size="m" /> : <VuiSpacer size="xl" />}
