@@ -42,7 +42,7 @@ module.exports = {
       {
         type: "add",
         path: `${process.cwd()}/{{appDirName}}/src/configuration.ts`,
-        templateFile: `${dir}/plopTemplates/configuration.hbs`,
+        templateFile: `${dir}/plopTemplates/${data.appType === "chat" ? "chatConfiguration.hbs" : "configuration.hbs"}`,
         force: true
       },
       () =>
