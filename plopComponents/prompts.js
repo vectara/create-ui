@@ -63,7 +63,7 @@ Which type of codebase would you like to create?\n`,
       });
     }
 
-    const isCustomData = dataSourceAns.dataSource === "customData";
+    const isCustomData = dataSourceAnswer.dataSource === "customData";
 
     const appNameAnswer = await inquirer.prompt({
       when: () => isCustomData,
@@ -94,6 +94,15 @@ Which type of codebase would you like to create?\n`,
         "What's your API Key? This must have access to the corpus. We suggest limiting its privileges to the QueryService."
     });
 
+    const domainAnswer = await inquirer.prompt({
+      when: () => isCustomData,
+      type: "input",
+      name: "domain",
+      message:
+        "Are you self-hosting or proxying the Vectara API at a custom domain? If so, enter it now. Or connect directly to Vectara's hosted API by accepting the default. If you're not sure, accept the default.",
+      default: "https://api.vectara.io"
+    });
+
     const questions = [];
     const haveQuestionsAnswer = await inquirer.prompt({
       when: () => isCustomData,
@@ -118,7 +127,7 @@ Which type of codebase would you like to create?\n`,
 
         questions.push(questionAnswer.value);
 
-        moreQuestionsAns = await inquirer.prompt({
+        moreQuestionsAnswer = await inquirer.prompt({
           type: "confirm",
           name: "value",
           message: "Want to suggest another question?"
@@ -134,6 +143,7 @@ Which type of codebase would you like to create?\n`,
           customerId: customerIdAnswer.customerId,
           corpusKey: corpusKeyAnswer.corpusKey,
           apiKey: apiKeyAnswer.apiKey,
+          domain: domainAnswer.domain,
           fcs: fcsAnswer?.value ?? false,
           questions: JSON.stringify(questions)
         }
@@ -144,6 +154,7 @@ Which type of codebase would you like to create?\n`,
           customerId: "1366999410",
           corpusKey: "vectara-docs_1",
           apiKey: "zqt_UXrBcnI2UXINZkrv4g1tQPhzj02vfdtqYJIDiA",
+          domain: domainAnswer.domain,
           fcs: true,
           questions: JSON.stringify([
             "How do I enable hybrid search?",

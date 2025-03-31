@@ -203,6 +203,7 @@ export const SearchContextProvider = ({ children }: Props) => {
       const streamQueryConfig: ApiV2.StreamQueryConfig = {
         apiKey: search.apiKey!,
         customerId: search.customerId!,
+        domain: search.endpoint,
         query: value,
         corpusKey: search.corpusKey!,
         search: {
